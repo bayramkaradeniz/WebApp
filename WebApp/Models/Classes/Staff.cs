@@ -17,7 +17,8 @@ namespace WebApp.Models.Classes
         [StringLength(250)]
         public string StaffImage { get; set; }
 
-        public Department Department { get; set; }
+        public int DepartmentId { get; set; }
+        public virtual Department Department { get; set; }
 
         public ICollection<SaleTransaction> SaleTransactions { get; set; }
     }

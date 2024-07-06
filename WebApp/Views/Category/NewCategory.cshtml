@@ -1,0 +1,14 @@
+﻿@model WebApp.Models.Classes.Category
+@{
+    ViewData["Title"] = "NewCategory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<h1>Yeni Kategori Ekle</h1>
+<br />
+<form   class="form-group" method="post">
+    @Html.LabelFor(x => x.CategoryName)
+    @Html.TextBoxFor(x => x.CategoryName,new { @class ="form-control"})
+    <br />
+    <button class="btn btn-outline-success">Ekle</button>
+</form>

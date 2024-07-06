@@ -10,6 +10,8 @@ namespace WebApp.Models.Classes
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
         public string DepartmentName { get; set; }
+        public bool State { get; set; }
+
 
         public ICollection<Staff> Staffs { get; set; }
     }
