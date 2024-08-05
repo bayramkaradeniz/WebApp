@@ -6,8 +6,8 @@ namespace WebApp.Models.Classes
     public class Customer
     {
         [Key] 
-        public int Id { get; set; }
         public int CustomerId { get; set; }
+
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
         public string CustomerName { get; set; }

@@ -1,0 +1,35 @@
+﻿@model WebApp.Models.Classes.Product
+@{
+    ViewData["Title"] = "NewProduct";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Yeni Ürün Sayfası</h4>
+<form class=" form-group" method="post">
+    @Html.LabelFor(x => x.ProductName)
+    @Html.TextBoxFor(x => x.ProductName, new {@class = "form-control"})
+    <br />
+    @Html.LabelFor(x => x.Brand)
+    @Html.TextBoxFor(x => x.Brand, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Stock)
+    @Html.TextBoxFor(x => x.Stock, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.PurchasePrice)
+    @Html.TextBoxFor(x => x.PurchasePrice, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.SalePrice)
+    @Html.TextBoxFor(x => x.SalePrice, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.State)
+    @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.ProductImage)
+    @Html.TextBoxFor(x => x.ProductImage, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Category.CategoryId)
+    @Html.DropDownListFor(x => x.CategoryId,(List<SelectListItem>)ViewBag.values, new { @class ="form-control"})
+    @* @Html.TextBoxFor(x => x.CategoryId, new { @class = "form-control" }) *@
+
+    <button class="btn btn-outline-primary">Ekle</button>
+</form>

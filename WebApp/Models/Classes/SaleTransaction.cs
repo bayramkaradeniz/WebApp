@@ -11,8 +11,12 @@ namespace WebApp.Models.Classes
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }
 
-        public Product Product { get; set; }
-        public Customer Customer { get; set; }
-        public Staff Staff { get; set; }
+        public int ProductId { get; set; }
+        public int CustomerId { get; set; }
+        public int StaffId { get; set; }
+
+        public virtual Product Product { get; set; }
+        public virtual Customer Customer { get; set; }
+        public virtual Staff Staff { get; set; }
     }
 }

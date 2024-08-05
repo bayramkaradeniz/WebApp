@@ -170,11 +170,11 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Classes.Customer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<string>("CustomerCity")
                         .IsRequired()
@@ -186,9 +186,6 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -199,7 +196,7 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
                 });
@@ -217,9 +214,12 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
                     b.HasKey("DepartmentId");
 
-                    b.ToTable("Department");
+                    b.ToTable("Departments");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
