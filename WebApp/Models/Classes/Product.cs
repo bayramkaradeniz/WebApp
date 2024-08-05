@@ -20,10 +20,7 @@ namespace WebApp.Models.Classes
         [StringLength(250)]
         public string ProductImage { get; set; }
 
-        public int CategoryId { get; set; }
-
-        public virtual Category Category { get; set; }
-
+        public Category Category { get; set; }
         public ICollection<SaleTransaction> SaleTransactions { get; set; }
 
     }
