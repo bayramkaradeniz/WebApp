@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Models.Classes;
 
@@ -11,9 +12,11 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240702081348_initia")]
+    partial class initia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -199,7 +202,12 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
+                    b.Property<int>("SaleTransactionSaleId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("SaleTransactionSaleId");
 
                     b.ToTable("Customers");
                 });
@@ -254,6 +262,9 @@ namespace WebApp.Migrations
                     b.Property<decimal>("SalePrice")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<int>("SaleTransactionSaleId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("State")
                         .HasColumnType("bit");
 
@@ -264,21 +275,20 @@ namespace WebApp.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("SaleTransactionSaleId");
+
                     b.ToTable("Products");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.SaleTransaction", b =>
                 {
-                    b.Property<int>("SaleTransactionId")
+                    b.Property<int>("SaleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleTransactionId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleId"));
 
                     b.Property<int>("Amount")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Date")
@@ -287,22 +297,10 @@ namespace WebApp.Migrations
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StaffId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("SaleTransactionId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("StaffId");
+                    b.HasKey("SaleId");
 
                     b.ToTable("SaleTransactions");
                 });
@@ -316,6 +314,9 @@ namespace WebApp.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StaffId"));
 
                     b.Property<int>("DepartmentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SaleTransactionSaleId")
                         .HasColumnType("int");
 
                     b.Property<string>("StaffImage")
@@ -337,6 +338,8 @@ namespace WebApp.Migrations
 
                     b.HasIndex("DepartmentId");
 
+                    b.HasIndex("SaleTransactionSaleId");
+
                     b.ToTable("Staffs");
                 });
 
@@ -351,6 +354,17 @@ namespace WebApp.Migrations
                     b.Navigation("Bill");
                 });
 
+            modelBuilder.Entity("WebApp.Models.Classes.Customer", b =>
+                {
+                    b.HasOne("WebApp.Models.Classes.SaleTransaction", "SaleTransaction")
+                        .WithMany("Customers")
+                        .HasForeignKey("SaleTransactionSaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SaleTransaction");
+                });
+
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
                 {
                     b.HasOne("WebApp.Models.Classes.Category", "Category")
@@ -359,34 +373,15 @@ namespace WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApp.Models.Classes.SaleTransaction", "SaleTransaction")
+                        .WithMany("Products")
+                        .HasForeignKey("SaleTransactionSaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
-                });
 
-            modelBuilder.Entity("WebApp.Models.Classes.SaleTransaction", b =>
-                {
-                    b.HasOne("WebApp.Models.Classes.Customer", "Customer")
-                        .WithMany("SaleTransactions")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApp.Models.Classes.Product", "Product")
-                        .WithMany("SaleTransactions")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApp.Models.Classes.Staff", "Staff")
-                        .WithMany("SaleTransactions")
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
-
-                    b.Navigation("Product");
-
-                    b.Navigation("Staff");
+                    b.Navigation("SaleTransaction");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Staff", b =>
@@ -397,7 +392,15 @@ namespace WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApp.Models.Classes.SaleTransaction", "SaleTransaction")
+                        .WithMany("Staffs")
+                        .HasForeignKey("SaleTransactionSaleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Department");
+
+                    b.Navigation("SaleTransaction");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Bill", b =>
@@ -410,24 +413,18 @@ namespace WebApp.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.Customer", b =>
-                {
-                    b.Navigation("SaleTransactions");
-                });
-
             modelBuilder.Entity("WebApp.Models.Classes.Department", b =>
                 {
                     b.Navigation("Staffs");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.SaleTransaction", b =>
                 {
-                    b.Navigation("SaleTransactions");
-                });
+                    b.Navigation("Customers");
 
-            modelBuilder.Entity("WebApp.Models.Classes.Staff", b =>
-                {
-                    b.Navigation("SaleTransactions");
+                    b.Navigation("Products");
+
+                    b.Navigation("Staffs");
                 });
 #pragma warning restore 612, 618
         }
