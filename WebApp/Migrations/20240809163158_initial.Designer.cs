@@ -12,8 +12,8 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240706080736_II")]
-    partial class II
+    [Migration("20240809163158_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -61,6 +61,9 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BillId"));
 
+                    b.Property<int>("BillItemId")
+                        .HasColumnType("int");
+
                     b.Property<string>("BillSequenceNo")
                         .IsRequired()
                         .HasMaxLength(15)
@@ -94,6 +97,9 @@ namespace WebApp.Migrations
 
                     b.HasKey("BillId");
 
+                    b.HasIndex("BillItemId")
+                        .IsUnique();
+
                     b.ToTable("Bills");
                 });
 
@@ -108,9 +114,6 @@ namespace WebApp.Migrations
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
-                    b.Property<int>("BillId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(130)
@@ -123,8 +126,6 @@ namespace WebApp.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("BillItemId");
-
-                    b.HasIndex("BillId");
 
                     b.ToTable("BillItems");
                 });
@@ -173,11 +174,11 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Classes.Customer", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CustomerId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
                     b.Property<string>("CustomerCity")
                         .IsRequired()
@@ -189,9 +190,6 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.Property<int>("CustomerId")
-                        .HasColumnType("int");
-
                     b.Property<string>("CustomerName")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -202,7 +200,7 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.HasKey("Id");
+                    b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
                 });
@@ -242,6 +240,9 @@ namespace WebApp.Migrations
                         .HasColumnType("nvarchar(30)");
 
                     b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MaintenanceIntervalInMonths")
                         .HasColumnType("int");
 
                     b.Property<string>("ProductImage")
@@ -290,6 +291,10 @@ namespace WebApp.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -324,17 +329,21 @@ namespace WebApp.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("StaffImage")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("VarChar");
-
-                    b.Property<string>("StaffName")
+                    b.Property<string>("StaffFullName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.Property<string>("StaffSurname")
+                    b.Property<string>("StaffImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StaffPassword")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("StaffUsername")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
@@ -346,15 +355,15 @@ namespace WebApp.Migrations
                     b.ToTable("Staffs");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.BillItem", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.Bill", b =>
                 {
-                    b.HasOne("WebApp.Models.Classes.Bill", "Bill")
-                        .WithMany("BillItems")
-                        .HasForeignKey("BillId")
+                    b.HasOne("WebApp.Models.Classes.BillItem", "BillItem")
+                        .WithOne("Bill")
+                        .HasForeignKey("WebApp.Models.Classes.Bill", "BillItemId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Bill");
+                    b.Navigation("BillItem");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
@@ -406,9 +415,10 @@ namespace WebApp.Migrations
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.Bill", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.BillItem", b =>
                 {
-                    b.Navigation("BillItems");
+                    b.Navigation("Bill")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Category", b =>

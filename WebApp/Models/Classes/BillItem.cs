@@ -14,6 +14,8 @@ namespace WebApp.Models.Classes
         public decimal UnitPrice { get; set; }
         public decimal Sum { get; set; }
 
+        public int BillId { get; set; }
+        [ForeignKey("BillId")]
         public Bill Bill { get; set; }
     }
 }

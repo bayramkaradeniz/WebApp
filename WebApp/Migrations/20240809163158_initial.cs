@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -27,22 +27,19 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bills",
+                name: "BillItems",
                 columns: table => new
                 {
-                    BillId = table.Column<int>(type: "int", nullable: false)
+                    BillItemId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    BillSequenceNo = table.Column<string>(type: "VarChar(15)", maxLength: 15, nullable: false),
-                    BillSerialNo = table.Column<string>(type: "Char(1)", maxLength: 1, nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Hour = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    TaxOffice = table.Column<string>(type: "VarChar(15)", maxLength: 15, nullable: false),
-                    Sender = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
-                    Receiver = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false)
+                    Description = table.Column<string>(type: "VarChar(130)", maxLength: 130, nullable: false),
+                    Amount = table.Column<int>(type: "int", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bills", x => x.BillId);
+                    table.PrimaryKey("PK_BillItems", x => x.BillItemId);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,9 +74,8 @@ namespace WebApp.Migrations
                 name: "Customers",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CustomerId = table.Column<int>(type: "int", nullable: false),
                     CustomerName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
                     CustomerSurname = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
                     CustomerEmail = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
@@ -87,42 +83,46 @@ namespace WebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Customers", x => x.Id);
+                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Department",
+                name: "Departments",
                 columns: table => new
                 {
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false)
+                    DepartmentName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    State = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Department", x => x.DepartmentId);
+                    table.PrimaryKey("PK_Departments", x => x.DepartmentId);
                 });
 
             migrationBuilder.CreateTable(
-                name: "BillItems",
+                name: "Bills",
                 columns: table => new
                 {
-                    BillItemId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "VarChar(130)", maxLength: 130, nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BillId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BillSequenceNo = table.Column<string>(type: "VarChar(15)", maxLength: 15, nullable: false),
+                    BillSerialNo = table.Column<string>(type: "Char(1)", maxLength: 1, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Hour = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TaxOffice = table.Column<string>(type: "VarChar(15)", maxLength: 15, nullable: false),
+                    Sender = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    Receiver = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    BillItemId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BillItems", x => x.BillItemId);
+                    table.PrimaryKey("PK_Bills", x => x.BillId);
                     table.ForeignKey(
-                        name: "FK_BillItems_Bills_BillId",
-                        column: x => x.BillId,
-                        principalTable: "Bills",
-                        principalColumn: "BillId",
+                        name: "FK_Bills_BillItems_BillItemId",
+                        column: x => x.BillItemId,
+                        principalTable: "BillItems",
+                        principalColumn: "BillItemId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -139,6 +139,7 @@ namespace WebApp.Migrations
                     SalePrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     State = table.Column<bool>(type: "bit", nullable: false),
                     ProductImage = table.Column<string>(type: "VarChar(250)", maxLength: 250, nullable: false),
+                    MaintenanceIntervalInMonths = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -158,18 +159,19 @@ namespace WebApp.Migrations
                 {
                     StaffId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StaffName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
-                    StaffSurname = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
-                    StaffImage = table.Column<string>(type: "VarChar(250)", maxLength: 250, nullable: false),
+                    StaffFullName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    StaffUsername = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    StaffPassword = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    StaffImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Staffs", x => x.StaffId);
                     table.ForeignKey(
-                        name: "FK_Staffs_Department_DepartmentId",
+                        name: "FK_Staffs_Departments_DepartmentId",
                         column: x => x.DepartmentId,
-                        principalTable: "Department",
+                        principalTable: "Departments",
                         principalColumn: "DepartmentId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -184,6 +186,7 @@ namespace WebApp.Migrations
                     Amount = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false)
@@ -195,7 +198,7 @@ namespace WebApp.Migrations
                         name: "FK_SaleTransactions_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "Id",
+                        principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SaleTransactions_Products_ProductId",
@@ -212,9 +215,10 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BillItems_BillId",
-                table: "BillItems",
-                column: "BillId");
+                name: "IX_Bills_BillItemId",
+                table: "Bills",
+                column: "BillItemId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
@@ -249,7 +253,7 @@ namespace WebApp.Migrations
                 name: "Admins");
 
             migrationBuilder.DropTable(
-                name: "BillItems");
+                name: "Bills");
 
             migrationBuilder.DropTable(
                 name: "Costs");
@@ -258,7 +262,7 @@ namespace WebApp.Migrations
                 name: "SaleTransactions");
 
             migrationBuilder.DropTable(
-                name: "Bills");
+                name: "BillItems");
 
             migrationBuilder.DropTable(
                 name: "Customers");
@@ -273,7 +277,7 @@ namespace WebApp.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Department");
+                name: "Departments");
         }
     }
 }

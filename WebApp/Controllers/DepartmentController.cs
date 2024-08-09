@@ -61,7 +61,7 @@ namespace WebApp.Controllers
         public IActionResult DepartmentStaffSale(int id) 
         {
             var values = _context.SaleTransactions.Where(x => x.StaffId == id).ToList();
-            var dep = _context.Staffs.Where(x => x.StaffId == id).Select(y => y.StaffName).FirstOrDefault();
+            var dep = _context.Staffs.Where(x => x.StaffId == id).Select(y => y.StaffFullName).FirstOrDefault();
             ViewBag.Name = dep;
             return View(values); 
         }

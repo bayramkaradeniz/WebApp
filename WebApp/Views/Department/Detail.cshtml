@@ -15,8 +15,10 @@
 <table class="table table-hover">
     <tr>
         <th>Id</th>
-        <th>İsim</th>
-        <th>Soy İsim</th>
+        <th>Fullİsim</th>
+        <th>Kullanıcı Adı</th>
+        <th>Şifre</th>
+
         <th>Görsel</th>
         <th>Satışlar</th>
     </tr>
@@ -24,8 +26,9 @@
     {
         <tr>
             <td>@item.StaffId</td>
-            <td>@item.StaffName</td>
-            <td>@item.StaffSurname</td>
+            <td>@item.StaffFullName</td>
+            <td>@item.StaffUsername</td>
+            <td>@item.StaffPassword</td>
             <td>@item.StaffImage</td>
             <td><a href="/Department/DepartmentStaffSale/@item.StaffId" class="btn btn-info">İşlemler</a></td>
         </tr>

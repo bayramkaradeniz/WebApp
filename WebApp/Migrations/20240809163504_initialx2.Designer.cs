@@ -12,8 +12,8 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240706104125_VIIII")]
-    partial class VIIII
+    [Migration("20240809163504_initialx2")]
+    partial class initialx2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -241,6 +241,9 @@ namespace WebApp.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("MaintenanceIntervalInMonths")
+                        .HasColumnType("int");
+
                     b.Property<string>("ProductImage")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -287,6 +290,10 @@ namespace WebApp.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("PaymentStatus")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -321,17 +328,21 @@ namespace WebApp.Migrations
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
-                    b.Property<string>("StaffImage")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("VarChar");
-
-                    b.Property<string>("StaffName")
+                    b.Property<string>("StaffFullName")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.Property<string>("StaffSurname")
+                    b.Property<string>("StaffImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StaffPassword")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("StaffUsername")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");

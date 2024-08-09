@@ -9,16 +9,19 @@ namespace WebApp.Models.Classes
         public int StaffId { get; set; }
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
-        public string StaffName { get; set; }
+        public string StaffFullName { get; set; }
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
-        public string StaffSurname { get; set; }
+        public string StaffUsername{ get; set; }
         [Column(TypeName = "VarChar")]
-        [StringLength(250)]
+        [StringLength(30)]
+        public string StaffPassword { get; set; }
         public string StaffImage { get; set; }
 
         public int DepartmentId { get; set; }
-        public virtual Department Department { get; set; }
+
+        [ForeignKey("DepartmentId")]
+        public  Department Department { get; set; }
 
         public ICollection<SaleTransaction> SaleTransactions { get; set; }
     }

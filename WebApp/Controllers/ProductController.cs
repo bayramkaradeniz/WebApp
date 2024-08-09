@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Models.Classes;
 
 namespace WebApp.Controllers
@@ -13,7 +14,7 @@ namespace WebApp.Controllers
         }
         public IActionResult Index()
         {
-            var products = _context.Products.ToList();
+            var products = _context.Products.Include(x=>x.Category).ToList();
             return View(products);
         }
         [HttpGet]
@@ -66,6 +67,7 @@ namespace WebApp.Controllers
             pro.PurchasePrice = product.PurchasePrice;
             pro.ProductImage = product.ProductImage;
             pro.Brand = product.Brand;
+            pro.MaintenanceIntervalInMonths=product.MaintenanceIntervalInMonths;
             pro.CategoryId = product.CategoryId;
             _context.SaveChanges();
             return RedirectToAction("Index");

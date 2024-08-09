@@ -27,6 +27,9 @@
     @Html.LabelFor(x => x.ProductImage)
     @Html.TextBoxFor(x => x.ProductImage, new { @class = "form-control" })
     <br />
+    @Html.LabelFor(x => x.MaintenanceIntervalInMonths)
+    @Html.TextBoxFor(x => x.MaintenanceIntervalInMonths, new { @class = "form-control" })
+    <br />
     @Html.LabelFor(x => x.Category.CategoryId)
     @Html.DropDownListFor(x => x.CategoryId,(List<SelectListItem>)ViewBag.values, new { @class ="form-control"})
     @* @Html.TextBoxFor(x => x.CategoryId, new { @class = "form-control" }) *@

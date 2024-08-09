@@ -20,7 +20,11 @@ namespace WebApp.Models.Classes
         [StringLength(250)]
         public string ProductImage { get; set; }
 
+        public int MaintenanceIntervalInMonths { get; set; }
+
         public int CategoryId { get; set; }
+
+        [ForeignKey("CategoryId")]
 
         public virtual Category Category { get; set; }
 
