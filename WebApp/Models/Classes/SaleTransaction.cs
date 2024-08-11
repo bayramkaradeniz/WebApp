@@ -12,6 +12,8 @@ namespace WebApp.Models.Classes
         public decimal Price { get; set; }
         public decimal TotalPrice { get; set; }
 
+        public Boolean State { get; set; } = true;
+
         public string PaymentStatus { get; set; }= string.Empty;
 
         public int ProductId { get; set; }

@@ -1,0 +1,29 @@
+﻿@model WebApp.Models.Classes.Customer
+@{
+    ViewData["Title"] = "GetCustomer";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<h1>Müşteri Güncelleme</h1>
+<br />
+@using (Html.BeginForm("UpdateCustomer", "Customer", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.CustomerName)
+        @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
+        @Html.HiddenFor(x => x.CustomerId)
+        <br />
+        @Html.LabelFor(x => x.CustomerSurname)
+        @Html.TextBoxFor(x => x.CustomerSurname, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.CustomerEmail)
+        @Html.TextBoxFor(x => x.CustomerEmail, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.CustomerCity)
+        @Html.TextBoxFor(x => x.CustomerCity, new { @class = "form-control" })
+        <br />
+        <button class="btn btn-outline-warning">Güncelle</button>
+    </div>
+}
+
+

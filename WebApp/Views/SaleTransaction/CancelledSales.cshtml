@@ -1,0 +1,75 @@
+﻿@using WebApp.Models.Classes
+@model List<SaleTransaction>
+
+@{
+
+    ViewData["Title"] = "CancelledSales";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>İptal Edilen Satışların Listesi</h4>
+
+@if (Model == null)
+{
+    <p>No sales available.</p>
+    <a href="/SaleTransaction/NewSale" class="btn btn-dark">Yeni Satış</a>
+}
+else
+{
+    <table id="sale" class="table table-bordered" style="margin-top:20px">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th> Ürün</th>
+                <th>Tarin</th>
+                <th>Fiyat</th>
+                <th>Adet</th>
+                <th>Toplam</th>
+                <th>Ödeme Durumu</th>
+                <th>Satış Sorumlusu</th>
+                <th>Müşteri</th>
+
+                <th>Detaylar</th>
+                <th>Geri Al</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.SaleTransactionId</td>
+                    <td>@i.Product.ProductName</td>
+                    <td>@i.Date</td>
+                    <td>@i.Price</td>
+                    <td>@i.Amount</td>
+                    <td>@i.TotalPrice</td>
+                    <td>@i.PaymentStatus</td>
+                    <td>@i.Staff.StaffFullName</td>
+                    <td>@i.Customer.CustomerName @i.Customer.CustomerSurname</td>
+
+                    <td><a href="/SaleTransaction/Details/@i.SaleTransactionId" class="btn btn-outline-info">Detaylar</a></td>
+                    <td><a href="/SaleTransaction/Restore/@i.SaleTransactionId" class="btn btn-outline-success">Geri Al</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+
+    $('#sale').dataTable({});
+
+</script>
+
+
+
+

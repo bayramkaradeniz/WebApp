@@ -1,0 +1,52 @@
+﻿@using WebApp.Models.Classes
+@model List<SaleTransaction>
+@{
+    ViewData["Title"] = "SaleHistory";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item active">
+        Müşteri : @ViewBag.Name
+    </li>
+</ol>
+
+<table id="SaleHistory" class="table table-condensed">
+    <tr>
+        <td>Satış Id</td>
+        <td>Ürün</td>
+        <td>Model</td>
+        <td>Müşteri</td>
+        <td>Satış Sorumlusu</td>
+        <td>Fiyat</td>
+        <td>Adet</td>
+        <td>Toplam</td>
+        <td>Tarih</td>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.SaleTransactionId</td>
+            <td>@item.Product.ProductName</td>
+            <td>@item.Product.ProductModel</td>
+            <td>@item.Customer.CustomerName @item.Customer.CustomerSurname</td>
+            <td>@item.Price</td>
+            <td>@item.Amount</td>
+            <td>@item.TotalPrice</td>
+            <td>@item.Date</td>
+        </tr>
+    }
+</table>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+
+    $('#SaleHistory').dataTable({});
+
+</script>

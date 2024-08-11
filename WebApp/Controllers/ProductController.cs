@@ -17,6 +17,7 @@ namespace WebApp.Controllers
             var products = _context.Products.Include(x=>x.Category).ToList();
             return View(products);
         }
+
         [HttpGet]
         public IActionResult NewProduct() 
         {
@@ -65,7 +66,7 @@ namespace WebApp.Controllers
             pro.State = product.State;
             pro.SalePrice = product.SalePrice;
             pro.PurchasePrice = product.PurchasePrice;
-            pro.ProductImage = product.ProductImage;
+            pro.ProductModel = product.ProductModel;
             pro.Brand = product.Brand;
             pro.MaintenanceIntervalInMonths=product.MaintenanceIntervalInMonths;
             pro.CategoryId = product.CategoryId;

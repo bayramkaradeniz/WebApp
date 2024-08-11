@@ -1,0 +1,40 @@
+﻿
+@model WebApp.Models.Classes.Bill
+
+@{
+    ViewData["Title"] = "GetBill";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br />
+<h1>Fatura Güncelleme</h1>
+<br />
+@using (Html.BeginForm("UpdateBill", "Bill", FormMethod.Post))
+{
+    <div class="form-group">
+
+        @Html.HiddenFor(x => x.BillId)
+        @Html.LabelFor(x => x.BillSequenceNo)
+        @Html.TextBoxFor(x => x.BillSequenceNo, new { @class = "form-control" })
+        @Html.LabelFor(x => x.BillSerialNo)
+        @Html.TextBoxFor(x => x.BillSerialNo, new { @class = "form-control" })
+        @Html.LabelFor(x => x.Date)
+        @Html.TextBoxFor(x => x.Date, new { @class = "form-control" })
+        @Html.LabelFor(x => x.Hour)
+        @Html.TextBoxFor(x => x.Hour, new { @class = "form-control" })
+        @Html.LabelFor(x => x.TaxOffice)
+        @Html.TextBoxFor(x => x.TaxOffice, new { @class = "form-control" })
+        @Html.LabelFor(x => x.Total)
+        @Html.TextBoxFor(x => x.Total, new { @class = "form-control" })
+        @Html.LabelFor(x => x.Sender)
+        @Html.TextBoxFor(x => x.Sender, new { @class = "form-control" })
+
+        @Html.LabelFor(x => x.Receiver)
+        @Html.TextBoxFor(x => x.Receiver, new { @class = "form-control" })
+
+        <br />
+        <button class="btn btn-outline-warning">Güncelle</button>
+    </div>
+}
+
+

@@ -1,0 +1,35 @@
+﻿@model WebApp.Models.Classes.SaleTransaction
+
+@{
+    ViewData["Title"] = "NewSale";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Yeni Satış Sayfası</h4>
+<form class=" form-group" method="post">
+    @Html.Label("Ürün")
+    @Html.DropDownListFor(x => x.ProductId, (List<SelectListItem>)ViewBag.valueFP, new { @class = "form-control" })
+    <br />
+    @Html.Label("Müşteri")
+    @Html.DropDownListFor(x => x.CustomerId, (List<SelectListItem>)ViewBag.valueFC, new { @class = "form-control" })
+    <br />
+    @Html.Label("Satış Sorumlusu")
+    @Html.DropDownListFor(x => x.StaffId, (List<SelectListItem>)ViewBag.valueFS, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Price)
+    @Html.TextBoxFor(x => x.Price, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.PaymentStatus)
+    @Html.TextBoxFor(x => x.PaymentStatus, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Amount)
+    @Html.TextBoxFor(x => x.Amount, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.TotalPrice)
+    @Html.TextBoxFor(x => x.TotalPrice, new { @class = "form-control" })
+    <br />
+
+    <button class="btn btn-outline-primary">Satış Yap</button>
+</form>
+
+

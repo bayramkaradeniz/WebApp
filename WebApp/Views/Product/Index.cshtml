@@ -12,7 +12,7 @@
 }
 else
 {
-    <table class="table table-bordered" style="margin-top:20px">
+    <table id="product" class="table table-bordered" style="margin-top:20px">
         <thead>
             <tr>
                 <th>Id</th>
@@ -37,7 +37,7 @@ else
                     <td>@i.ProductName</td>
                     <td>@i.Brand</td>
                     <td>@i.Stock</td>
-                    <td>@i.ProductImage</td>
+                    <td>@i.ProductModel</td>
                     <td>@i.PurchasePrice</td>
                     <td>@i.SalePrice</td>
                     <td>@i.State</td>
@@ -51,3 +51,17 @@ else
     </table>
     <a href="/Product/NewProduct" class="btn btn-dark">Yeni Ürün</a>
 }
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+
+    $('#product').dataTable({});
+
+</script>

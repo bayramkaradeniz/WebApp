@@ -1,0 +1,27 @@
+﻿@model WebApp.Models.Classes.Staff
+@{
+    ViewData["Title"] = "NewStaff";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h4>Yeni Çalışan Sayfası</h4>
+
+<form class=" form-group" method="post">
+    @Html.LabelFor(x => x.StaffFullName)
+    @Html.TextBoxFor(x => x.StaffFullName, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.StaffUsername)
+    @Html.TextBoxFor(x => x.StaffUsername, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.StaffPassword)
+    @Html.TextBoxFor(x => x.StaffPassword, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.StaffImage)
+    @Html.TextBoxFor(x => x.StaffImage, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Department.DepartmentName)
+    @Html.DropDownListFor(x => x.DepartmentId, (List<SelectListItem>)ViewBag.values, new { @class = "form-control" })
+    @* @Html.TextBoxFor(x => x.CategoryId, new { @class = "form-control" }) *@
+
+    <button class="btn btn-outline-primary">Ekle</button>
+</form>
+

@@ -1,0 +1,37 @@
+﻿@using WebApp.Models.Classes
+@model List<SaleTransaction>
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<h4>Satış Detayı</h4>
+<br />
+<table class="table table-hover">
+    <tr>
+        <th>Id</th>
+        <th>Satış Sorumlusu</th>
+        <th>Müşteri</th>
+        <th>Ürün İsim&Model</th>
+        <th>Adet</th>
+        <th>Toplam Fiyat</th>
+
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.SaleTransactionId</td>
+            <td>@item.Staff.StaffFullName</td>
+            <td>@item.Customer.CustomerName @item.Customer.CustomerSurname</td>
+            <td>@item.Product.ProductName @item.Product.ProductModel</td>
+            <td>@item.Amount</td>
+            <td>@item.TotalPrice</td>
+            <td>@item.TotalPrice</td>
+            <td>@item.TotalPrice</td>
+        </tr>
+    }
+</table>
+<a href="#" class="btn btn-default" style="background-color:aqua">Yeni Kalem Girişi</a>
+
+

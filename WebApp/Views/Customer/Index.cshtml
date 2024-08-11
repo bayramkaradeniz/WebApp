@@ -1,0 +1,59 @@
+﻿@using WebApp.Models.Classes
+@model List<Customer>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h4>Müşteri Listesi</h4>
+
+@if (Model == null)
+{
+    <p>No customers available.</p>
+}
+else
+{
+    <table id="Customer" class="table table-bordered" style="margin-top:20px">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>İsim Soyisim</th>
+                <th>Email</th>
+                <th>Adres</th>
+                
+                <th>Sil</th>
+                <th>Güncelle</th>
+                <th>Satış Geçmişi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.CustomerId</td>
+                    <td>@i.CustomerName @i.CustomerSurname</td>
+                    <td>@i.CustomerEmail</td>
+                    <td>@i.CustomerCity</td>
+                    
+                    <td><a href="/Customer/Remove/@i.CustomerId" class="btn btn-danger">Sil</a></td>
+                    <td><a href="/Customer/GetCustomer/@i.CustomerId" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/Customer/SaleHistory/@i.CustomerId" class="btn btn-info">Satış Geçmişi</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/Customer/NewCustomer" class="btn btn-dark">Yeni Müşteri</a>
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+
+    $('#Customer').dataTable({});
+
+</script>

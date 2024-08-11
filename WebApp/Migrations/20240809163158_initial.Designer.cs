@@ -245,7 +245,7 @@ namespace WebApp.Migrations
                     b.Property<int>("MaintenanceIntervalInMonths")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProductImage")
+                    b.Property<string>("ProductModel")
                         .IsRequired()
                         .HasMaxLength(250)
                         .HasColumnType("VarChar");

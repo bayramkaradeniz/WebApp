@@ -14,7 +14,10 @@ namespace WebApp.Models.Classes
         [StringLength(1)]
         public string BillSerialNo { get; set; }
         public DateTime Date { get; set; }
-        public DateTime Hour { get; set; }
+
+        [Column(TypeName = "char")]
+        [StringLength(5)]
+        public string Hour { get; set; }
         [Column(TypeName = "VarChar")]
         [StringLength(15)]
         public string TaxOffice { get; set; }
@@ -24,6 +27,7 @@ namespace WebApp.Models.Classes
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
         public string Receiver { get; set; }
+        public decimal Total { get; set; }
 
         public ICollection<BillItem> BillItems { get; set; }
     }

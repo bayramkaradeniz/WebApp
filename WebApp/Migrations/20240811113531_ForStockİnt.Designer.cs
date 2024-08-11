@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Models.Classes;
 
@@ -11,9 +12,11 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240811113531_ForStockİnt")]
+    partial class ForStockİnt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,10 +74,8 @@ namespace WebApp.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Hour")
-                        .IsRequired()
-                        .HasMaxLength(5)
-                        .HasColumnType("char");
+                    b.Property<DateTime>("Hour")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Receiver")
                         .IsRequired()
@@ -90,9 +91,6 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasMaxLength(15)
                         .HasColumnType("VarChar");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("BillId");
 

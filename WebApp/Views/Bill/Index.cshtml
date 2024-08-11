@@ -1,0 +1,61 @@
+﻿@using WebApp.Models.Classes
+@model List<Bill>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Fatura Listesi</h4>
+<table id="category" class="table table-bordered" style="margin-top:20px">
+    <thead>
+
+    <th>Id</th>
+    <th>Seri No</th>
+    <th>Sıra No</th>
+    <th>Vergi Dairesi</th>
+    <th>Tarih</th>
+    <th>Saat</th>
+    <th>Toplam Fiyat</th>
+    <th>Gönderen</th>
+    <th>Alıcı</th>
+
+
+    <th>Güncelle</th>
+    <th>Detaylar</th>
+
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td>@i.BillId</td>
+                <td>@i.BillSequenceNo</td>
+                <td>@i.BillSerialNo</td>
+                <td>@i.TaxOffice</td>
+                <td>@i.Date</td>
+                <td>@i.Hour</td>
+                <td>@i.Total</td>
+                <td>@i.Sender</td>
+                <td>@i.Receiver</td>
+
+                <td><a href="/Bill/GetBill/@i.BillId" class="btn btn-success">Güncelle</a></td>
+                <td><a href="/Bill/Details/@i.BillId" class="btn btn-success">Detaylar</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a href="/Bill/NewBill" class="btn btn-dark">Yeni Fatura</a>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+
+    $('#category').dataTable({});
+
+</script>

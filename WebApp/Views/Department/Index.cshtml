@@ -5,13 +5,16 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <h4>Departman Listesi</h4>
-<table class="table table-bordered" style="margin-top:20px">
+<table id="departmant" class="table table-bordered" style="margin-top:20px">
+    <thead>
     <th>Id</th>
     <th>İsim</th>
     <th>Aktif mi?</th>
     <th>Detaylar</th>
     <th>Sil</th>
     <th>Güncelle</th>
+    </thead>
+    <tbody>
     @foreach (var i in Model)
     {
         <tr>
@@ -23,7 +26,20 @@
             <td><a href="/Department/GetDepartment/@i.DepartmentId" class="btn btn-success">Güncelle</a></td>
         </tr>
     }
+    </tbody>
 </table>
 <a href="/Department/NewDepartment" class="btn btn-dark">Yeni Departman</a>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+    
+    $('#departmant').dataTable({});
+
+</script>

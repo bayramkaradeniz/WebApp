@@ -1,0 +1,28 @@
+﻿@model WebApp.Models.Classes.Staff
+
+@{
+    ViewData["Title"] = "GetStaff";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<h1>Çalışan Güncelleme</h1>
+<br />
+@using (@Html.BeginForm("UpdateStaff", "Staff", FormMethod.Post))
+{
+    <div class="form-group">
+
+        @Html.HiddenFor(x => x.StaffId)
+        @Html.LabelFor(x => x.StaffFullName)
+        @Html.TextBoxFor(x => x.StaffFullName, new { @class = "form-control" })
+        @Html.LabelFor(x => x.StaffUsername)
+        @Html.TextBoxFor(x => x.StaffUsername, new { @class = "form-control" })
+        @Html.LabelFor(x => x.StaffPassword)
+        @Html.TextBoxFor(x => x.StaffPassword, new { @class = "form-control" })
+        @Html.LabelFor(x => x.StaffImage)
+        @Html.TextBoxFor(x => x.StaffImage, new { @class = "form-control" })
+        @Html.LabelFor(x => x.DepartmentId)
+        @Html.DropDownListFor(x => x.DepartmentId, (List<SelectListItem>)ViewBag.values, new { @class = "form-control" })
+        <br />
+        <button class="btn btn-outline-warning">Güncelle</button>
+    </div>
+
+}
