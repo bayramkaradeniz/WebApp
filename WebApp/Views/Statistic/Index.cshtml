@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <link href="~/web2/css/style.css" rel="stylesheet" type="text/css" media="all" />
+    <link rel="stylesheet" href="~/web2/css/font-awesome.css">
+    <style>
+        .list_of_members {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px; /* Divler arasında boşluk bırakmak için */
+            justify-content: space-between; /* Divlerin satırda eşit şekilde yayılmasını sağlar */
+        }
+
+            .list_of_members > div {
+                flex: 1 1 calc(33.33% - 10px); /* Her divin genişliği 3'te 1 olacak şekilde ayarlanır */
+                margin: 10px 0; /* Üst ve alt marj eklemek için */
+                padding: 10px;
+                box-sizing: border-box;
+                text-align: center;
+            }
+
+        .sales {
+            background-color: #1abc9c;
+        }
+
+        .new-users {
+            background-color: #2ecc71;
+        }
+
+        .orders {
+            background-color: #3498db;
+        }
+
+        .visitors {
+            background-color: #9b59b6;
+        }
+    </style>
+</head>
+<body>
+    <div class="total-content">
+        <div class="list_of_members">
+            <div class="sales">
+                <div class="icon-text">
+                    <h3>@ViewBag.d1</h3>
+                    <p>Toplam Cari</p>
+                </div>
+            </div>
+            <div class="new-users">
+                <div class="icon-text">
+                    <h3>@ViewBag.d2</h3>
+                    <p>Ürün Sayısı</p>
+                </div>
+            </div>
+            <div class="orders">
+                <div class="icon-text">
+                    <h3>@ViewBag.d3</h3>
+                    <p>Personel Sayısı</p>
+                </div>
+            </div>
+            <div class="visitors">
+                <div class="icon-text">
+                    <h3>@ViewBag.d4</h3>
+                    <p>Kategori Sayısı</p>
+                </div>
+            </div>
+            <div class="sales">
+                <div class="icon-text">
+                    <h3>@ViewBag.d5</h3>
+                    <p>Toplam Stok</p>
+                </div>
+            </div>
+            <div class="new-users">
+                <div class="icon-text">
+                    <h3>@ViewBag.d6</h3>
+                    <p>Marka Sayısı</p>
+                </div>
+            </div>
+            <div class="orders">
+                <div class="icon-text">
+                    <h3>@ViewBag.d7</h3>
+                    <p>Kritik Seviye(Ürün)
+                    </p>
+                </div>
+            </div>
+            <div class="visitors">
+                <div class="icon-text">
+                    <h3>@ViewBag.d8</h3>
+                    <p>Max Fiyatlı Ürün</p>
+                </div>
+            </div>
+            <div class="sales">
+                <div class="icon-text">
+                    <h3>@ViewBag.d9</h3>
+                    <p>Min Fiyatlı Ürün</p>
+                </div>
+            </div>
+            <div class="orders">
+                <div class="icon-text">
+                    <h3>@ViewBag.d10</h3>
+                    <p>Buzdolabı Sayısı</p>
+                </div>
+            </div>
+            <div class="visitors">
+                <div class="icon-text">
+                    <h3>@ViewBag.d11</h3>
+                    <p>Televizyon Sayısı</p>
+                </div>
+            </div>
+            <div class="new-users">
+                <div class="icon-text">
+                    <h3>@ViewBag.d12</h3>
+                    <p>Max Marka</p>
+                </div>
+            </div>
+            <div class="sales">
+                <div class="icon-text">
+                    <h3>@ViewBag.d13</h3>
+                    <p>En Çok Satan</p>
+                </div>
+            </div>
+            <div class="new-users">
+                <div class="icon-text">
+                    <h3>@ViewBag.d14</h3>
+                    <p>Kasadaki Tutar</p>
+                </div>
+            </div>
+            <div class="orders">
+                <div class="icon-text">
+                    <h3>@ViewBag.d15</h3>
+                    <p>Bugünkü Satışlar</p>
+                </div>
+            </div>
+            <div class="visitors">
+                <div class="icon-text">
+                    <h3>@ViewBag.d16</h3>
+                    <p>Bugünkü Kasa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

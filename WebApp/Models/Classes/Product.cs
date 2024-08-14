@@ -19,6 +19,7 @@ namespace WebApp.Models.Classes
         [Column(TypeName = "VarChar")]
         [StringLength(250)]
         public string ProductModel { get; set; }
+        public string  ProductImage { get; set; } = string.Empty;
 
         public int MaintenanceIntervalInMonths { get; set; }
 

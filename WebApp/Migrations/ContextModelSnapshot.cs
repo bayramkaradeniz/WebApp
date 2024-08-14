@@ -227,6 +227,29 @@ namespace WebApp.Migrations
                     b.ToTable("Departments");
                 });
 
+            modelBuilder.Entity("WebApp.Models.Classes.Detail", b =>
+                {
+                    b.Property<int>("DetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DetailId"));
+
+                    b.Property<string>("DProductDescription")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("DProductName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
+                    b.HasKey("DetailId");
+
+                    b.ToTable("Details");
+                });
+
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
                 {
                     b.Property<int>("ProductId")
@@ -245,6 +268,10 @@ namespace WebApp.Migrations
 
                     b.Property<int>("MaintenanceIntervalInMonths")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProductImage")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ProductModel")
                         .IsRequired()

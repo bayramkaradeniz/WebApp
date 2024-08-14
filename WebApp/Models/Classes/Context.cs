@@ -16,6 +16,7 @@ namespace WebApp.Models.Classes
         public DbSet<Department> Departments { get; set; }
         public DbSet<Cost> Costs { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Detail> Details { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<SaleTransaction> SaleTransactions { get; set; }
         public DbSet<Staff> Staffs { get; set; }

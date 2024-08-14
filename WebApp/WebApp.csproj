@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\AdminLTE-3.0.4\.github\ISSUE_TEMPLATE\bug-report-for-adminlte-v2-4-x.md" />
+    <None Include="wwwroot\AdminLTE-3.0.4\.github\ISSUE_TEMPLATE\bug-report-for-adminlte-v3-x.md" />
+    <None Include="wwwroot\AdminLTE-3.0.4\.github\ISSUE_TEMPLATE\feature-request-for-adminlte-v3-x.md" />
+    <None Include="wwwroot\thumber\.DS_Store" />
+    <None Include="wwwroot\thumber\css\.DS_Store" />
+    <None Include="wwwroot\thumber\fonts\.DS_Store" />
+    <None Include="wwwroot\thumber\images\.DS_Store" />
+    <None Include="wwwroot\thumber\scss\.DS_Store" />
+    <None Include="wwwroot\thumber\scss\bootstrap\.DS_Store" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="jquery.datatables" Version="1.10.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
@@ -19,7 +31,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.4" />
   </ItemGroup>
 
 </Project>
