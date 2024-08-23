@@ -31,6 +31,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Statistic}/{action=SimpleTables}/{id?}");
+    pattern: "{controller=TechnicalSupport}/{action=Index}/{id?}");
 
 app.Run();

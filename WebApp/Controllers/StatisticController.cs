@@ -72,6 +72,32 @@ namespace WebApp.Controllers
 
             return View();
         }
-        public IActionResult SimpleTables() { return View(); }
+        public IActionResult SimpleTables()
+        {
+            var x = _context.Customers
+    .GroupBy(c => c.CustomerCity)
+    .Select(g => new GroupClass
+    {
+        Adress = g.Key,
+        Count = g.Count()
+    })
+    .ToList();
+            return View(x);
+        }
+        public PartialViewResult PartialDep()
+        {
+            var y = _context.Staffs
+                .GroupBy(c => c.DepartmentId)
+                .Select(g => new GroupClass2
+                {
+                    Departman = g.Key,
+                    Count = g.Count()
+                })
+                .ToList(); // y: List<GroupClass2>
+
+            return PartialView("PartialDep", y);
+        }
+
+
     }
 }

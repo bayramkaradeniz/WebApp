@@ -1,0 +1,23 @@
+﻿@model IEnumerable< WebApp.Models.Classes.GroupClass2>
+
+<table>
+    <tr>
+        <td>
+            Departman
+        </td>
+        <td>
+            Adet
+        </td>
+    </tr>
+    @foreach(var i in Model)
+    {
+        <tr>
+            <td>
+                @i.Departman
+            </td>
+            <td>
+                @i.Count
+            </td>
+        </tr>
+    }
+</table>

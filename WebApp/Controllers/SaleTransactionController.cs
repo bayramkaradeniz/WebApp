@@ -57,6 +57,21 @@ namespace WebApp.Controllers
 
             var product = _context.Products.Find(saleTransaction.ProductId);
             product.Stock -= saleTransaction.Amount;
+
+            var technicalSupport = new TechnicalSupport
+            {
+                TechnicalCategoryId = 1,
+                TransactionDate = saleTransaction.InstallationDate,
+                ProductId = saleTransaction.ProductId,
+                CustomerId = saleTransaction.CustomerId, // Müşteri ID'sini uygun şekilde almanız gerekir
+                StaffId = saleTransaction.StaffId, // Personel ID'sini uygun şekilde almanız gerekir
+                IsComplete = false // Başlangıçta tamamlanmamış olarak ayarlanır
+            };
+
+            // TechnicalSupport kaydını veritabanına ekle
+            _context.TechnicalSupports.Add(technicalSupport);
+
+
             _context.SaveChanges();
             return RedirectToAction("Index");
         }

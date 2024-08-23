@@ -28,7 +28,9 @@
     @Html.LabelFor(x => x.TotalPrice)
     @Html.TextBoxFor(x => x.TotalPrice, new { @class = "form-control" })
     <br />
-
+    @Html.LabelFor(x => x.InstallationDate, "Rezervasyon Tarihi ve Saati")
+    @Html.TextBoxFor(x => x.InstallationDate, new { @class = "form-control", @type = "datetime-local" })
+    <br />
     <button class="btn btn-outline-primary">Satış Yap</button>
 </form>
 

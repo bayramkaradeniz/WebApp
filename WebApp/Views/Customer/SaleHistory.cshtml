@@ -21,6 +21,7 @@
         <td>Adet</td>
         <td>Toplam</td>
         <td>Tarih</td>
+        <td>İşlem</td>
     </tr>
     @foreach (var item in Model)
     {
@@ -29,10 +30,14 @@
             <td>@item.Product.ProductName</td>
             <td>@item.Product.ProductModel</td>
             <td>@item.Customer.CustomerName @item.Customer.CustomerSurname</td>
+            <td>@item.Staff.StaffFullName </td>
             <td>@item.Price</td>
             <td>@item.Amount</td>
             <td>@item.TotalPrice</td>
             <td>@item.Date</td>
+
+            <td><a href="/TechnicalSupport/CreateAFaultRecord/@item.SaleTransactionId" class="btn btn-danger">Arıza Kaydı Oluştur</a></td>
+
         </tr>
     }
 </table>

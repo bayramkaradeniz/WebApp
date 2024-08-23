@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable< WebApp.Models.Classes.GroupClass>
+@{
     ViewData["Title"] = "SimpleTables";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
@@ -35,7 +36,7 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="#">Home</a></li>
-                            <li class="breadcrumb-item active">Simple Tables</li>
+                            <li class="breadcrumb-item active">Basit Tablolar</li>
                         </ol>
                     </div>
                 </div>
@@ -49,7 +50,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Bordered Table</h3>
+                                <h3 class="card-title">Kategori Tablosu </h3>
                             </div>
                             <!-- /.card-header -->
                             <div class="card-body">
@@ -57,9 +58,9 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 10px">#</th>
-                                            <th>Task</th>
-                                            <th>Progress</th>
-                                            <th style="width: 40px">Label</th>
+                                            <th>Kategori</th>
+                                            <th>Durum</th>
+                                            <th style="width: 40px">Oran</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -118,6 +119,20 @@
                             </div>
                         </div>
                         <!-- /.card -->
+                        <br />
+                        <div id="partialContainer"></div>
+
+                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                // Sayfa yüklendiğinde PartialDep'i yükle
+                                $.get('@Url.Action("PartialDep", "Statistic")', function (data) {
+                                    $('#partialContainer').html(data); // İçeriği div'e yükle
+                                });
+                            });
+                        </script>
+
+
 
                         <div class="card">
                             <div class="card-header">
@@ -186,7 +201,7 @@
                     <div class="col-md-6">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Simple Full Width Table</h3>
+                                <h3 class="card-title">Müşteri & Şehir</h3>
 
                                 <div class="card-tools">
                                     <ul class="pagination pagination-sm float-right">
@@ -204,52 +219,65 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 10px">#</th>
-                                            <th>Task</th>
-                                            <th>Progress</th>
-                                            <th style="width: 40px">Label</th>
+                                            <th>Şehir</th>
+                                            <th>Progress Bar</th>
+                                            <th style="width: 40px">Adet</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>1.</td>
-                                            <td>Update software</td>
-                                            <td>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-danger">55%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>2.</td>
-                                            <td>Clean database</td>
-                                            <td>
-                                                <div class="progress progress-xs">
-                                                    <div class="progress-bar bg-warning" style="width: 70%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-warning">70%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>3.</td>
-                                            <td>Cron job running</td>
-                                            <td>
-                                                <div class="progress progress-xs progress-striped active">
-                                                    <div class="progress-bar bg-primary" style="width: 30%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-primary">30%</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td>4.</td>
-                                            <td>Fix and squish bugs</td>
-                                            <td>
-                                                <div class="progress progress-xs progress-striped active">
-                                                    <div class="progress-bar bg-success" style="width: 90%"></div>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-success">90%</span></td>
-                                        </tr>
+                                        @{
+                                            int no = 0;
+                                        }
+                                        @foreach (var i in Model)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @{
+                                                        no++;
+                                                    } @no
+                                                </td>
+                                                <td>@i.Adress</td>
+                                                <td>
+                                                    @if (i.Count == 1)
+                                                    {
+
+                                                        <div class="progress progress-xs">
+                                                            <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                                                        </div>
+                                                    }
+                                                    @if (i.Count == 2)
+                                                    {
+
+                                                        <div class="progress progress-xs">
+                                                            <div class="progress-bar progress-bar-warning" style="width: 55%"></div>
+                                                        </div>
+                                                    }
+                                                    @if (i.Count == 3)
+                                                    {
+
+                                                        <div class="progress progress-xs">
+                                                            <div class="progress-bar progress-bar-success" style="width: 55%"></div>
+                                                        </div>
+                                                    }
+                                                </td>
+                                                @if (i.Count == 1)
+                                                {
+
+                                                    <td><span class="badge bg-danger">@i.Count</span></td>
+                                                }
+                                                @if (i.Count == 2)
+                                                {
+
+                                                    <td><span class="badge bg-warning">@i.Count</span></td>
+                                                }
+                                                @if (i.Count == 3)
+                                                {
+
+                                                    <td><span class="badge bg-success">@i.Count</span></td>
+                                                }
+
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>

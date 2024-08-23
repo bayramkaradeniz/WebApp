@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Models.Classes;
 
@@ -11,9 +12,11 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240821162501_ReservationAndInstallationDateForSaleX")]
+    partial class ReservationAndInstallationDateForSaleX
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -440,9 +443,6 @@ namespace WebApp.Migrations
 
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<decimal>("TransactionFee")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("TechnicalSupportId");
 

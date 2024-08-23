@@ -1,0 +1,26 @@
+﻿@model WebApp.Models.Classes.TechnicalSupport
+@{
+    ViewData["Title"] = "GetForCompleteMaintenance";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br />
+<h1>İşlemi Tamamla</h1>
+<br />
+@using (Html.BeginForm("CompleteMaintenance", "TechnicalSupport", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(x => x.TransactionFee)
+        @Html.TextBoxFor(x => x.TransactionFee, new { @class = "form-control" })
+        @Html.HiddenFor(x => x.TechnicalSupportId)
+        <br />
+        @Html.LabelFor(x => x.Description)
+        @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+
+        @Html.Label("Teknisyen")
+        @Html.DropDownListFor(x => x.StaffId, (List<SelectListItem>)ViewBag.values, new { @class = "form-control" })
+        <br />
+        <button class="btn btn-outline-warning">Tamam</button>
+    </div>
+}
+

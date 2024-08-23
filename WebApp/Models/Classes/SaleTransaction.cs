@@ -16,6 +16,10 @@ namespace WebApp.Models.Classes
 
         public string PaymentStatus { get; set; }= string.Empty;
 
+        public DateTime? InstallationDate { get; set; }
+
+
+
         public int ProductId { get; set; }
         public int CustomerId { get; set; }
         public int StaffId { get; set; }

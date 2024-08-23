@@ -1,0 +1,62 @@
+﻿@using WebApp.Models.Classes
+@model List<TechnicalSupport>
+
+@{
+    ViewData["Title"] = "CompletedRepair";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Teknik Destek-Tamamlanan Onarımlar </h4>
+
+@if (Model == null)
+{
+    <p>No products available.</p>
+}
+else
+{
+    <table id="table" class="table table-bordered" style="margin-top:20px">
+        <thead>
+            <tr>
+                <th>Müşteri</th>
+                <th>Ürün</th>
+                <th>Sorumlu</th>
+                <th>İşlem</th>
+                <th>İşlem Ücreti</th>
+                <th>İşlem Tarihi</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.Customer.CustomerName @i.Customer.CustomerSurname</td>
+                    <td>@i.Product.ProductName</td>
+                    <td>@i.Staff.StaffFullName</td>
+                    <td>@i.TechnicalCategory.TechnicalCategoryName</td>
+                    <td>@i.TransactionFee</td>
+                    <td>@i.CompletionDate</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+
+    $('#table').dataTable({});
+
+</script>
+
+
+
+
+
