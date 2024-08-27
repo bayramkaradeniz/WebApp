@@ -30,7 +30,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=TechnicalSupport}/{action=Index}/{id?}");
+    name: "title",
+    pattern: "{controller=SaleTransaction}/{action=NewSale}/{id?}");
 
 app.Run();

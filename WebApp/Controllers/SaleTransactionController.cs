@@ -18,7 +18,8 @@ namespace WebApp.Controllers
         {
             var sales = _context.SaleTransactions.Where(x => x.State == true).Include(x => x.Product).Include(x => x.Staff).Include(x => x.Customer).ToList();
             return View(sales);
-        }public IActionResult CancelledSales()
+        }
+        public IActionResult CancelledSales()
         {
             var sales = _context.SaleTransactions.Where(x => x.State == false).Include(x => x.Product).Include(x => x.Staff).Include(x => x.Customer).ToList();
             return View(sales);
@@ -26,55 +27,79 @@ namespace WebApp.Controllers
         [HttpGet]
         public IActionResult NewSale()
         {
-            List<SelectListItem> valueFP = (from x in _context.Products.ToList()
-                                            select new SelectListItem
-                                            {
-                                                Text = "Name:" + x.ProductName + " " + "Model :" + x.ProductModel,
-                                                Value = x.ProductId.ToString()
-                                            }).ToList();
-            List<SelectListItem> valueFC = (from x in _context.Customers.ToList()
-                                            select new SelectListItem
-                                            {
-                                                Text = x.CustomerName + " " + x.CustomerSurname,
-                                                Value = x.CustomerId.ToString()
-                                            }).ToList();
-            List<SelectListItem> valueFS = (from x in _context.Staffs.ToList()
-                                            select new SelectListItem
-                                            {
-                                                Text = x.StaffFullName,
-                                                Value = x.StaffId.ToString()
-                                            }).ToList();
+            List<SelectListItem> valueFP = _context.Products
+                .Select(x => new SelectListItem
+                {
+                    Text = $"Name: {x.ProductName} Model: {x.ProductModel}",
+                    Value = x.ProductId.ToString()
+                }).ToList();
+
+            List<SelectListItem> valueFC = _context.Customers
+                .Select(x => new SelectListItem
+                {
+                    Text = $"{x.CustomerName} {x.CustomerSurname}",
+                    Value = x.CustomerId.ToString()
+                }).ToList();
+
+            List<SelectListItem> valueFS = _context.Staffs
+                .Select(x => new SelectListItem
+                {
+                    Text = x.StaffFullName,
+                    Value = x.StaffId.ToString()
+                }).ToList();
+
             ViewBag.valueFP = valueFP;
             ViewBag.valueFC = valueFC;
             ViewBag.valueFS = valueFS;
+
             return View();
         }
+
+
         [HttpPost]
         public IActionResult NewSale(SaleTransaction saleTransaction)
         {
-            saleTransaction.Date = DateTime.Parse(DateTime.Now.ToShortTimeString());
+            if (saleTransaction == null)
+            {
+                return BadRequest("Satış verileri eksik.");
+            }
+
+            saleTransaction.Date = DateTime.Now;
+
+            // Satış işlemini veritabanına ekle
             _context.SaleTransactions.Add(saleTransaction);
 
+            // Ürünü güncelle
             var product = _context.Products.Find(saleTransaction.ProductId);
-            product.Stock -= saleTransaction.Amount;
+            if (product != null)
+            {
+                product.Stock -= saleTransaction.StockAmount;
+            }
 
+            // Teknik destek kaydını oluştur
             var technicalSupport = new TechnicalSupport
             {
                 TechnicalCategoryId = 1,
                 TransactionDate = saleTransaction.InstallationDate,
                 ProductId = saleTransaction.ProductId,
-                CustomerId = saleTransaction.CustomerId, // Müşteri ID'sini uygun şekilde almanız gerekir
-                StaffId = saleTransaction.StaffId, // Personel ID'sini uygun şekilde almanız gerekir
-                IsComplete = false // Başlangıçta tamamlanmamış olarak ayarlanır
+                CustomerId = saleTransaction.CustomerId,
+                StaffId = saleTransaction.StaffId,
+                IsComplete = false
             };
 
-            // TechnicalSupport kaydını veritabanına ekle
+            // Teknik destek kaydını veritabanına ekle
             _context.TechnicalSupports.Add(technicalSupport);
 
-
+            // Veritabanına değişiklikleri kaydet
             _context.SaveChanges();
+
+            // Satış ID'sini al
+            var saleId = saleTransaction.SaleTransactionId;
+
+            // Kullanıcıyı ödeme sayfasına yönlendir
             return RedirectToAction("Index");
         }
+
         public IActionResult CancelSale(int id)
         {
             var sale = _context.SaleTransactions
@@ -83,14 +108,14 @@ namespace WebApp.Controllers
 
             var product = _context.Products.Find(sale.ProductId);
 
-            product.Stock += sale.Amount;
+            product.Stock += sale.StockAmount;
 
             if (sale == null)
             {
                 return NotFound();
             }
             sale.State = false;
-            
+
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -102,14 +127,14 @@ namespace WebApp.Controllers
 
             var product = _context.Products.Find(sale.ProductId);
 
-            product.Stock += sale.Amount;
+            product.Stock += sale.StockAmount;
 
             if (sale == null)
             {
                 return NotFound();
             }
             sale.State = true;
-            
+
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
@@ -118,5 +143,12 @@ namespace WebApp.Controllers
             var values = _context.SaleTransactions.Include(x => x.Product).Include(x => x.Customer).Include(x => x.Staff).Where(x => x.SaleTransactionId == id).ToList();
             return View(values);
         }
+        public IActionResult PaymentDetails(int id)
+        {
+            var values = _context.SaleTransactions.Include(x => x.Product).Include(x => x.Customer).Include(x => x.Staff).Where(x => x.SaleTransactionId == id).ToList();
+            return View(values);
+        }
+
+
     }
 }

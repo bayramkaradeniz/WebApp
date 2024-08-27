@@ -310,9 +310,6 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleTransactionId"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -321,10 +318,6 @@ namespace WebApp.Migrations
 
                     b.Property<DateTime?>("InstallationDate")
                         .HasColumnType("datetime2");
-
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -337,6 +330,9 @@ namespace WebApp.Migrations
 
                     b.Property<bool>("State")
                         .HasColumnType("bit");
+
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
@@ -418,7 +414,7 @@ namespace WebApp.Migrations
                     b.Property<DateTime?>("CompletionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -426,13 +422,13 @@ namespace WebApp.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("VarChar");
 
-                    b.Property<bool>("IsComplete")
+                    b.Property<bool?>("IsComplete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StaffId")
+                    b.Property<int?>("StaffId")
                         .HasColumnType("int");
 
                     b.Property<int>("TechnicalCategoryId")
@@ -441,7 +437,7 @@ namespace WebApp.Migrations
                     b.Property<DateTime?>("TransactionDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("TransactionFee")
+                    b.Property<decimal?>("TransactionFee")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("TechnicalSupportId");
@@ -521,21 +517,15 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("WebApp.Models.Classes.Customer", "Customer")
                         .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("WebApp.Models.Classes.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("WebApp.Models.Classes.Staff", "Staff")
                         .WithMany()
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StaffId");
 
                     b.HasOne("WebApp.Models.Classes.TechnicalCategory", "TechnicalCategory")
                         .WithMany("TechnicalSupports")

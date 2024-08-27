@@ -5,7 +5,7 @@
 namespace WebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class ForDetail : Migration
+    public partial class Demox4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

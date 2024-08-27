@@ -47,7 +47,7 @@ namespace WebApp.Controllers
         public IActionResult GetForCompleteInstallation(int id)
         {
             List<SelectListItem> values = (from x in _context.Staffs
-                                           where x.DepartmentId == 3
+                                           where x.DepartmentId == 2
                                            select new SelectListItem
                                            {
                                                Text = x.StaffFullName,
@@ -117,7 +117,7 @@ namespace WebApp.Controllers
         public IActionResult GetForCompleteMaintenance(int id)
         {
             List<SelectListItem> values = (from x in _context.Staffs
-                                           where x.DepartmentId == 3
+                                           where x.DepartmentId == 2
                                            select new SelectListItem
                                            {
                                                Text = x.StaffFullName,
@@ -231,7 +231,7 @@ namespace WebApp.Controllers
         public IActionResult GetForCompleteRepair(int id)
         {
             List<SelectListItem> values = (from x in _context.Staffs
-                                           where x.DepartmentId == 3
+                                           where x.DepartmentId ==2
                                            select new SelectListItem
                                            {
                                                Text = x.StaffFullName,
