@@ -5,6 +5,17 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <h4>Ürün Listesi</h4>
+<style>
+    #product td {
+        word-wrap: break-word;
+        white-space: normal;
+        vertical-align: middle;
+    }
+
+    #product th {
+        vertical-align: middle;
+    }
+</style>
 
 @if (Model == null)
 {

@@ -5,6 +5,17 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 <h4>Müşteri Listesi</h4>
+<style>
+    #Customer td {
+        word-wrap: break-word;
+        white-space: normal;
+        vertical-align: middle;
+    }
+
+    #Customer th {
+        vertical-align: middle;
+    }
+</style>
 
 @if (Model == null)
 {

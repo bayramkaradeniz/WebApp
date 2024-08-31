@@ -3,7 +3,18 @@
 @{
     ViewData["Title"] = "Repair";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
+}<style>
+     #table td {
+         word-wrap: break-word;
+         white-space: normal;
+         vertical-align: middle;
+     }
+
+     #table th {
+         vertical-align: middle;
+     }
+</style>
+
 <h4>Teknik Destek-Onarım</h4>
 
 @if (Model == null)

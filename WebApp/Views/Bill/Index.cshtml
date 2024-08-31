@@ -5,6 +5,17 @@
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+<style>
+    #table td {
+        word-wrap: break-word;
+        white-space: normal;
+        vertical-align: middle;
+    }
+
+    #table th {
+        vertical-align: middle;
+    }
+</style>
 
 <h4>Fatura Listesi</h4>
 <table id="category" class="table table-bordered" style="margin-top:20px">
@@ -56,6 +67,6 @@
 <script>
 
 
-    $('#category').dataTable({});
+    $('#table').dataTable({});
 
 </script>
