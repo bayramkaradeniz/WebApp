@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace WebApp.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -83,7 +85,10 @@ namespace WebApp.Migrations
                     CustomerName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
                     CustomerSurname = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
                     CustomerEmail = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
-                    CustomerCity = table.Column<string>(type: "VarChar(15)", maxLength: 15, nullable: false)
+                    CustomerPhone = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    CustomerCity = table.Column<string>(type: "VarChar(20)", maxLength: 20, nullable: false),
+                    CustomerDistrict = table.Column<string>(type: "VarChar(20)", maxLength: 20, nullable: false),
+                    CustomerAdress = table.Column<string>(type: "VarChar(200)", maxLength: 200, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,6 +121,19 @@ namespace WebApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Details", x => x.DetailId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PaymentCategories",
+                columns: table => new
+                {
+                    PaymentCategoryId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PaymentCategoryName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PaymentCategories", x => x.PaymentCategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -206,6 +224,33 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Payments",
+                columns: table => new
+                {
+                    PaymentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PaidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    DownPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    InstallmentCount = table.Column<int>(type: "int", nullable: true),
+                    FirstInstallmentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    InstallmentPeriodMonths = table.Column<int>(type: "int", nullable: true),
+                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    PaymentTypeForDownPayment = table.Column<int>(type: "int", nullable: true),
+                    PaymentCategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payments", x => x.PaymentId);
+                    table.ForeignKey(
+                        name: "FK_Payments_PaymentCategories_PaymentCategoryId",
+                        column: x => x.PaymentCategoryId,
+                        principalTable: "PaymentCategories",
+                        principalColumn: "PaymentCategoryId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TechnicalSupports",
                 columns: table => new
                 {
@@ -248,38 +293,26 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "InstallmentDetail",
+                name: "Installments",
                 columns: table => new
                 {
-                    InstallmentDetailId = table.Column<int>(type: "int", nullable: false)
+                    InstallmentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    InstallmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     InstallmentAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    IsPaid = table.Column<bool>(type: "bit", nullable: false),
-                    PaymentTypeId = table.Column<int>(type: "int", nullable: true)
+                    InstallmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    InstallmentIsPaid = table.Column<bool>(type: "bit", nullable: false),
+                    PaymentId = table.Column<int>(type: "int", nullable: false),
+                    InstallmentPaymentType = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InstallmentDetail", x => x.InstallmentDetailId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PaymentTypes",
-                columns: table => new
-                {
-                    PaymentTypeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Method = table.Column<int>(type: "int", nullable: false),
-                    Amount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    DownPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    InstallmentMonths = table.Column<int>(type: "int", nullable: true),
-                    InstallmentPeriod = table.Column<int>(type: "int", nullable: true),
-                    FirstInstallmentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SaleTransactionId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PaymentTypes", x => x.PaymentTypeId);
+                    table.PrimaryKey("PK_Installments", x => x.InstallmentId);
+                    table.ForeignKey(
+                        name: "FK_Installments_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "PaymentId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,16 +322,15 @@ namespace WebApp.Migrations
                     SaleTransactionId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Amount = table.Column<int>(type: "int", nullable: false),
+                    StockAmount = table.Column<int>(type: "int", nullable: false),
                     Price = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     State = table.Column<bool>(type: "bit", nullable: false),
-                    PaymentStatus = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     InstallationDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
                     StaffId = table.Column<int>(type: "int", nullable: false),
-                    PaymentTypeId = table.Column<int>(type: "int", nullable: false)
+                    PaymentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -310,10 +342,10 @@ namespace WebApp.Migrations
                         principalColumn: "CustomerId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SaleTransactions_PaymentTypes_PaymentTypeId",
-                        column: x => x.PaymentTypeId,
-                        principalTable: "PaymentTypes",
-                        principalColumn: "PaymentTypeId",
+                        name: "FK_SaleTransactions_Payments_PaymentId",
+                        column: x => x.PaymentId,
+                        principalTable: "Payments",
+                        principalColumn: "PaymentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_SaleTransactions_Products_ProductId",
@@ -329,20 +361,60 @@ namespace WebApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "CategoryId", "CategoryName" },
+                values: new object[,]
+                {
+                    { 1, "Filtreli" },
+                    { 2, "Filtresiz" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Departments",
+                columns: new[] { "DepartmentId", "DepartmentName", "State" },
+                values: new object[,]
+                {
+                    { 1, "Satış", true },
+                    { 2, "Teknik Destek", true },
+                    { 3, "Sekreter", true },
+                    { 4, "Müdür", true }
+                });
+
+            migrationBuilder.InsertData(
+                table: "PaymentCategories",
+                columns: new[] { "PaymentCategoryId", "PaymentCategoryName" },
+                values: new object[,]
+                {
+                    { 1, "Cash" },
+                    { 2, "CreditCard" },
+                    { 3, "Installment" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "TechnicalCategories",
+                columns: new[] { "TechnicalCategoryId", "TechnicalCategoryName" },
+                values: new object[,]
+                {
+                    { 1, "Kurulum" },
+                    { 2, "Bakım" },
+                    { 3, "Onarım" }
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_BillItems_BillId",
                 table: "BillItems",
                 column: "BillId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_InstallmentDetail_PaymentTypeId",
-                table: "InstallmentDetail",
-                column: "PaymentTypeId");
+                name: "IX_Installments_PaymentId",
+                table: "Installments",
+                column: "PaymentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PaymentTypes_SaleTransactionId",
-                table: "PaymentTypes",
-                column: "SaleTransactionId");
+                name: "IX_Payments_PaymentCategoryId",
+                table: "Payments",
+                column: "PaymentCategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Products_CategoryId",
@@ -355,9 +427,10 @@ namespace WebApp.Migrations
                 column: "CustomerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SaleTransactions_PaymentTypeId",
+                name: "IX_SaleTransactions_PaymentId",
                 table: "SaleTransactions",
-                column: "PaymentTypeId");
+                column: "PaymentId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_SaleTransactions_ProductId",
@@ -393,30 +466,11 @@ namespace WebApp.Migrations
                 name: "IX_TechnicalSupports_TechnicalCategoryId",
                 table: "TechnicalSupports",
                 column: "TechnicalCategoryId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_InstallmentDetail_PaymentTypes_PaymentTypeId",
-                table: "InstallmentDetail",
-                column: "PaymentTypeId",
-                principalTable: "PaymentTypes",
-                principalColumn: "PaymentTypeId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_PaymentTypes_SaleTransactions_SaleTransactionId",
-                table: "PaymentTypes",
-                column: "SaleTransactionId",
-                principalTable: "SaleTransactions",
-                principalColumn: "SaleTransactionId",
-                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_SaleTransactions_PaymentTypes_PaymentTypeId",
-                table: "SaleTransactions");
-
             migrationBuilder.DropTable(
                 name: "Admins");
 
@@ -430,7 +484,10 @@ namespace WebApp.Migrations
                 name: "Details");
 
             migrationBuilder.DropTable(
-                name: "InstallmentDetail");
+                name: "Installments");
+
+            migrationBuilder.DropTable(
+                name: "SaleTransactions");
 
             migrationBuilder.DropTable(
                 name: "TechnicalSupports");
@@ -439,13 +496,7 @@ namespace WebApp.Migrations
                 name: "Bills");
 
             migrationBuilder.DropTable(
-                name: "TechnicalCategories");
-
-            migrationBuilder.DropTable(
-                name: "PaymentTypes");
-
-            migrationBuilder.DropTable(
-                name: "SaleTransactions");
+                name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "Customers");
@@ -455,6 +506,12 @@ namespace WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Staffs");
+
+            migrationBuilder.DropTable(
+                name: "TechnicalCategories");
+
+            migrationBuilder.DropTable(
+                name: "PaymentCategories");
 
             migrationBuilder.DropTable(
                 name: "Categories");

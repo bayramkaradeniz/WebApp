@@ -17,9 +17,23 @@ namespace WebApp.Models.Classes
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
         public string CustomerEmail { get; set; }
+
         [Column(TypeName = "VarChar")]
-        [StringLength(15)]
+        [StringLength(30)]
+        public string CustomerPhone { get; set; }
+
+        [Column(TypeName = "VarChar")]
+        [StringLength(20)]
         public string CustomerCity { get; set; }
+
+        [Column(TypeName = "VarChar")]
+        [StringLength(20)]
+        public string CustomerDistrict { get; set; }
+
+        [Column(TypeName = "VarChar")]
+        [StringLength(200)]
+        public string CustomerAdress { get; set; }
+
 
         public ICollection<SaleTransaction> SaleTransactions { get; set; }
     }

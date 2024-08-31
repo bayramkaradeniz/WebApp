@@ -46,17 +46,17 @@ namespace WebApp.Controllers
 
             ViewBag.d9 = value9 != null ? $"{value9.ProductName} {value9.Brand}" : string.Empty;
 
-            var value10 = _context.Products.Where(p => p.Category.CategoryName == "Beyaz Eşya").Count().ToString();
+            var value10 = _context.Products.Where(p => p.Category.CategoryName == "Filtreli").Count().ToString();
             ViewBag.d10 = value10;
 
-            var value11 = _context.Products.Where(p => p.Category.CategoryName == "Televizyon").Count().ToString();
+            var value11 = _context.Products.Where(p => p.Category.CategoryName == "Filtresiz").Count().ToString();
             ViewBag.d11 = value11;
 
             var value12 = _context.Products.OrderByDescending(p => p.PurchasePrice).FirstOrDefault()?.Brand;
             ViewBag.d12 = value12;
 
-            var value13 = _context.SaleTransactions.OrderByDescending(s => s.StockAmount).FirstOrDefault()?.Product.ProductName;
-            ViewBag.d13 = value13;
+            //var value13 = _context.SaleTransactions.OrderByDescending(s => s.StockAmount).FirstOrDefault()?.Product.ProductName;
+            //ViewBag.d13 = value13;
 
             var value14 = _context.SaleTransactions.Sum(c => c.TotalPrice).ToString();
             ViewBag.d14 = value14;

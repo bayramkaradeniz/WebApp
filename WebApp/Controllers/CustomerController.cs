@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Models.Classes;
 
@@ -17,10 +18,11 @@ namespace WebApp.Controllers
             return View(cus);
         }
         [HttpGet]
-        public IActionResult NewCustomer() { return View(); }
+        public IActionResult NewCustomer() {return View(); }
         [HttpPost]
         public IActionResult NewCustomer(Customer customer)
         {
+
             _context.Customers.Add(customer);
             _context.SaveChanges();
             return RedirectToAction("Index");
@@ -38,6 +40,9 @@ namespace WebApp.Controllers
             cus.CustomerSurname = customer.CustomerSurname;
             cus.CustomerEmail = customer.CustomerEmail;
             cus.CustomerCity = customer.CustomerCity;
+            cus.CustomerPhone = customer.CustomerPhone;
+            cus.CustomerAdress = customer.CustomerAdress;
+            cus.CustomerDistrict = customer.CustomerDistrict;
             _context.SaveChanges();
 
             return RedirectToAction("Index");

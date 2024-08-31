@@ -1,10 +1,12 @@
 ﻿@using WebApp.Models.Classes
 @model List<TechnicalSupport>
+
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "CompletedTech";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-<h4>Teknik Destek</h4>
+
+<h4>Teknik Destek-Tamamlanan</h4>
 
 @if (Model == null)
 {
@@ -20,11 +22,13 @@ else
                 <th>Adres</th>
                 <th>Ürün</th>
                 <th>Model</th>
+                <th>Açıklama</th>
                 <th>İşlem</th>
-                <th>Randevu Tarihi</th>
+                <th>İşlem Ücreti</th>
+                <th>İşlem Tarihi</th>
 
-
-                <th>İşlem</th>
+                <th>Tamamla</th>
+                <th>Geri Al</th>
             </tr>
         </thead>
         <tbody>
@@ -36,11 +40,14 @@ else
                     <td>@i.Customer.CustomerCity</td>
                     <td>@i.Product.ProductName</td>
                     <td>@i.Product.ProductModel</td>
+                    <td>@i.Description</td>
                     <td>@i.TechnicalCategory.TechnicalCategoryName</td>
-                    <td>@i.TransactionDate</td>
+                    <td>@i.TransactionFee</td>
+                    <td>@i.CompletionDate</td>
 
 
                     <td><a href="/TechnicalSupport/GetForCompleteInstallation/@i.TechnicalSupportId" class="btn btn-danger">Tamamla</a></td>
+                    <td><a href="/TechnicalSupport/CancelTech/@i.TechnicalSupportId" class="btn btn-success">Geri Al</a></td>
                 </tr>
             }
         </tbody>
@@ -60,4 +67,6 @@ else
     $('#table').dataTable({});
 
 </script>
+
+
 

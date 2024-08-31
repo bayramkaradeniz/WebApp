@@ -4,7 +4,6 @@
     ViewData["Title"] = "Yeni Satış Sayfası";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
 <h4>Yeni Satış Sayfası</h4>
 @using (Html.BeginForm("NewSale", "SaleTransaction", FormMethod.Post))
 {
@@ -27,52 +26,32 @@
     @Html.TextBoxFor(x => x.TotalPrice, new { @class = "form-control" })
     <br />
     @Html.LabelFor(x => x.InstallationDate, "Rezervasyon Tarihi ve Saati")
-    @Html.TextBoxFor(x => x.InstallationDate, new { @class = "form-control", @type = "datetime-local" })
+    @Html.TextBoxFor(x => x.InstallationDate, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control", @type = "datetime-local" })
     <br />
-  @*   <div class="form-group">
-        @Html.LabelFor(x => x.Method, "Ödeme Yöntemi")
-        @Html.DropDownListFor(x => x.Method, Html.GetEnumSelectList<WebApp.Models.Classes.SaleTransaction.PaymentMethod>(), new { @class = "form-control" })
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(x => x.DownPayment, "Peşinat")
-        @Html.TextBoxFor(x => x.DownPayment, new { @class = "form-control" })
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(x => x.InstallmentMonths, "Taksit (Kaç Aya Bölünsün?)")
-        @Html.TextBoxFor(x => x.InstallmentMonths, new { @class = "form-control" })
-    </div>
+    @Html.Label("Ödeme Yöntemi")
+    @Html.DropDownListFor(x => x.Payment.PaymentCategoryId, (List<SelectListItem>)ViewBag.valuePM, new { @class = "form-control" })
 
-    <div class="form-group">
-        @Html.LabelFor(x => x.InstallmentPeriod, "Taksit Dönemi (Taksitler Kaç Ay Ara ile Olsun?)")
-        @Html.TextBoxFor(x => x.InstallmentPeriod, new { @class = "form-control" })
-    </div>
+    <br />
 
-    <div class="form-group">
-        @Html.LabelFor(x => x.FirstInstallmentDate, "İlk Taksit Tarihi")
-        @Html.TextBoxFor(x => x.FirstInstallmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
-    </div>
- *@
-    <button class="btn btn-outline-primary">Satış Yap</button>
-   
-@* 
-@if (Model.Method == WebApp.Models.Classes.SaleTransaction.PaymentMethod.Installment && Model.InstallmentDetails != null && Model.InstallmentDetails.Any())
-{
-    <h3>Taksit Tarihleri ve Tutarları</h3>
-    <ul>
-        @foreach (var detail in Model.InstallmentDetails)
-        {
-            <li>
-                @detail.InstallmentDate.ToShortDateString() - @detail.InstallmentAmount @if (detail.IsPaid)
-                {
-                    <strong>(Ödendi)</strong>
-                }
-                else
-                {
-                    <strong>(Ödenmedi)</strong>
-                }
-            </li>
-        }
-    </ul> *@
+
+    @Html.LabelFor(x => x.Payment.DownPayment, "Peşinat (Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.DownPayment, new { @class = "form-control" })
+    <br />
+    @Html.Label("Peşinatın Ödeme Türü(Sadece Taksit Seçildiğinde)")
+    @Html.DropDownListFor(x => x.Payment.PaymentTypeForDownPayment, (List<SelectListItem>)ViewBag.valuePD, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Payment.InstallmentCount, "Taksit Sayısı(Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.InstallmentCount, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Payment.InstallmentPeriodMonths, "Taksit Dönemi (Taksitler Kaç Ayda Bir Ödenecek)(Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.InstallmentPeriodMonths, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Payment.FirstInstallmentDate, "İlk Taksit Tarihi(Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.FirstInstallmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+
+    <button type="submit" class="btn btn-outline-primary">Satış Yap</button>
 }
+

@@ -18,6 +18,9 @@ else
                 <th>Id</th>
                 <th>İsim Soyisim</th>
                 <th>Email</th>
+                <th>Telefon</th>
+                <th>Şehir</th>
+                <th>İlçe</th>
                 <th>Adres</th>
                 
                 <th>Sil</th>
@@ -32,7 +35,10 @@ else
                     <td>@i.CustomerId</td>
                     <td>@i.CustomerName @i.CustomerSurname</td>
                     <td>@i.CustomerEmail</td>
+                    <td>@i.CustomerPhone</td>
                     <td>@i.CustomerCity</td>
+                    <td>@i.CustomerDistrict</td>
+                    <td>@i.CustomerAdress</td>
                     
                     <td><a href="/Customer/Remove/@i.CustomerId" class="btn btn-danger">Sil</a></td>
                     <td><a href="/Customer/GetCustomer/@i.CustomerId" class="btn btn-success">Güncelle</a></td>

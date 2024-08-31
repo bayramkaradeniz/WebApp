@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApp.Models.Classes
 {
+
     public class SaleTransaction
     {
         [Key]
@@ -19,6 +20,7 @@ namespace WebApp.Models.Classes
         public int ProductId { get; set; }
         public int CustomerId { get; set; }
         public int StaffId { get; set; }
+        public int PaymentId { get; set; }
 
         [ForeignKey("ProductId")]
         public virtual Product Product { get; set; }
@@ -27,5 +29,10 @@ namespace WebApp.Models.Classes
         [ForeignKey("StaffId")]
         public virtual Staff Staff { get; set; }
 
+        [ForeignKey("PaymentId")]
+        public virtual Payment Payment { get; set; }
+
     }
 }
+
+

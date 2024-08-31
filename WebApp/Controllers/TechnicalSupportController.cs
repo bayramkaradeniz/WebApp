@@ -15,7 +15,17 @@ namespace WebApp.Controllers
         }
         public IActionResult Index()
         {
-            var values = _context.TechnicalSupports
+            var values = _context.TechnicalSupports.Where(x => x.IsComplete == false)
+     .Include(x => x.TechnicalCategory)
+     .Include(x => x.Product)
+     .Include(x => x.Customer)
+     .Include(x => x.Staff)
+     .ToList();
+            return View(values);
+        }
+        public IActionResult CompletedTech()
+        {
+            var values = _context.TechnicalSupports.Where(x => x.IsComplete == true)
      .Include(x => x.TechnicalCategory)
      .Include(x => x.Product)
      .Include(x => x.Customer)
@@ -47,7 +57,7 @@ namespace WebApp.Controllers
         public IActionResult GetForCompleteInstallation(int id)
         {
             List<SelectListItem> values = (from x in _context.Staffs
-                                           where x.DepartmentId == 2
+                                           where x.Department.DepartmentName == "Teknik Destek"
                                            select new SelectListItem
                                            {
                                                Text = x.StaffFullName,
@@ -117,7 +127,7 @@ namespace WebApp.Controllers
         public IActionResult GetForCompleteMaintenance(int id)
         {
             List<SelectListItem> values = (from x in _context.Staffs
-                                           where x.DepartmentId == 2
+                                           where x.Department.DepartmentName == "Teknik Destek"
                                            select new SelectListItem
                                            {
                                                Text = x.StaffFullName,
@@ -231,7 +241,7 @@ namespace WebApp.Controllers
         public IActionResult GetForCompleteRepair(int id)
         {
             List<SelectListItem> values = (from x in _context.Staffs
-                                           where x.DepartmentId ==2
+                                           where x.Department.DepartmentName == "Teknik Destek"
                                            select new SelectListItem
                                            {
                                                Text = x.StaffFullName,
@@ -257,6 +267,19 @@ namespace WebApp.Controllers
             _context.SaveChanges();
 
             return RedirectToAction("CompletedRepair");
+        }
+
+        public IActionResult CancelTech(int id)
+        {
+            var tech = _context.TechnicalSupports
+        .FirstOrDefault(s => s.TechnicalSupportId == id);
+
+            tech.IsComplete = false;
+            tech.Description = "";
+            tech.TransactionFee = 0;
+            tech.CompletionDate = null;
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

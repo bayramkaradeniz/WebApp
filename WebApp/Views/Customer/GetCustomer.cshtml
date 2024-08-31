@@ -19,8 +19,17 @@
         @Html.LabelFor(x => x.CustomerEmail)
         @Html.TextBoxFor(x => x.CustomerEmail, new { @class = "form-control" })
         <br />
+        @Html.LabelFor(x => x.CustomerPhone)
+        @Html.TextBoxFor(x => x.CustomerPhone, new { @class = "form-control" })
+        <br />
         @Html.LabelFor(x => x.CustomerCity)
         @Html.TextBoxFor(x => x.CustomerCity, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.CustomerDistrict)
+        @Html.TextBoxFor(x => x.CustomerDistrict, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.CustomerAdress)
+        @Html.TextBoxFor(x => x.CustomerAdress, new { @class = "form-control" })
         <br />
         <button class="btn btn-outline-warning">Güncelle</button>
     </div>

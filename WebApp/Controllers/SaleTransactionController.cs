@@ -42,15 +42,33 @@ namespace WebApp.Controllers
                 }).ToList();
 
             List<SelectListItem> valueFS = _context.Staffs
+    .Where(x => x.Department.DepartmentName == "Satış") // Filter by department name
+    .Select(x => new SelectListItem
+    {
+        Text = x.StaffFullName,
+        Value = x.StaffId.ToString()
+    }).ToList();
+            List<SelectListItem> valuePM = _context.PaymentCategories
                 .Select(x => new SelectListItem
                 {
-                    Text = x.StaffFullName,
-                    Value = x.StaffId.ToString()
+                    Text = x.PaymentCategoryName,
+                    Value = x.PaymentCategoryId.ToString()
                 }).ToList();
+
+            var valuePD = Enum.GetValues(typeof(PaymentTypeForDownPayment))
+        .Cast<PaymentTypeForDownPayment>()
+        .Select(e => new SelectListItem
+        {
+            Text = e.ToString(), // Enum değerinin ismini kullanıyoruz
+            Value = ((int)e).ToString() // Enum değerinin int karşılığını kullanıyoruz
+        })
+        .ToList();
 
             ViewBag.valueFP = valueFP;
             ViewBag.valueFC = valueFC;
             ViewBag.valueFS = valueFS;
+            ViewBag.valuePM = valuePM;
+            ViewBag.valuePD = valuePD;
 
             return View();
         }
@@ -59,6 +77,7 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult NewSale(SaleTransaction saleTransaction)
         {
+
             if (saleTransaction == null)
             {
                 return BadRequest("Satış verileri eksik.");
@@ -66,6 +85,34 @@ namespace WebApp.Controllers
 
             saleTransaction.Date = DateTime.Now;
 
+            if (saleTransaction.Payment.PaymentCategoryId == 1 || saleTransaction.Payment.PaymentCategoryId == 2)
+            {
+                // Nakit veya kredi kartı ödemesi
+                saleTransaction.Payment.IsPaid = true;
+                saleTransaction.Payment.PaidPrice = saleTransaction.TotalPrice;
+                saleTransaction.Payment.Installments = null;
+            }else
+            {
+                // Taksitli ödeme hesaplamaları
+                decimal downPayment = saleTransaction.Payment.DownPayment ?? 0;
+                saleTransaction.Payment.PaidPrice = downPayment;
+                decimal amountPerInstallment = (saleTransaction.TotalPrice - downPayment) / saleTransaction.Payment.InstallmentCount.Value;
+
+                saleTransaction.Payment.Installments = new List<Installment>();
+                DateTime installmentDate = saleTransaction.Payment.FirstInstallmentDate.Value;
+
+                for (int i = 0; i < saleTransaction.Payment.InstallmentCount.Value; i++)
+                {
+                    saleTransaction.Payment.Installments.Add(new Installment
+                    {
+                        InstallmentAmount = amountPerInstallment,
+                        InstallmentDate = installmentDate,
+                        InstallmentIsPaid = false
+                    });
+
+                    installmentDate = installmentDate.AddMonths(saleTransaction.Payment.InstallmentPeriodMonths.Value);
+                }
+            }
             // Satış işlemini veritabanına ekle
             _context.SaleTransactions.Add(saleTransaction);
 

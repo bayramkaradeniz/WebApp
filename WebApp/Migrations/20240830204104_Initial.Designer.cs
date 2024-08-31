@@ -12,8 +12,8 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240827090738_Demo")]
-    partial class Demo
+    [Migration("20240830204104_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,6 +150,18 @@ namespace WebApp.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Filtreli"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Filtresiz"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Cost", b =>
@@ -184,9 +196,19 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
+                    b.Property<string>("CustomerAdress")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("VarChar");
+
                     b.Property<string>("CustomerCity")
                         .IsRequired()
-                        .HasMaxLength(15)
+                        .HasMaxLength(20)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("CustomerDistrict")
+                        .IsRequired()
+                        .HasMaxLength(20)
                         .HasColumnType("VarChar");
 
                     b.Property<string>("CustomerEmail")
@@ -195,6 +217,11 @@ namespace WebApp.Migrations
                         .HasColumnType("VarChar");
 
                     b.Property<string>("CustomerName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("CustomerPhone")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
@@ -228,6 +255,32 @@ namespace WebApp.Migrations
                     b.HasKey("DepartmentId");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            DepartmentId = 1,
+                            DepartmentName = "Satış",
+                            State = true
+                        },
+                        new
+                        {
+                            DepartmentId = 2,
+                            DepartmentName = "Teknik Destek",
+                            State = true
+                        },
+                        new
+                        {
+                            DepartmentId = 3,
+                            DepartmentName = "Sekreter",
+                            State = true
+                        },
+                        new
+                        {
+                            DepartmentId = 4,
+                            DepartmentName = "Müdür",
+                            State = true
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Detail", b =>
@@ -251,6 +304,113 @@ namespace WebApp.Migrations
                     b.HasKey("DetailId");
 
                     b.ToTable("Details");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
+                {
+                    b.Property<int>("InstallmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstallmentId"));
+
+                    b.Property<decimal>("InstallmentAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("InstallmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("InstallmentIsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("InstallmentPaymentType")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("InstallmentId");
+
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("Installments");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Payment", b =>
+                {
+                    b.Property<int>("PaymentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
+
+                    b.Property<decimal?>("DownPayment")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("FirstInstallmentDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("InstallmentCount")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InstallmentPeriodMonths")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("PaidPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PaymentCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PaymentTypeForDownPayment")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("PaymentId");
+
+                    b.HasIndex("PaymentCategoryId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.PaymentCategory", b =>
+                {
+                    b.Property<int>("PaymentCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentCategoryId"));
+
+                    b.Property<string>("PaymentCategoryName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
+                    b.HasKey("PaymentCategoryId");
+
+                    b.ToTable("PaymentCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            PaymentCategoryId = 1,
+                            PaymentCategoryName = "Cash"
+                        },
+                        new
+                        {
+                            PaymentCategoryId = 2,
+                            PaymentCategoryName = "CreditCard"
+                        },
+                        new
+                        {
+                            PaymentCategoryId = 3,
+                            PaymentCategoryName = "Installment"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
@@ -313,9 +473,6 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleTransactionId"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -324,6 +481,9 @@ namespace WebApp.Migrations
 
                     b.Property<DateTime?>("InstallationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
@@ -337,12 +497,18 @@ namespace WebApp.Migrations
                     b.Property<bool>("State")
                         .HasColumnType("bit");
 
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("SaleTransactionId");
 
                     b.HasIndex("CustomerId");
+
+                    b.HasIndex("PaymentId")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 
@@ -404,6 +570,23 @@ namespace WebApp.Migrations
                     b.HasKey("TechnicalCategoryId");
 
                     b.ToTable("TechnicalCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            TechnicalCategoryId = 1,
+                            TechnicalCategoryName = "Kurulum"
+                        },
+                        new
+                        {
+                            TechnicalCategoryId = 2,
+                            TechnicalCategoryName = "Bakım"
+                        },
+                        new
+                        {
+                            TechnicalCategoryId = 3,
+                            TechnicalCategoryName = "Onarım"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.TechnicalSupport", b =>
@@ -467,6 +650,28 @@ namespace WebApp.Migrations
                     b.Navigation("Bill");
                 });
 
+            modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
+                {
+                    b.HasOne("WebApp.Models.Classes.Payment", "Payment")
+                        .WithMany("Installments")
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Payment", b =>
+                {
+                    b.HasOne("WebApp.Models.Classes.PaymentCategory", "PaymentCategory")
+                        .WithMany("Payments")
+                        .HasForeignKey("PaymentCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentCategory");
+                });
+
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
                 {
                     b.HasOne("WebApp.Models.Classes.Category", "Category")
@@ -486,6 +691,12 @@ namespace WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApp.Models.Classes.Payment", "Payment")
+                        .WithOne("SaleTransaction")
+                        .HasForeignKey("WebApp.Models.Classes.SaleTransaction", "PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("WebApp.Models.Classes.Product", "Product")
                         .WithMany("SaleTransactions")
                         .HasForeignKey("ProductId")
@@ -499,6 +710,8 @@ namespace WebApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Customer");
+
+                    b.Navigation("Payment");
 
                     b.Navigation("Product");
 
@@ -563,6 +776,19 @@ namespace WebApp.Migrations
             modelBuilder.Entity("WebApp.Models.Classes.Department", b =>
                 {
                     b.Navigation("Staffs");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Payment", b =>
+                {
+                    b.Navigation("Installments");
+
+                    b.Navigation("SaleTransaction")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.PaymentCategory", b =>
+                {
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>

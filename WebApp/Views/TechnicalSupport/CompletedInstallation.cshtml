@@ -19,9 +19,10 @@ else
                 <th>Müşteri</th>
                 <th>Ürün</th>
                 <th>Sorumlu</th>
-                <th>İşlem</th>
+                <th>Açıklama</th>
                 <th>İşlem Ücreti</th>
                 <th>İşlem Tarihi</th>
+                <th>İşlem </th>
 
             </tr>
         </thead>
@@ -32,9 +33,11 @@ else
                     <td>@i.Customer.CustomerName @i.Customer.CustomerSurname</td>
                     <td>@i.Product.ProductName</td>
                     <td>@i.Staff.StaffFullName</td>
-                    <td>@i.TechnicalCategory.TechnicalCategoryName</td>
+                    <td>@i.Description</td>
                     <td>@i.TransactionFee</td>
                     <td>@i.CompletionDate</td>
+
+                    <td><a href="/TechnicalSupport/CancelTech/@i.TechnicalSupportId" class="btn btn-success">Geri Al</a></td>
                 </tr>
             }
         </tbody>

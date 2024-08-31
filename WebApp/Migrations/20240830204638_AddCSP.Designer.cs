@@ -12,8 +12,8 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240826214315_initial")]
-    partial class initial
+    [Migration("20240830204638_AddCSP")]
+    partial class AddCSP
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -150,6 +150,18 @@ namespace WebApp.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Filtreli"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Filtresiz"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Cost", b =>
@@ -184,9 +196,19 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustomerId"));
 
+                    b.Property<string>("CustomerAdress")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("VarChar");
+
                     b.Property<string>("CustomerCity")
                         .IsRequired()
-                        .HasMaxLength(15)
+                        .HasMaxLength(20)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("CustomerDistrict")
+                        .IsRequired()
+                        .HasMaxLength(20)
                         .HasColumnType("VarChar");
 
                     b.Property<string>("CustomerEmail")
@@ -199,6 +221,11 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
+                    b.Property<string>("CustomerPhone")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
                     b.Property<string>("CustomerSurname")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -207,6 +234,63 @@ namespace WebApp.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            CustomerAdress = "123 Broadway",
+                            CustomerCity = "New York",
+                            CustomerDistrict = "Manhattan",
+                            CustomerEmail = "john.doe@example.com",
+                            CustomerName = "John",
+                            CustomerPhone = "1234567890",
+                            CustomerSurname = "Doe"
+                        },
+                        new
+                        {
+                            CustomerId = 2,
+                            CustomerAdress = "456 Sunset Blvd",
+                            CustomerCity = "Los Angeles",
+                            CustomerDistrict = "Hollywood",
+                            CustomerEmail = "jane.smith@example.com",
+                            CustomerName = "Jane",
+                            CustomerPhone = "0987654321",
+                            CustomerSurname = "Smith"
+                        },
+                        new
+                        {
+                            CustomerId = 3,
+                            CustomerAdress = "789 Michigan Ave",
+                            CustomerCity = "Chicago",
+                            CustomerDistrict = "Downtown",
+                            CustomerEmail = "alice.johnson@example.com",
+                            CustomerName = "Alice",
+                            CustomerPhone = "2345678901",
+                            CustomerSurname = "Johnson"
+                        },
+                        new
+                        {
+                            CustomerId = 4,
+                            CustomerAdress = "101 Main St",
+                            CustomerCity = "Houston",
+                            CustomerDistrict = "Downtown",
+                            CustomerEmail = "bob.williams@example.com",
+                            CustomerName = "Bob",
+                            CustomerPhone = "3456789012",
+                            CustomerSurname = "Williams"
+                        },
+                        new
+                        {
+                            CustomerId = 5,
+                            CustomerAdress = "202 Central Ave",
+                            CustomerCity = "Phoenix",
+                            CustomerDistrict = "Central",
+                            CustomerEmail = "carol.davis@example.com",
+                            CustomerName = "Carol",
+                            CustomerPhone = "4567890123",
+                            CustomerSurname = "Davis"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Department", b =>
@@ -228,6 +312,32 @@ namespace WebApp.Migrations
                     b.HasKey("DepartmentId");
 
                     b.ToTable("Departments");
+
+                    b.HasData(
+                        new
+                        {
+                            DepartmentId = 1,
+                            DepartmentName = "Satış",
+                            State = true
+                        },
+                        new
+                        {
+                            DepartmentId = 2,
+                            DepartmentName = "Teknik Destek",
+                            State = true
+                        },
+                        new
+                        {
+                            DepartmentId = 3,
+                            DepartmentName = "Sekreter",
+                            State = true
+                        },
+                        new
+                        {
+                            DepartmentId = 4,
+                            DepartmentName = "Müdür",
+                            State = true
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Detail", b =>
@@ -253,13 +363,13 @@ namespace WebApp.Migrations
                     b.ToTable("Details");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.InstallmentDetail", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
                 {
-                    b.Property<int>("InstallmentDetailId")
+                    b.Property<int>("InstallmentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstallmentDetailId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InstallmentId"));
 
                     b.Property<decimal>("InstallmentAmount")
                         .HasColumnType("decimal(18,2)");
@@ -267,29 +377,29 @@ namespace WebApp.Migrations
                     b.Property<DateTime>("InstallmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsPaid")
+                    b.Property<bool>("InstallmentIsPaid")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("PaymentTypeId")
+                    b.Property<int>("InstallmentPaymentType")
                         .HasColumnType("int");
 
-                    b.HasKey("InstallmentDetailId");
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("PaymentTypeId");
+                    b.HasKey("InstallmentId");
 
-                    b.ToTable("InstallmentDetail");
+                    b.HasIndex("PaymentId");
+
+                    b.ToTable("Installments");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.PaymentType", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.Payment", b =>
                 {
-                    b.Property<int>("PaymentTypeId")
+                    b.Property<int>("PaymentId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentTypeId"));
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentId"));
 
                     b.Property<decimal?>("DownPayment")
                         .HasColumnType("decimal(18,2)");
@@ -297,23 +407,67 @@ namespace WebApp.Migrations
                     b.Property<DateTime?>("FirstInstallmentDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("InstallmentMonths")
+                    b.Property<int?>("InstallmentCount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("InstallmentPeriod")
+                    b.Property<int?>("InstallmentPeriodMonths")
                         .HasColumnType("int");
 
-                    b.Property<int>("Method")
+                    b.Property<bool>("IsPaid")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("PaidPrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("PaymentCategoryId")
                         .HasColumnType("int");
 
-                    b.Property<int>("SaleTransactionId")
+                    b.Property<int?>("PaymentTypeForDownPayment")
                         .HasColumnType("int");
 
-                    b.HasKey("PaymentTypeId");
+                    b.Property<decimal?>("TotalPrice")
+                        .HasColumnType("decimal(18,2)");
 
-                    b.HasIndex("SaleTransactionId");
+                    b.HasKey("PaymentId");
 
-                    b.ToTable("PaymentTypes");
+                    b.HasIndex("PaymentCategoryId");
+
+                    b.ToTable("Payments");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.PaymentCategory", b =>
+                {
+                    b.Property<int>("PaymentCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentCategoryId"));
+
+                    b.Property<string>("PaymentCategoryName")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
+                    b.HasKey("PaymentCategoryId");
+
+                    b.ToTable("PaymentCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            PaymentCategoryId = 1,
+                            PaymentCategoryName = "Cash"
+                        },
+                        new
+                        {
+                            PaymentCategoryId = 2,
+                            PaymentCategoryName = "CreditCard"
+                        },
+                        new
+                        {
+                            PaymentCategoryId = 3,
+                            PaymentCategoryName = "Installment"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
@@ -366,6 +520,148 @@ namespace WebApp.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            Brand = "Fresh",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "apple-juice.png",
+                            ProductModel = "AJ2024",
+                            ProductName = "Apple Juice",
+                            PurchasePrice = 1.50m,
+                            SalePrice = 2.00m,
+                            State = true,
+                            Stock = 100
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            Brand = "Tropical",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "banana-smoothie.png",
+                            ProductModel = "BS2024",
+                            ProductName = "Banana Smoothie",
+                            PurchasePrice = 2.00m,
+                            SalePrice = 2.50m,
+                            State = true,
+                            Stock = 200
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            Brand = "Veggie",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "carrot-drink.png",
+                            ProductModel = "CD2024",
+                            ProductName = "Carrot Drink",
+                            PurchasePrice = 1.75m,
+                            SalePrice = 2.25m,
+                            State = true,
+                            Stock = 150
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            Brand = "Exotic",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "dragon-fruit-juice.png",
+                            ProductModel = "DFJ2024",
+                            ProductName = "Dragon Fruit Juice",
+                            PurchasePrice = 3.00m,
+                            SalePrice = 4.00m,
+                            State = true,
+                            Stock = 50
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            Brand = "Berry",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 12,
+                            ProductImage = "elderberry-wine.png",
+                            ProductModel = "EW2024",
+                            ProductName = "Elderberry Wine",
+                            PurchasePrice = 5.00m,
+                            SalePrice = 7.00m,
+                            State = true,
+                            Stock = 30
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            Brand = "Sweet",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "fig-syrup.png",
+                            ProductModel = "FS2024",
+                            ProductName = "Fig Syrup",
+                            PurchasePrice = 2.50m,
+                            SalePrice = 3.00m,
+                            State = true,
+                            Stock = 80
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            Brand = "Vine",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "grape-juice.png",
+                            ProductModel = "GJ2024",
+                            ProductName = "Grape Juice",
+                            PurchasePrice = 1.80m,
+                            SalePrice = 2.30m,
+                            State = true,
+                            Stock = 120
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            Brand = "SweetLife",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "honey-lemonade.png",
+                            ProductModel = "HL2024",
+                            ProductName = "Honey Lemonade",
+                            PurchasePrice = 2.20m,
+                            SalePrice = 2.70m,
+                            State = true,
+                            Stock = 60
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            Brand = "CoolBrew",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "iced-tea.png",
+                            ProductModel = "IT2024",
+                            ProductName = "Iced Tea",
+                            PurchasePrice = 1.70m,
+                            SalePrice = 2.20m,
+                            State = true,
+                            Stock = 90
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            Brand = "Fusion",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "juice-blend.png",
+                            ProductModel = "JB2024",
+                            ProductName = "Juice Blend",
+                            PurchasePrice = 2.00m,
+                            SalePrice = 2.60m,
+                            State = true,
+                            Stock = 70
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.SaleTransaction", b =>
@@ -376,9 +672,6 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SaleTransactionId"));
 
-                    b.Property<int>("Amount")
-                        .HasColumnType("int");
-
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
 
@@ -388,11 +681,7 @@ namespace WebApp.Migrations
                     b.Property<DateTime?>("InstallationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("PaymentStatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PaymentTypeId")
+                    b.Property<int>("PaymentId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
@@ -407,6 +696,9 @@ namespace WebApp.Migrations
                     b.Property<bool>("State")
                         .HasColumnType("bit");
 
+                    b.Property<int>("StockAmount")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalPrice")
                         .HasColumnType("decimal(18,2)");
 
@@ -414,7 +706,8 @@ namespace WebApp.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.HasIndex("PaymentTypeId");
+                    b.HasIndex("PaymentId")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 
@@ -458,6 +751,53 @@ namespace WebApp.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Staffs");
+
+                    b.HasData(
+                        new
+                        {
+                            StaffId = 1,
+                            DepartmentId = 1,
+                            StaffFullName = "Alice Brown",
+                            StaffImage = "alice-brown.png",
+                            StaffPassword = "password1",
+                            StaffUsername = "aliceb"
+                        },
+                        new
+                        {
+                            StaffId = 2,
+                            DepartmentId = 2,
+                            StaffFullName = "Bob Green",
+                            StaffImage = "bob-green.png",
+                            StaffPassword = "password2",
+                            StaffUsername = "bobg"
+                        },
+                        new
+                        {
+                            StaffId = 3,
+                            DepartmentId = 2,
+                            StaffFullName = "Charlie White",
+                            StaffImage = "charlie-white.png",
+                            StaffPassword = "password3",
+                            StaffUsername = "charliew"
+                        },
+                        new
+                        {
+                            StaffId = 4,
+                            DepartmentId = 3,
+                            StaffFullName = "Diana Black",
+                            StaffImage = "diana-black.png",
+                            StaffPassword = "password4",
+                            StaffUsername = "dianab"
+                        },
+                        new
+                        {
+                            StaffId = 5,
+                            DepartmentId = 1,
+                            StaffFullName = "Edward Blue",
+                            StaffImage = "edward-blue.png",
+                            StaffPassword = "password5",
+                            StaffUsername = "edwardb"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.TechnicalCategory", b =>
@@ -476,6 +816,23 @@ namespace WebApp.Migrations
                     b.HasKey("TechnicalCategoryId");
 
                     b.ToTable("TechnicalCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            TechnicalCategoryId = 1,
+                            TechnicalCategoryName = "Kurulum"
+                        },
+                        new
+                        {
+                            TechnicalCategoryId = 2,
+                            TechnicalCategoryName = "Bakım"
+                        },
+                        new
+                        {
+                            TechnicalCategoryId = 3,
+                            TechnicalCategoryName = "Onarım"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.TechnicalSupport", b =>
@@ -539,22 +896,26 @@ namespace WebApp.Migrations
                     b.Navigation("Bill");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.InstallmentDetail", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
                 {
-                    b.HasOne("WebApp.Models.Classes.PaymentType", null)
-                        .WithMany("InstallmentDetails")
-                        .HasForeignKey("PaymentTypeId");
-                });
-
-            modelBuilder.Entity("WebApp.Models.Classes.PaymentType", b =>
-                {
-                    b.HasOne("WebApp.Models.Classes.SaleTransaction", "SaleTransaction")
-                        .WithMany()
-                        .HasForeignKey("SaleTransactionId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                    b.HasOne("WebApp.Models.Classes.Payment", "Payment")
+                        .WithMany("Installments")
+                        .HasForeignKey("PaymentId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("SaleTransaction");
+                    b.Navigation("Payment");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Payment", b =>
+                {
+                    b.HasOne("WebApp.Models.Classes.PaymentCategory", "PaymentCategory")
+                        .WithMany("Payments")
+                        .HasForeignKey("PaymentCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PaymentCategory");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
@@ -576,9 +937,9 @@ namespace WebApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApp.Models.Classes.PaymentType", "PaymentType")
-                        .WithMany()
-                        .HasForeignKey("PaymentTypeId")
+                    b.HasOne("WebApp.Models.Classes.Payment", "Payment")
+                        .WithOne("SaleTransaction")
+                        .HasForeignKey("WebApp.Models.Classes.SaleTransaction", "PaymentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -596,7 +957,7 @@ namespace WebApp.Migrations
 
                     b.Navigation("Customer");
 
-                    b.Navigation("PaymentType");
+                    b.Navigation("Payment");
 
                     b.Navigation("Product");
 
@@ -663,9 +1024,17 @@ namespace WebApp.Migrations
                     b.Navigation("Staffs");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.PaymentType", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.Payment", b =>
                 {
-                    b.Navigation("InstallmentDetails");
+                    b.Navigation("Installments");
+
+                    b.Navigation("SaleTransaction")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.PaymentCategory", b =>
+                {
+                    b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
