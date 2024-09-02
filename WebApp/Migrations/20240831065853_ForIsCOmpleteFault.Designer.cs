@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApp.Models.Classes;
 
@@ -11,9 +12,11 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240831065853_ForIsCOmpleteFault")]
+    partial class ForIsCOmpleteFault
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -421,9 +424,6 @@ namespace WebApp.Migrations
                     b.Property<int>("InstallmentPaymentType")
                         .HasColumnType("int");
 
-                    b.Property<DateTime?>("PaymentDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("PaymentId")
                         .HasColumnType("int");
 
@@ -462,9 +462,6 @@ namespace WebApp.Migrations
 
                     b.Property<int>("PaymentCategoryId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime?>("PaymentDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int?>("PaymentTypeForDownPayment")
                         .HasColumnType("int");

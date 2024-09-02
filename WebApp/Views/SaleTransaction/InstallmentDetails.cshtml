@@ -1,0 +1,43 @@
+﻿@using WebApp.Models.Classes
+@model List<Installment>
+
+@{
+    ViewData["Title"] = "InstallmentDetails";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<br />
+<h4> Taksit Detayları </h4>
+
+<br />
+
+@if (Model == null || !Model.Any())
+{
+    <p>Ödemenin Taksiti Bulunmamaktadır.</p>
+}
+else
+{
+    <table class="table table-hover">
+        <tr>
+            <th>Tutar</th>
+            <th>Tarih</th>
+            <th>Ödenme Durumu</th>
+            <th>Ödenme Tarihi</th>
+            <th>Ödeme Türü</th>
+           
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.InstallmentAmount</td>
+                <td>@item.InstallmentDate.ToString("dd/MM/yyyy")</td>
+                <td>@(item.InstallmentIsPaid ? "Ödendi" : "Ödenmedi")</td>
+                <td>@(item.PaymentDate.HasValue ? item.PaymentDate.Value.ToString("dd/MM/yyyy HH:mm") : "Henüz Ödenmedi")</td>
+                <td>@(item.InstallmentPaymentType != 0 ? item.InstallmentPaymentType.ToString() : "Ödeme Türü Girilmemiş")</td>
+                @if(item.InstallmentIsPaid == false)
+                {
+                <td><a href="/SaleTransaction/CompleteInstallmentPayment/@item.InstallmentId" class="btn btn-light">Ödemeyi Al</a></td>
+                }
+            </tr>
+        }
+    </table>
+}

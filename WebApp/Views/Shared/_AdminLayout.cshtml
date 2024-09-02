@@ -43,45 +43,54 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                             Kategoriler
                         </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseFault" aria-expanded="false" aria-controls="collapseFault">
+                            <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                            Arıza
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" id="collapseFault" aria-labelledby="headingFault" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionFault">
+                                <a class="nav-link" href="/Fault/NewFault">Arıza Kaydı Oluştur</a>
+                                <a class="nav-link" href="/Fault/Index" >Yaklaşan İşlemler</a>
+                                <a class="nav-link" href="/Fault/CompletedFault">Tamamlanan İşlemler</a>
                             </nav>
                         </div>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
+
+                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTechSupport" aria-expanded="false" aria-controls="collapseTechSupport">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Teknik Destek
                             <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <div class="collapse" id="collapsePages" aria-labelledby="headingTwo" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
+                        <div class="collapse" id="collapseTechSupport" aria-labelledby="headingTechSupport" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionTechSupport">
+                                <a class="nav-link" href="/TechnicalSupport/Index">Yaklaşan İşlemler</a>
+                                <a class="nav-link" href="/TechnicalSupport/CompletedTech">Tamamlanan İşlemler</a>
 
-                                <a class="nav-link" href="/TechnicalSupport/Index">Yaklaşan İşlemler</a> <!-- Yeni eklenen seçenek -->
-                                <a class="nav-link" href="/TechnicalSupport/CompletedTech">Tamamlanan İşlemler</a> <!-- Yeni eklenen seçenek -->
-
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInstallation" aria-expanded="false" aria-controls="collapseInstallation">
                                     Kurulum
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                <div class="collapse" id="collapseInstallation" aria-labelledby="headingInstallation" data-parent="#sidenavAccordionTechSupport">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="/TechnicalSupport/Installation">Yaklaşan Kurulumlar</a>
                                         <a class="nav-link" href="/TechnicalSupport/CompletedInstallation">Tamamlanan Kurulumlar</a>
                                     </nav>
                                 </div>
-                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
+                                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMaintenance" aria-expanded="false" aria-controls="collapseMaintenance">
                                     Bakım
                                     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                 </a>
-                                <div class="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages">
+                                <div class="collapse" id="collapseMaintenance" aria-labelledby="headingMaintenance" data-parent="#sidenavAccordionTechSupport">
                                     <nav class="sb-sidenav-menu-nested nav">
                                         <a class="nav-link" href="/TechnicalSupport/Maintenance">Yaklaşan Bakımlar</a>
-                                        <a class="nav-link" href="/TechnicalSupport/CompletedMaintenance">Tamamlanan  Bakımlar</a>
+                                        <a class="nav-link" href="/TechnicalSupport/CompletedMaintenance">Tamamlanan Bakımlar</a>
                                     </nav>
                                 </div>
                             </nav>
                         </div>
+
+
+
 
                         <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                             <nav class="sb-sidenav-menu-nested nav">

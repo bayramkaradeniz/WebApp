@@ -16,6 +16,7 @@ namespace WebApp.Models.Classes
         public int PaymentId { get; set; }
 
         public decimal? TotalPrice { get; set; }
+        public DateTime? PaymentDate { get; set; }
 
         public decimal? PaidPrice { get; set; }
         public decimal? DownPayment { get; set; }

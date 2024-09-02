@@ -30,11 +30,11 @@ namespace WebApp.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult NewStaff(Staff stf) 
-        { 
+        public IActionResult NewStaff(Staff stf)
+        {
             _context.Staffs.Add(stf);
-            _context.SaveChanges(); 
-            return RedirectToAction("Index"); 
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
         public IActionResult Remove(int id)
         {
@@ -60,13 +60,18 @@ namespace WebApp.Controllers
         {
             var stf = _context.Staffs.Find(staff.StaffId);
 
-            stf.StaffFullName=staff.StaffFullName;
-            stf.StaffUsername=staff.StaffUsername;
-            stf.StaffPassword=staff.StaffPassword;
-            stf.StaffImage=staff.StaffImage;
-            stf.DepartmentId=staff.DepartmentId;
+            stf.StaffFullName = staff.StaffFullName;
+            stf.StaffUsername = staff.StaffUsername;
+            stf.StaffPassword = staff.StaffPassword;
+            stf.StaffImage = staff.StaffImage;
+            stf.DepartmentId = staff.DepartmentId;
             _context.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public IActionResult StaffList()
+        {
+            var stf = _context.Staffs.Include(x => x.Department).ToList();
+            return View(stf);
         }
     }
 }

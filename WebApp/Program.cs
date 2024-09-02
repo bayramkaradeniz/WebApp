@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using WebApp.Models.Classes;
@@ -31,6 +32,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "title",
-    pattern: "{controller=SaleTransaction}/{action=NewSale}/{id?}");
+    pattern: "{controller=Staff}/{action=StaffList}/{id?}");
 
 app.Run();

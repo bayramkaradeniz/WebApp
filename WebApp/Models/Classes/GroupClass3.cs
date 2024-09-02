@@ -1,8 +1,8 @@
 ﻿namespace WebApp.Models.Classes
 {
-    public class GroupClass2
+    public class GroupClass3
     {
-        public string Departman { get; set; }
+        public string Brand { get; set; }
         public int Count { get; set; }
     }
 }

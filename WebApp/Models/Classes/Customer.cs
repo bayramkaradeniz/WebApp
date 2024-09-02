@@ -36,5 +36,6 @@ namespace WebApp.Models.Classes
 
 
         public ICollection<SaleTransaction> SaleTransactions { get; set; }
+        public ICollection<Fault> Faults { get; set; }
     }
 }

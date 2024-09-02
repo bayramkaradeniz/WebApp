@@ -1,0 +1,33 @@
+﻿@model IEnumerable< WebApp.Models.Classes.GroupClass3>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Striped Full Width Table</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Marka</th>
+                    <th>Sayı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int no = 0;
+                }
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@{no++;}@no </td>
+                        <td>@item.Brand</td>
+                        <td>@item.Count</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>

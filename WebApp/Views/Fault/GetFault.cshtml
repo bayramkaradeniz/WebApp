@@ -1,0 +1,35 @@
+﻿@model WebApp.Models.Classes.Fault
+@{
+    ViewData["Title"] = "GetFault";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br />
+<h1>Arıza Durumu Güncelleme</h1>
+<br />
+@using (Html.BeginForm("UpdateFault", "Fault", FormMethod.Post))
+{
+    @Html.HiddenFor(x => x.FaultId)
+
+    <div class="form-group">
+        @Html.LabelFor(x => x.StaffId)
+        @Html.DropDownListFor(x => x.StaffId, (IEnumerable<SelectListItem>)ViewBag.valueFS, new { @class = "form-control" })
+        <br />
+
+        @Html.Label("Müşteri") <!-- Customer Name -->
+        @Html.TextBox("Customer FullName", Model.Customer.CustomerName + " " + Model.Customer.CustomerSurname , new { @class = "form-control", @readonly = "readonly" })
+        <br />
+
+        @Html.Label("Ürün") <!-- Product Name and Model -->
+        @Html.TextBox("ProductName", Model.Product.ProductName, new { @class = "form-control", @readonly = "readonly" })
+        <br />
+        <br />
+        @Html.LabelFor(x => x.Status)
+        @Html.DropDownListFor(x => x.Status, (IEnumerable<SelectListItem>)ViewBag.valuePD, new { @class = "form-control" })
+        <br />
+        @Html.LabelFor(x => x.Description)
+        @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+
+        <button class="btn btn-outline-warning">Güncelle</button>
+    </div>
+}

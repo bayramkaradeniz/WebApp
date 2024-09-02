@@ -17,6 +17,7 @@ namespace WebApp.Models.Classes
         public DbSet<Cost> Costs { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Detail> Details { get; set; }
+        public DbSet<Fault> Faults { get; set; }
         public DbSet<Installment> Installments { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Payment> Payments { get; set; }
@@ -25,11 +26,15 @@ namespace WebApp.Models.Classes
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<TechnicalCategory> TechnicalCategories { get; set; }
         public DbSet<TechnicalSupport> TechnicalSupports { get; set; }
+        public DbSet<Todo> Todos { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
+
 
             // Kategoriler için başlangıç verilerini ekleme
             modelBuilder.Entity<Department>().HasData(

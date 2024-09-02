@@ -1,23 +1,40 @@
 ﻿@model IEnumerable< WebApp.Models.Classes.GroupClass2>
 
-<table>
-    <tr>
-        <td>
-            Departman
-        </td>
-        <td>
-            Adet
-        </td>
-    </tr>
-    @foreach(var i in Model)
-    {
-        <tr>
-            <td>
-                @i.Departman
-            </td>
-            <td>
-                @i.Count
-            </td>
-        </tr>
-    }
-</table>
+<div class="card">
+    <div class="card-header">
+        <h3 class="card-title">Departman&Çalışan</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body p-0">
+        <table class="table table-sm">
+            <thead>
+                <tr>
+                    <th style="width: 10px">#</th>
+                    <th>Departman</th>
+                    <th>Progress</th>
+                    <th style="width: 40px">Çalışan Sayısı</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int no = 0;
+                }
+                @foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@{no++;}@no</td>
+                        <td>@i.Departman</td>
+                        <td>
+                            <div class="progress progress-xs">
+                                <div class="progress-bar progress-bar-danger" style="width: 55%"></div>
+                            </div>
+                        </td>
+                        <td><span class="badge bg-danger">@i.Count</span></td>
+                    </tr>
+                }
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.card-body -->
+</div>

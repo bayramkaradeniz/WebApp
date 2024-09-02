@@ -24,5 +24,6 @@ namespace WebApp.Models.Classes
         public  Department Department { get; set; }
 
         public ICollection<SaleTransaction> SaleTransactions { get; set; }
+        public ICollection<Fault> Faults { get; set; }
     }
 }

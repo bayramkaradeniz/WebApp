@@ -91,11 +91,15 @@ namespace WebApp.Controllers
                 saleTransaction.Payment.IsPaid = true;
                 saleTransaction.Payment.PaidPrice = saleTransaction.TotalPrice;
                 saleTransaction.Payment.Installments = null;
-            }else
+                saleTransaction.Payment.TotalPrice = saleTransaction.TotalPrice;
+                saleTransaction.Payment.PaymentDate = DateTime.Now;
+            }
+            else
             {
                 // Taksitli ödeme hesaplamaları
                 decimal downPayment = saleTransaction.Payment.DownPayment ?? 0;
                 saleTransaction.Payment.PaidPrice = downPayment;
+                saleTransaction.Payment.TotalPrice = saleTransaction.TotalPrice;
                 decimal amountPerInstallment = (saleTransaction.TotalPrice - downPayment) / saleTransaction.Payment.InstallmentCount.Value;
 
                 saleTransaction.Payment.Installments = new List<Installment>();
@@ -192,10 +196,46 @@ namespace WebApp.Controllers
         }
         public IActionResult PaymentDetails(int id)
         {
-            var values = _context.SaleTransactions.Include(x => x.Product).Include(x => x.Customer).Include(x => x.Staff).Where(x => x.SaleTransactionId == id).ToList();
+            var values = _context.SaleTransactions.Include(x => x.Payment).ThenInclude(x => x.PaymentCategory).Where(x => x.SaleTransactionId == id).ToList();
             return View(values);
         }
+        public IActionResult InstallmentDetails(int id)
+        {
+            var values = _context.Installments.Where(x => x.PaymentId == id).ToList();
+            return View(values);
+        }
+        [HttpGet]
+        public IActionResult CompleteInstallmentPayment(int id)
+        {
 
+            var valuePD = Enum.GetValues(typeof(InstallmentPaymentType))
+       .Cast<PaymentTypeForDownPayment>()
+       .Select(e => new SelectListItem
+       {
+           Text = e.ToString(), // Enum değerinin ismini kullanıyoruz
+           Value = ((int)e).ToString() // Enum değerinin int karşılığını kullanıyoruz
+       })
+       .ToList();
+            ViewBag.valuePD = valuePD;
+            var ins = _context.Installments.Find(id);
+            return View("CompleteInstallmentPayment", ins);
+        }
+        [HttpPost]
+        public IActionResult CompleteInstallmentPayment(Installment installment)
+        {
+            var ins = _context.Installments.Find(installment.InstallmentId);
+            var pay = _context.Payments.Find(ins.PaymentId);
+
+            ins.InstallmentIsPaid= true;
+            ins.InstallmentPaymentType = installment.InstallmentPaymentType;
+            pay.PaidPrice += ins.InstallmentAmount;
+            ins.PaymentDate=DateTime.Now;
+
+            _context.SaveChanges();
+
+            return RedirectToAction("PaymentDetails", new { id = ins.PaymentId });
+
+        }
 
     }
 }

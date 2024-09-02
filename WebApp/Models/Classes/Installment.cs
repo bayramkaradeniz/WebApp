@@ -16,6 +16,7 @@ namespace WebApp.Models.Classes
 
         public decimal InstallmentAmount { get; set; }
         public DateTime InstallmentDate { get; set; }
+        public DateTime? PaymentDate { get; set; }
 
         // Indicates if the installment has been paid
         public bool InstallmentIsPaid { get; set; }

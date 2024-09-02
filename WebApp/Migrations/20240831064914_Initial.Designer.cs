@@ -12,7 +12,7 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240830204104_Initial")]
+    [Migration("20240831064914_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -234,6 +234,63 @@ namespace WebApp.Migrations
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
+
+                    b.HasData(
+                        new
+                        {
+                            CustomerId = 1,
+                            CustomerAdress = "123 Broadway",
+                            CustomerCity = "New York",
+                            CustomerDistrict = "Manhattan",
+                            CustomerEmail = "john.doe@example.com",
+                            CustomerName = "John",
+                            CustomerPhone = "1234567890",
+                            CustomerSurname = "Doe"
+                        },
+                        new
+                        {
+                            CustomerId = 2,
+                            CustomerAdress = "456 Sunset Blvd",
+                            CustomerCity = "Los Angeles",
+                            CustomerDistrict = "Hollywood",
+                            CustomerEmail = "jane.smith@example.com",
+                            CustomerName = "Jane",
+                            CustomerPhone = "0987654321",
+                            CustomerSurname = "Smith"
+                        },
+                        new
+                        {
+                            CustomerId = 3,
+                            CustomerAdress = "789 Michigan Ave",
+                            CustomerCity = "Chicago",
+                            CustomerDistrict = "Downtown",
+                            CustomerEmail = "alice.johnson@example.com",
+                            CustomerName = "Alice",
+                            CustomerPhone = "2345678901",
+                            CustomerSurname = "Johnson"
+                        },
+                        new
+                        {
+                            CustomerId = 4,
+                            CustomerAdress = "101 Main St",
+                            CustomerCity = "Houston",
+                            CustomerDistrict = "Downtown",
+                            CustomerEmail = "bob.williams@example.com",
+                            CustomerName = "Bob",
+                            CustomerPhone = "3456789012",
+                            CustomerSurname = "Williams"
+                        },
+                        new
+                        {
+                            CustomerId = 5,
+                            CustomerAdress = "202 Central Ave",
+                            CustomerCity = "Phoenix",
+                            CustomerDistrict = "Central",
+                            CustomerEmail = "carol.davis@example.com",
+                            CustomerName = "Carol",
+                            CustomerPhone = "4567890123",
+                            CustomerSurname = "Davis"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Department", b =>
@@ -304,6 +361,44 @@ namespace WebApp.Migrations
                     b.HasKey("DetailId");
 
                     b.ToTable("Details");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Fault", b =>
+                {
+                    b.Property<int>("FaultId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FaultId"));
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("FaultId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("Faults");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
@@ -463,6 +558,148 @@ namespace WebApp.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            Brand = "Fresh",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "apple-juice.png",
+                            ProductModel = "AJ2024",
+                            ProductName = "Apple Juice",
+                            PurchasePrice = 1.50m,
+                            SalePrice = 2.00m,
+                            State = true,
+                            Stock = 100
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            Brand = "Tropical",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "banana-smoothie.png",
+                            ProductModel = "BS2024",
+                            ProductName = "Banana Smoothie",
+                            PurchasePrice = 2.00m,
+                            SalePrice = 2.50m,
+                            State = true,
+                            Stock = 200
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            Brand = "Veggie",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "carrot-drink.png",
+                            ProductModel = "CD2024",
+                            ProductName = "Carrot Drink",
+                            PurchasePrice = 1.75m,
+                            SalePrice = 2.25m,
+                            State = true,
+                            Stock = 150
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            Brand = "Exotic",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "dragon-fruit-juice.png",
+                            ProductModel = "DFJ2024",
+                            ProductName = "Dragon Fruit Juice",
+                            PurchasePrice = 3.00m,
+                            SalePrice = 4.00m,
+                            State = true,
+                            Stock = 50
+                        },
+                        new
+                        {
+                            ProductId = 5,
+                            Brand = "Berry",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 12,
+                            ProductImage = "elderberry-wine.png",
+                            ProductModel = "EW2024",
+                            ProductName = "Elderberry Wine",
+                            PurchasePrice = 5.00m,
+                            SalePrice = 7.00m,
+                            State = true,
+                            Stock = 30
+                        },
+                        new
+                        {
+                            ProductId = 6,
+                            Brand = "Sweet",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "fig-syrup.png",
+                            ProductModel = "FS2024",
+                            ProductName = "Fig Syrup",
+                            PurchasePrice = 2.50m,
+                            SalePrice = 3.00m,
+                            State = true,
+                            Stock = 80
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            Brand = "Vine",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "grape-juice.png",
+                            ProductModel = "GJ2024",
+                            ProductName = "Grape Juice",
+                            PurchasePrice = 1.80m,
+                            SalePrice = 2.30m,
+                            State = true,
+                            Stock = 120
+                        },
+                        new
+                        {
+                            ProductId = 8,
+                            Brand = "SweetLife",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "honey-lemonade.png",
+                            ProductModel = "HL2024",
+                            ProductName = "Honey Lemonade",
+                            PurchasePrice = 2.20m,
+                            SalePrice = 2.70m,
+                            State = true,
+                            Stock = 60
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            Brand = "CoolBrew",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "iced-tea.png",
+                            ProductModel = "IT2024",
+                            ProductName = "Iced Tea",
+                            PurchasePrice = 1.70m,
+                            SalePrice = 2.20m,
+                            State = true,
+                            Stock = 90
+                        },
+                        new
+                        {
+                            ProductId = 10,
+                            Brand = "Fusion",
+                            CategoryId = 1,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "juice-blend.png",
+                            ProductModel = "JB2024",
+                            ProductName = "Juice Blend",
+                            PurchasePrice = 2.00m,
+                            SalePrice = 2.60m,
+                            State = true,
+                            Stock = 70
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.SaleTransaction", b =>
@@ -552,6 +789,53 @@ namespace WebApp.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Staffs");
+
+                    b.HasData(
+                        new
+                        {
+                            StaffId = 1,
+                            DepartmentId = 1,
+                            StaffFullName = "Alice Brown",
+                            StaffImage = "alice-brown.png",
+                            StaffPassword = "password1",
+                            StaffUsername = "aliceb"
+                        },
+                        new
+                        {
+                            StaffId = 2,
+                            DepartmentId = 2,
+                            StaffFullName = "Bob Green",
+                            StaffImage = "bob-green.png",
+                            StaffPassword = "password2",
+                            StaffUsername = "bobg"
+                        },
+                        new
+                        {
+                            StaffId = 3,
+                            DepartmentId = 2,
+                            StaffFullName = "Charlie White",
+                            StaffImage = "charlie-white.png",
+                            StaffPassword = "password3",
+                            StaffUsername = "charliew"
+                        },
+                        new
+                        {
+                            StaffId = 4,
+                            DepartmentId = 3,
+                            StaffFullName = "Diana Black",
+                            StaffImage = "diana-black.png",
+                            StaffPassword = "password4",
+                            StaffUsername = "dianab"
+                        },
+                        new
+                        {
+                            StaffId = 5,
+                            DepartmentId = 1,
+                            StaffFullName = "Edward Blue",
+                            StaffImage = "edward-blue.png",
+                            StaffPassword = "password5",
+                            StaffUsername = "edwardb"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.TechnicalCategory", b =>
@@ -648,6 +932,33 @@ namespace WebApp.Migrations
                         .IsRequired();
 
                     b.Navigation("Bill");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Fault", b =>
+                {
+                    b.HasOne("WebApp.Models.Classes.Customer", "Customer")
+                        .WithMany("Faults")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.Classes.Product", "Product")
+                        .WithMany("Faults")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.Classes.Staff", "Staff")
+                        .WithMany("Faults")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Staff");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
@@ -770,6 +1081,8 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Classes.Customer", b =>
                 {
+                    b.Navigation("Faults");
+
                     b.Navigation("SaleTransactions");
                 });
 
@@ -793,11 +1106,15 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
                 {
+                    b.Navigation("Faults");
+
                     b.Navigation("SaleTransactions");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Staff", b =>
                 {
+                    b.Navigation("Faults");
+
                     b.Navigation("SaleTransactions");
                 });
 

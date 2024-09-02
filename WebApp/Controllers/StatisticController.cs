@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApp.Models.Classes;
 
 namespace WebApp.Controllers
@@ -87,7 +88,7 @@ namespace WebApp.Controllers
         public PartialViewResult PartialDep()
         {
             var y = _context.Staffs
-                .GroupBy(c => c.DepartmentId)
+                .GroupBy(c => c.Department.DepartmentName)
                 .Select(g => new GroupClass2
                 {
                     Departman = g.Key,
@@ -96,6 +97,30 @@ namespace WebApp.Controllers
                 .ToList(); // y: List<GroupClass2>
 
             return PartialView("PartialDep", y);
+        }
+        public PartialViewResult PartialPep()
+        {
+            var y = _context.Customers.ToList(); 
+
+            return PartialView("PartialPep", y);
+        }
+        public PartialViewResult PartialTep()
+        {
+            var products = _context.Products.Include(x => x.Category).ToList();
+
+            return PartialView("PartialTep", products);
+        }
+        public PartialViewResult PartialMep()
+        {
+            var y = _context.Products
+                .GroupBy(c => c.Brand)
+                .Select(g => new GroupClass3
+                {
+                    Brand = g.Key,
+                    Count = g.Count()
+                })
+                .ToList(); // y: List<GroupClass2>
+            return PartialView("PartialMep", y);
         }
 
 

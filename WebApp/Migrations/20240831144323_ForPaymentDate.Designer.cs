@@ -12,8 +12,8 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240830204638_AddCSP")]
-    partial class AddCSP
+    [Migration("20240831144323_ForPaymentDate")]
+    partial class ForPaymentDate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -363,6 +363,47 @@ namespace WebApp.Migrations
                     b.ToTable("Details");
                 });
 
+            modelBuilder.Entity("WebApp.Models.Classes.Fault", b =>
+                {
+                    b.Property<int>("FaultId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FaultId"));
+
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsComplete")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("FaultId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("StaffId");
+
+                    b.ToTable("Faults");
+                });
+
             modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
                 {
                     b.Property<int>("InstallmentId")
@@ -382,6 +423,9 @@ namespace WebApp.Migrations
 
                     b.Property<int>("InstallmentPaymentType")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("PaymentId")
                         .HasColumnType("int");
@@ -421,6 +465,9 @@ namespace WebApp.Migrations
 
                     b.Property<int>("PaymentCategoryId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int?>("PaymentTypeForDownPayment")
                         .HasColumnType("int");
@@ -896,6 +943,33 @@ namespace WebApp.Migrations
                     b.Navigation("Bill");
                 });
 
+            modelBuilder.Entity("WebApp.Models.Classes.Fault", b =>
+                {
+                    b.HasOne("WebApp.Models.Classes.Customer", "Customer")
+                        .WithMany("Faults")
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.Classes.Product", "Product")
+                        .WithMany("Faults")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApp.Models.Classes.Staff", "Staff")
+                        .WithMany("Faults")
+                        .HasForeignKey("StaffId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Staff");
+                });
+
             modelBuilder.Entity("WebApp.Models.Classes.Installment", b =>
                 {
                     b.HasOne("WebApp.Models.Classes.Payment", "Payment")
@@ -1016,6 +1090,8 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Classes.Customer", b =>
                 {
+                    b.Navigation("Faults");
+
                     b.Navigation("SaleTransactions");
                 });
 
@@ -1039,11 +1115,15 @@ namespace WebApp.Migrations
 
             modelBuilder.Entity("WebApp.Models.Classes.Product", b =>
                 {
+                    b.Navigation("Faults");
+
                     b.Navigation("SaleTransactions");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Staff", b =>
                 {
+                    b.Navigation("Faults");
+
                     b.Navigation("SaleTransactions");
                 });
 

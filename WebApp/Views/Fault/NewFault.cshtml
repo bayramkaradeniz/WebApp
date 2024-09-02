@@ -1,0 +1,25 @@
+﻿@model WebApp.Models.Classes.Fault
+
+@{
+    ViewData["Title"] = "NewFault";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h1>Yeni Arıza Kaydı Oluştur</h1>
+@using (Html.BeginForm("NewFault", "Fault", FormMethod.Post))
+{
+    @Html.Label("Ürün")
+    @Html.DropDownListFor(x => x.ProductId, (List<SelectListItem>)ViewBag.valueFP, new { @class = "form-control" })
+    <br />
+    @Html.Label("Müşteri")
+    @Html.DropDownListFor(x => x.CustomerId, (List<SelectListItem>)ViewBag.valueFC, new { @class = "form-control" })
+    <br />
+    @Html.Label("Satış Sorumlusu")
+    @Html.DropDownListFor(x => x.StaffId, (List<SelectListItem>)ViewBag.valueFS, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Description)
+    @Html.TextBoxFor(x => x.Description, new { @class = "form-control" })
+    <br />
+
+    <button type="submit" class="btn btn-outline-primary">Satış Yap</button>
+}

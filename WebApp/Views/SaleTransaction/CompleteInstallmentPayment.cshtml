@@ -1,0 +1,31 @@
+﻿@model WebApp.Models.Classes.Installment
+
+@{
+    ViewData["Title"] = "CompleteInstallmentPayment";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<br/>
+<h4>Ödeme Al</h4>
+<br />
+@using (Html.BeginForm("CompleteInstallmentPayment", "SaleTransaction", FormMethod.Post))
+{
+    <div class="form-group">
+
+        @Html.HiddenFor(x => x.InstallmentId)
+        @Html.HiddenFor(x => x.InstallmentAmount)
+        <br />
+        @Html.Label("Tutar") <!-- Customer Name -->
+        @Html.TextBox("Tutar",Model.InstallmentAmount , new { @class = "form-control", @readonly = "readonly" })
+        <br />@Html.Label("Taksit Tarihi") <!-- Customer Name -->
+        @Html.TextBox("Tutar",Model.InstallmentDate , new { @class = "form-control", @readonly = "readonly" })
+        <br />
+        @Html.LabelFor(x => x.InstallmentPaymentType)
+        @Html.DropDownListFor(x => x.InstallmentPaymentType, (List<SelectListItem>)ViewBag.valuePD, new { @class = "form-control" })
+        <br />
+
+        <button class="btn btn-outline-warning">Güncelle</button>
+    </div>
+}
+
+
