@@ -9,7 +9,7 @@ namespace WebApp.Models.Classes
         public int ToDoID { get; set; }
         [Column(TypeName = "VarChar")]
         [StringLength(300)]
-        public string TodoDescription { get; set; }]
+        public string TodoDescription { get; set; }
         public bool State { get; set; }
     }
 }

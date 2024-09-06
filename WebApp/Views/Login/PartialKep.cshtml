@@ -1,0 +1,23 @@
+﻿<div class="login-form login-form-left">
+	<div class="agile-row">
+		<h3>Kayıt Formu</h3>
+		<div class="login-agileits-top">
+			<form action="@Url.Action("PartialKep", "Login")" method="post">
+  
+				<input type="text" class="name" name="CustomerName" Placeholder="İsim" required="" />
+				<input type="text" class="name" name="CustomerSurname" Placeholder=" Soyisim" required="" />
+				<input type="email" class="email" name="CustomerEmail" Placeholder="Mail" required="" />
+				<input type="text" class="name" name="CustomerPhone" Placeholder="Telefon" required="" />
+				<input type="text" class="name" name="CustomerCity" Placeholder="İl" required="" />
+				<input type="text" class="name" name="CustomerDistrict" Placeholder="İlçe" required="" />
+				<input type="text" class="name" name="CustomerAdress" Placeholder="Adres" required="" />
+				<input type="text" class="name" name="CustomerUserName" Placeholder="Kulanıcı Adı" required="" />
+				<input type="password" class="name" name="CustomerPassword" Placeholder="Şifre" required="" />
+				<div class="login-check">
+					<label class="checkbox"><input type="checkbox" name="checkbox" checked=""><i> </i> Okudum.<a href="#">Onaylıyorum.</a></label>
+				</div>
+				<input type="submit" value="Kayıt Ol">
+			</form>
+		</div>
+	</div>
+</div>

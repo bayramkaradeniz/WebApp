@@ -62,9 +62,14 @@ namespace WebApp.Controllers
         [HttpPost]
         public IActionResult NewItem(BillItem billItem)
         {
+            billItem.Total = billItem.Amount * billItem.UnitPrice;
+
             _context.BillItems.Add(billItem);
             _context.SaveChanges();
+
+            // İşlemden sonra Index sayfasına yönlendir
             return RedirectToAction("Index");
         }
+
     }
 }

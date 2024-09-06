@@ -45,7 +45,9 @@ else
                     <td>@i.StaffFullName</td>
                     <td>@i.StaffUsername</td>
                     <td>@i.StaffPassword</td>
-                    <td>@i.StaffImage</td>
+                    <td>
+                        <img src="@i.StaffImage" style="width:100px; height=100px;" />
+                    </td>
                     <td>@i.Department.DepartmentName</td>
 
                     <td><a href="/Staff/Remove/@i.StaffId" class="btn btn-danger">Sil</a></td>

@@ -1,0 +1,30 @@
+﻿@using WebApp.Models.Classes
+@model List<SaleTransaction>
+
+@{
+    ViewData["Title"] = "MyOrders";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+
+<br />
+
+<h4>Satın Alınanlar</h4>
+<br />
+
+<table class="table table-bordered" style="margin-left:20px">
+    <thead>
+    <th>Ürün</th>
+    <th>Fiyat</th>
+    <th>Tarih</th>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Product.ProductName</td>
+                <td>@item.Payment.TotalPrice</td>
+                <td>@item.Date</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,46 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+
+<div style="display: flex; flex-direction: column; align-items: center; margin-right: 100px;">
+    <br />
+    <h4>AlertIndex</h4>
+    <br />
+    <button class="btn btn-warning" id="btn" style="color: black; width: 200px;">Button</button>
+    <br />
+    <button class="btn btn-warning" id="btn1" style="color: black; width: 200px;">Button1</button>
+</div>
+<script>
+    $('#btn').click(function () {
+        Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Çok güzelsiniz Hanımefendi !!!",
+            footer: '<a href="#">Why do I have this issue?</a>'
+        });
+    });
+</script>
+
+<script>
+    $('#btn1').click(function () {
+        Swal.fire({
+            title: "Do you want to save the changes?",
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: "Save",
+            denyButtonText: `Don't save`
+        }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                Swal.fire("Saved!", "", "success");
+            } else if (result.isDenied) {
+                Swal.fire("Changes are not saved", "", "info");
+            }
+        });
+    });
+</script>

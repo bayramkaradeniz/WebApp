@@ -1,0 +1,76 @@
+﻿@model WebApp.Models.Classes.SaleTransaction
+
+@{
+    ViewData["Title"] = "SellProduct";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h4>Yeni Satış Sayfası</h4>
+@using (Html.BeginForm("SellProduct", "Product", FormMethod.Post))
+{
+
+    <br />
+    @Html.Label("Ürün Id")
+    <input type="text" name="ProductId" value="@ViewBag.pro" class="form-control " readonly />
+    <br />
+    @Html.Label("Satış Sorumlusu")
+    @Html.DropDownListFor(x => x.StaffId, (List<SelectListItem>)ViewBag.valueFS, new { @class = "form-control" })
+    <br />
+    @Html.Label("Müşteri")
+    @Html.TextBoxFor(x => x.CustomerId, new { @class = "form-control" })
+    <br />
+    @Html.Label("Satış Fiyatı")
+    <input type="text" name="Price" value="@ViewBag.pri" class="form-control" id="Price" />
+    <br />
+    @Html.LabelFor(x => x.StockAmount)
+    <input type="number" class="form-control" name="StockAmount" min="0" id="Amount" placeholder="Adet Girin" />
+    <br />
+    @Html.LabelFor(x => x.TotalPrice)
+    @Html.TextBoxFor(x => x.TotalPrice, new { @class = "form-control", id = "TotalPrice",  })
+<br />
+    @Html.LabelFor(x => x.InstallationDate, "Rezervasyon Tarihi ve Saati")
+    @Html.TextBoxFor(x => x.InstallationDate, "{0:yyyy-MM-ddTHH:mm}", new { @class = "form-control", @type = "datetime-local" })
+    <br />
+
+
+    @Html.Label("Ödeme Yöntemi")
+    @Html.DropDownListFor(x => x.Payment.PaymentCategoryId, (List<SelectListItem>)ViewBag.valuePM, new { @class = "form-control" })
+
+    <br />
+
+
+    @Html.LabelFor(x => x.Payment.DownPayment, "Peşinat (Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.DownPayment, new { @class = "form-control" })
+    <br />
+    @Html.Label("Peşinatın Ödeme Türü(Sadece Taksit Seçildiğinde)")
+    @Html.DropDownListFor(x => x.Payment.PaymentTypeForDownPayment, (List<SelectListItem>)ViewBag.valuePD, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Payment.InstallmentCount, "Taksit Sayısı(Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.InstallmentCount, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Payment.InstallmentPeriodMonths, "Taksit Dönemi (Taksitler Kaç Ayda Bir Ödenecek)(Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.InstallmentPeriodMonths, new { @class = "form-control" })
+    <br />
+    @Html.LabelFor(x => x.Payment.FirstInstallmentDate, "İlk Taksit Tarihi(Sadece Taksit Seçildiğinde)")
+    @Html.TextBoxFor(x => x.Payment.FirstInstallmentDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+
+
+    <button type="submit" class="btn btn-outline-primary">Satış Yap</button>
+}
+
+<script>
+    function calculateTotalPrice() {
+        var amount = parseFloat(document.getElementById('Amount').value) || 0;
+        var price = parseFloat(document.getElementById('Price').value.replace(',', '.')) || 0;  // Virgülü noktaya çeviriyoruz
+        var totalPrice = amount * price;
+
+        // Türkçe formatında virgülle ayırarak göster
+        document.getElementById('TotalPrice').value = totalPrice.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    document.getElementById('Amount').oninput = calculateTotalPrice;
+    document.getElementById('Price').oninput = calculateTotalPrice;
+
+
+</script>
+

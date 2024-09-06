@@ -33,9 +33,15 @@ namespace WebApp.Models.Classes
         [Column(TypeName = "VarChar")]
         [StringLength(200)]
         public string CustomerAdress { get; set; }
+		[Column(TypeName = "VarChar")]
+		[StringLength(20)]
+		public string? CustomerUserName { get; set; }
+		[Column(TypeName = "VarChar")]
+		[StringLength(20)]
+		public string? CustomerPassword { get; set; }
 
 
-        public ICollection<SaleTransaction> SaleTransactions { get; set; }
+		public ICollection<SaleTransaction> SaleTransactions { get; set; }
         public ICollection<Fault> Faults { get; set; }
     }
 }

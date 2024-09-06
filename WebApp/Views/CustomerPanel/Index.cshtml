@@ -1,0 +1,42 @@
+﻿@model WebApp.Models.Classes.Customer
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<br />
+<h4>Welcome</h4>
+
+@using (Html.BeginForm("Index2", "CustomerPanel", FormMethod.Post))
+{
+    <table class=" table table-borderless">
+        <tr>
+            <td>
+                <label>
+                    Kullanıcı Adı :
+                    <span>@User.Identity.Name</span> <!-- Giriş yapan kullanıcının adı -->
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(x => x.CustomerName, new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(x => x.CustomerSurname, new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(x => x.CustomerUserName, new { @class = "form-control" })
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @Html.TextBoxFor(x => x.CustomerPassword, new { @class = "form-control" })
+            </td>
+        </tr>
+    </table>
+    <button class="btn btn-warning">Bilgilerimi Güncelle</button>
+}

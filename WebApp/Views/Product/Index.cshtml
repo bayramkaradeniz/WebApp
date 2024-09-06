@@ -26,7 +26,6 @@ else
     <table id="product" class="table table-bordered" style="margin-top:20px">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>İsim</th>
                 <th>Marka</th>
                 <th>Stok</th>
@@ -36,15 +35,16 @@ else
                 <th>Durum</th>
                 <th>Periyot</th>
                 <th>Kategori</th>
-                <th>Sil</th>
-                <th>Güncelle</th>
+                <th>İşlem</th>
+                <th>İşlem</th>
+                <th>İşlem</th>
+               
             </tr>
         </thead>
         <tbody>
             @foreach (var i in Model)
             {
                 <tr>
-                    <td>@i.ProductId</td>
                     <td>@i.ProductName</td>
                     <td>@i.Brand</td>
                     <td>@i.Stock</td>
@@ -56,6 +56,7 @@ else
                     <td>@(i.Category.CategoryName)</td>
                     <td><a href="/Product/Remove/@i.ProductId" class="btn btn-danger">Sil</a></td>
                     <td><a href="/Product/GetProduct/@i.ProductId" class="btn btn-success">Güncelle</a></td>
+                    <td><a href="/Product/SellProduct/@i.ProductId" class="btn btn-default style="background-color:aqua">Satışını Yap</a></td>
                 </tr>
             }
         </tbody>

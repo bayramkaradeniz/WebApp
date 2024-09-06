@@ -1,9 +1,15 @@
 ﻿@using WebApp.Models.Classes
-@model List<Category>
+@using Microsoft.AspNetCore.Mvc;
+@using X.PagedList
+@using X.Web.PagedList
+
+@model IPagedList<Category> // Model tipi IPagedList
+
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
+
 <h4>Kategori Listesi</h4>
 <table id="category" class="table table-bordered" style="margin-top:20px">
     <thead>
@@ -24,17 +30,32 @@
         }
     </tbody>
 </table>
+
+<!-- Sayfa numaralarını ortalayan ve düzenleyen PagedListPager -->
+<div class="text-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+
 <a href="/Category/NewCategory" class="btn btn-dark">Yeni Kategori</a>
 
+<!-- CSS ve DataTables script'leri -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
-
 <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script>
-
-
     $('#category').dataTable({});
-
 </script>
+
+<!-- Pagination düzeni için eklenen stil -->
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+        .pagination li {
+            margin: 0 5px;
+        }
+</style>

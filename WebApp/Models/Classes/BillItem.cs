@@ -12,7 +12,7 @@ namespace WebApp.Models.Classes
         public string Description { get; set; }
         public int Amount { get; set; }
         public decimal UnitPrice { get; set; }
-        public decimal Sum { get; set; }
+        public decimal Total { get; set; }
 
         public int BillId { get; set; }
         [ForeignKey("BillId")]

@@ -24,16 +24,14 @@
     <th>Id</th>
     <th>Seri No</th>
     <th>Sıra No</th>
-    <th>Vergi Dairesi</th>
     <th>Tarih</th>
     <th>Saat</th>
     <th>Toplam Fiyat</th>
-    <th>Gönderen</th>
-    <th>Alıcı</th>
-
 
     <th>Güncelle</th>
     <th>Detaylar</th>
+    <th>PopUp</th>
+    <th>Kalem</th>
 
     </thead>
     <tbody>
@@ -43,20 +41,29 @@
                 <td>@i.BillId</td>
                 <td>@i.BillSequenceNo</td>
                 <td>@i.BillSerialNo</td>
-                <td>@i.TaxOffice</td>
                 <td>@i.Date</td>
                 <td>@i.Hour</td>
                 <td>@i.Total</td>
-                <td>@i.Sender</td>
-                <td>@i.Receiver</td>
 
                 <td><a href="/Bill/GetBill/@i.BillId" class="btn btn-success">Güncelle</a></td>
                 <td><a href="/Bill/Details/@i.BillId" class="btn btn-success">Detaylar</a></td>
+                <td><a href="/Bill/Details/@i.BillId" class="btn btn-danger">PopUp</a></td>
+                <td><a href="/Bill/Details/@i.BillId" class="btn btn-info">Kalem</a></td>
             </tr>
         }
     </tbody>
 </table>
 <a href="/Bill/NewBill" class="btn btn-dark">Yeni Fatura</a>
+<br />
+<br />
+<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#Modal1">PopUp Pencere</button>
+
+
+
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -70,3 +77,36 @@
     $('#table').dataTable({});
 
 </script>
+
+<div class="modal" id="Modal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">PopHuxx</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-borderless">
+                    <tr>
+                        <td>Seri No</td>
+                        <td>Sıra No</td>
+                        <td>Tutar</td>
+                    </tr>
+                    @foreach (var i in Model)
+                    {
+                        <tr>
+                            <td>@i.BillSerialNo</td>
+                            <td>@i.BillSequenceNo</td>
+                            <td>@i.Total</td>
+                        </tr>
+                    }
+                    </table>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">Tamam</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

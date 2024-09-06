@@ -56,8 +56,10 @@ namespace WebApp.Controllers
             var value12 = _context.Products.OrderByDescending(p => p.PurchasePrice).FirstOrDefault()?.Brand;
             ViewBag.d12 = value12;
 
-            //var value13 = _context.SaleTransactions.OrderByDescending(s => s.StockAmount).FirstOrDefault()?.Product.ProductName;
-            //ViewBag.d13 = value13;
+            var value13 = _context.SaleTransactions.Include(x=>x.Product)
+    .OrderByDescending(s => s.StockAmount) 
+    .FirstOrDefault().Product.ProductName;
+            ViewBag.d13 = value13;
 
             var value14 = _context.SaleTransactions.Sum(c => c.TotalPrice).ToString();
             ViewBag.d14 = value14;

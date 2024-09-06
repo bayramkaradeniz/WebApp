@@ -118,7 +118,7 @@ namespace WebApp.Migrations
                         .HasMaxLength(130)
                         .HasColumnType("VarChar");
 
-                    b.Property<decimal>("Sum")
+                    b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("UnitPrice")
@@ -218,6 +218,10 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
+                    b.Property<string>("CustomerPassword")
+                        .HasMaxLength(20)
+                        .HasColumnType("VarChar");
+
                     b.Property<string>("CustomerPhone")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -226,6 +230,10 @@ namespace WebApp.Migrations
                     b.Property<string>("CustomerSurname")
                         .IsRequired()
                         .HasMaxLength(30)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("CustomerUserName")
+                        .HasMaxLength(20)
                         .HasColumnType("VarChar");
 
                     b.HasKey("CustomerId");
@@ -927,6 +935,27 @@ namespace WebApp.Migrations
                     b.HasIndex("TechnicalCategoryId");
 
                     b.ToTable("TechnicalSupports");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.Todo", b =>
+                {
+                    b.Property<int>("ToDoID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ToDoID"));
+
+                    b.Property<bool>("State")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TodoDescription")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("VarChar");
+
+                    b.HasKey("ToDoID");
+
+                    b.ToTable("Todos");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.BillItem", b =>

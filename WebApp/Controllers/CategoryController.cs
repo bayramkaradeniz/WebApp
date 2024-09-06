@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using WebApp.Models.Classes;
+using X.PagedList.Extensions;
 
 namespace WebApp.Controllers
 {
@@ -11,9 +12,9 @@ namespace WebApp.Controllers
         {
             _context = context;
         }
-        public IActionResult Index()
+        public IActionResult Index(int page=1)
         {
-            var categories = _context.Categories.ToList();
+            var categories = _context.Categories.ToPagedList(page, 2); // IPagedList<Category> döner
             return View(categories);
         }
         [HttpGet]
