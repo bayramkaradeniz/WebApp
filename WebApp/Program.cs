@@ -49,11 +49,11 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Use Session middleware
+// Use Session middlewares
 app.UseSession();
 
 app.MapControllerRoute(
     name: "title",
-    pattern: "{controller=Product}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();

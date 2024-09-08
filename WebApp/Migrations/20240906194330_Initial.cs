@@ -49,6 +49,38 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CargoDetails",
+                columns: table => new
+                {
+                    CargoDetailId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Description = table.Column<string>(type: "VarChar(300)", maxLength: 300, nullable: false),
+                    TrackingCode = table.Column<string>(type: "VarChar(10)", maxLength: 10, nullable: false),
+                    Staff = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Owner = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CargoDetails", x => x.CargoDetailId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CargoTrackings",
+                columns: table => new
+                {
+                    CargoTrackingId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TrackingCode = table.Column<string>(type: "VarChar(10)", maxLength: 10, nullable: false),
+                    TrackingDescription = table.Column<string>(type: "VarChar(300)", maxLength: 300, nullable: false),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CargoTrackings", x => x.CargoTrackingId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Categories",
                 columns: table => new
                 {
@@ -88,7 +120,9 @@ namespace WebApp.Migrations
                     CustomerPhone = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
                     CustomerCity = table.Column<string>(type: "VarChar(20)", maxLength: 20, nullable: false),
                     CustomerDistrict = table.Column<string>(type: "VarChar(20)", maxLength: 20, nullable: false),
-                    CustomerAdress = table.Column<string>(type: "VarChar(200)", maxLength: 200, nullable: false)
+                    CustomerAdress = table.Column<string>(type: "VarChar(200)", maxLength: 200, nullable: false),
+                    CustomerUserName = table.Column<string>(type: "VarChar(20)", maxLength: 20, nullable: true),
+                    CustomerPassword = table.Column<string>(type: "VarChar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -150,6 +184,20 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Todos",
+                columns: table => new
+                {
+                    ToDoID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TodoDescription = table.Column<string>(type: "VarChar(300)", maxLength: 300, nullable: false),
+                    State = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Todos", x => x.ToDoID);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BillItems",
                 columns: table => new
                 {
@@ -158,7 +206,7 @@ namespace WebApp.Migrations
                     Description = table.Column<string>(type: "VarChar(130)", maxLength: 130, nullable: false),
                     Amount = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Sum = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Total = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     BillId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -230,6 +278,7 @@ namespace WebApp.Migrations
                     PaymentId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     TotalPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     PaidPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     DownPayment = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
                     InstallmentCount = table.Column<int>(type: "int", nullable: true),
@@ -258,6 +307,7 @@ namespace WebApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Status = table.Column<int>(type: "int", nullable: false),
                     Timestamp = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsComplete = table.Column<bool>(type: "bit", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     CustomerId = table.Column<int>(type: "int", nullable: false),
@@ -336,6 +386,7 @@ namespace WebApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     InstallmentAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     InstallmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InstallmentIsPaid = table.Column<bool>(type: "bit", nullable: false),
                     PaymentId = table.Column<int>(type: "int", nullable: false),
                     InstallmentPaymentType = table.Column<int>(type: "int", nullable: false)
@@ -402,20 +453,22 @@ namespace WebApp.Migrations
                 columns: new[] { "CategoryId", "CategoryName" },
                 values: new object[,]
                 {
-                    { 1, "Filtreli" },
-                    { 2, "Filtresiz" }
+                    { 1, "Arıtma Cihazları" },
+                    { 2, "Filtreler" },
+                    { 3, "Kimyasal Ürünler" },
+                    { 4, "Aksesuarlar" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Customers",
-                columns: new[] { "CustomerId", "CustomerAdress", "CustomerCity", "CustomerDistrict", "CustomerEmail", "CustomerName", "CustomerPhone", "CustomerSurname" },
+                columns: new[] { "CustomerId", "CustomerAdress", "CustomerCity", "CustomerDistrict", "CustomerEmail", "CustomerName", "CustomerPassword", "CustomerPhone", "CustomerSurname", "CustomerUserName" },
                 values: new object[,]
                 {
-                    { 1, "123 Broadway", "New York", "Manhattan", "john.doe@example.com", "John", "1234567890", "Doe" },
-                    { 2, "456 Sunset Blvd", "Los Angeles", "Hollywood", "jane.smith@example.com", "Jane", "0987654321", "Smith" },
-                    { 3, "789 Michigan Ave", "Chicago", "Downtown", "alice.johnson@example.com", "Alice", "2345678901", "Johnson" },
-                    { 4, "101 Main St", "Houston", "Downtown", "bob.williams@example.com", "Bob", "3456789012", "Williams" },
-                    { 5, "202 Central Ave", "Phoenix", "Central", "carol.davis@example.com", "Carol", "4567890123", "Davis" }
+                    { 1, "Kuştepe Mah. 1. Sok. No:5", "İstanbul", "Beşiktaş", "ahmet.yilmaz@example.com", "Ahmet", null, "5551234567", "Yılmaz", null },
+                    { 2, "Kocatepe Mah. 2. Cad. No:10", "Ankara", "Çankaya", "elif.kaya@example.com", "Elif", null, "5552345678", "Kaya", null },
+                    { 3, "Alsancak Mah. 3. Sok. No:20", "İzmir", "Konak", "mehmet.ozturk@example.com", "Mehmet", null, "5553456789", "Öztürk", null },
+                    { 4, "Bahripaşa Mah. 4. Cad. No:15", "Bursa", "Osmangazi", "ayse.demir@example.com", "Ayşe", null, "5554567890", "Demir", null },
+                    { 5, "Yukarı Karaman Mah. 5. Sok. No:25", "Antalya", "Muratpaşa", "ali.kara@example.com", "Ali", null, "5555678901", "Kara", null }
                 });
 
             migrationBuilder.InsertData(
@@ -454,16 +507,16 @@ namespace WebApp.Migrations
                 columns: new[] { "ProductId", "Brand", "CategoryId", "MaintenanceIntervalInMonths", "ProductImage", "ProductModel", "ProductName", "PurchasePrice", "SalePrice", "State", "Stock" },
                 values: new object[,]
                 {
-                    { 1, "Fresh", 1, 6, "apple-juice.png", "AJ2024", "Apple Juice", 1.50m, 2.00m, true, 100 },
-                    { 2, "Tropical", 1, 6, "banana-smoothie.png", "BS2024", "Banana Smoothie", 2.00m, 2.50m, true, 200 },
-                    { 3, "Veggie", 1, 6, "carrot-drink.png", "CD2024", "Carrot Drink", 1.75m, 2.25m, true, 150 },
-                    { 4, "Exotic", 1, 6, "dragon-fruit-juice.png", "DFJ2024", "Dragon Fruit Juice", 3.00m, 4.00m, true, 50 },
-                    { 5, "Berry", 2, 12, "elderberry-wine.png", "EW2024", "Elderberry Wine", 5.00m, 7.00m, true, 30 },
-                    { 6, "Sweet", 2, 6, "fig-syrup.png", "FS2024", "Fig Syrup", 2.50m, 3.00m, true, 80 },
-                    { 7, "Vine", 2, 6, "grape-juice.png", "GJ2024", "Grape Juice", 1.80m, 2.30m, true, 120 },
-                    { 8, "SweetLife", 2, 6, "honey-lemonade.png", "HL2024", "Honey Lemonade", 2.20m, 2.70m, true, 60 },
-                    { 9, "CoolBrew", 2, 6, "iced-tea.png", "IT2024", "Iced Tea", 1.70m, 2.20m, true, 90 },
-                    { 10, "Fusion", 1, 6, "juice-blend.png", "JB2024", "Juice Blend", 2.00m, 2.60m, true, 70 }
+                    { 1, "PureWater", 1, 12, "reverse-osmosis.png", "RO2024", "Reverse Osmosis Arıtma Cihazı", 5000m, 7500m, true, 50 },
+                    { 2, "CleanTech", 1, 12, "uv-purifier.png", "UV2024", "UV Arıtma Cihazı", 4000m, 6000m, true, 30 },
+                    { 3, "FilterPro", 2, 6, "carbon-filter.png", "ACF2024", "Aktif Karbon Filtre", 150m, 250m, true, 100 },
+                    { 4, "WaterSafe", 2, 6, "sediment-filter.png", "SF2024", "Sediment Filtre", 100m, 200m, true, 80 },
+                    { 5, "MineralPlus", 3, 6, "mineral-cartridge.png", "MC2024", "Mineral Ekleme Kartuşu", 200m, 300m, true, 40 },
+                    { 6, "OzoneMax", 3, 12, "ozone-generator.png", "OZ2024", "Ozon Jeneratörü", 700m, 1000m, true, 25 },
+                    { 7, "TripleGuard", 2, 6, "triple-filter-set.png", "TS2024", "Üç Aşamalı Filtre Seti", 350m, 500m, true, 60 },
+                    { 8, "SaltClear", 2, 6, "salt-water-cartridge.png", "SC2024", "Tuzlu Su Arıtma Kartuşu", 250m, 350m, true, 45 },
+                    { 9, "CleanKit", 4, 6, "filter-cleaning-kit.png", "FK2024", "Filtre Temizlik Kiti", 80m, 120m, true, 75 },
+                    { 10, "PartsPlus", 4, 12, "spare-parts-set.png", "PS2024", "Yedek Parça Seti", 150m, 200m, true, 35 }
                 });
 
             migrationBuilder.InsertData(
@@ -471,11 +524,11 @@ namespace WebApp.Migrations
                 columns: new[] { "StaffId", "DepartmentId", "StaffFullName", "StaffImage", "StaffPassword", "StaffUsername" },
                 values: new object[,]
                 {
-                    { 1, 1, "Alice Brown", "alice-brown.png", "password1", "aliceb" },
-                    { 2, 2, "Bob Green", "bob-green.png", "password2", "bobg" },
-                    { 3, 2, "Charlie White", "charlie-white.png", "password3", "charliew" },
-                    { 4, 3, "Diana Black", "diana-black.png", "password4", "dianab" },
-                    { 5, 1, "Edward Blue", "edward-blue.png", "password5", "edwardb" }
+                    { 1, 1, "Seda Çelik", "seda-celik.png", "password1", "sedac" },
+                    { 2, 2, "Emre Yurt", "emre-yurt.png", "password2", "emrey" },
+                    { 3, 2, "Zeynep Akman", "zeynep-akman.png", "password3", "zeynepa" },
+                    { 4, 3, "Caner Erol", "caner-erol.png", "password4", "canere" },
+                    { 5, 1, "Merve Arslan", "merve-arslan.png", "password5", "mervea" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -570,6 +623,12 @@ namespace WebApp.Migrations
                 name: "BillItems");
 
             migrationBuilder.DropTable(
+                name: "CargoDetails");
+
+            migrationBuilder.DropTable(
+                name: "CargoTrackings");
+
+            migrationBuilder.DropTable(
                 name: "Costs");
 
             migrationBuilder.DropTable(
@@ -586,6 +645,9 @@ namespace WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "TechnicalSupports");
+
+            migrationBuilder.DropTable(
+                name: "Todos");
 
             migrationBuilder.DropTable(
                 name: "Bills");

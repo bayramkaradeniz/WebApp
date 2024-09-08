@@ -1,0 +1,35 @@
+﻿@using WebApp.Models.Classes
+@model List<CargoTracking>
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@if (Model == null)
+{
+    <p>No cargo available.</p>
+}
+else
+{ 
+
+
+<table  class="table table-bordered" style="margin-top:20px">
+    <thead>
+        <tr>
+            <th>Kargo Takip No</th>
+            <th>Açıklama</th>
+            <th>Tarih</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var i in Model)
+        {
+            <tr>
+                <td>@i.TrackingCode</td>
+                <td>@i.TrackingDescription</td>
+                <td>@i.Date</td>
+            </tr>
+        }
+    </tbody>
+</table>
+}

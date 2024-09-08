@@ -61,7 +61,7 @@ namespace WebApp.Controllers
             var stf = _context.Staffs.Find(staff.StaffId);
 
             stf.StaffFullName = staff.StaffFullName;
-            stf.StaffUsername = staff.StaffUsername;
+            stf.StaffMail = staff.StaffMail;
             stf.StaffPassword = staff.StaffPassword;
             stf.StaffImage = staff.StaffImage;
             stf.DepartmentId = staff.DepartmentId;

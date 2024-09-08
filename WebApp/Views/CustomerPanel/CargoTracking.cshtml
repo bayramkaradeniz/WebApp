@@ -1,0 +1,79 @@
+﻿
+@using WebApp.Models.Classes
+@model List<CargoDetail>
+
+@{
+    ViewData["Title"] = "CargoTracking";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+}
+<h4>Kargolar</h4>
+<br />
+@using (Html.BeginForm("Index", "Cargo", FormMethod.Get))
+{
+    <p>
+        Kargo Takip Numarası : @Html.TextBox("c")
+        <input type="submit" value="Ara" />
+    </p>
+}
+<style>
+    #Customer td {
+        word-wrap: break-word;
+        white-space: normal;
+        vertical-align: middle;
+    }
+
+    #Customer th {
+        vertical-align: middle;
+    }
+</style>
+
+@if (Model == null)
+{
+    <p>No cargo available.</p>
+}
+else
+{
+    <table id="Customer" class="table table-bordered" style="margin-top:20px">
+        <thead>
+            <tr>
+                <th>Kargo Takip No</th>
+                <th>Personel</th>
+                <th>Alıcı</th>
+                <th>Tarih</th>
+
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var i in Model)
+            {
+                <tr>
+                    <td>@i.TrackingCode</td>
+                    <td>@i.Staff</td>
+                    <td>@i.Owner</td>
+                    <td>@i.Date</td>
+
+
+
+                    <td><a href="/Cargo/Detail/@i.TrackingCode" class="btn btn-info">Detaylar</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a href="/Cargo/NewCargo" class="btn btn-dark">Yeni Kargo</a>
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
+<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+<script>
+
+
+    $('#Customer').dataTable({});
+
+</script>
+

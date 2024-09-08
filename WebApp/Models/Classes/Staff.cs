@@ -12,7 +12,7 @@ namespace WebApp.Models.Classes
         public string StaffFullName { get; set; }
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
-        public string StaffUsername{ get; set; }
+        public string StaffMail { get; set; }
         [Column(TypeName = "VarChar")]
         [StringLength(30)]
         public string StaffPassword { get; set; }

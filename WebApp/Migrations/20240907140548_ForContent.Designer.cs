@@ -12,8 +12,8 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240902171302_ForTodo2")]
-    partial class ForTodo2
+    [Migration("20240907140548_ForContent")]
+    partial class ForContent
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,7 +121,7 @@ namespace WebApp.Migrations
                         .HasMaxLength(130)
                         .HasColumnType("VarChar");
 
-                    b.Property<decimal>("Sum")
+                    b.Property<decimal>("Total")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal>("UnitPrice")
@@ -132,6 +132,67 @@ namespace WebApp.Migrations
                     b.HasIndex("BillId");
 
                     b.ToTable("BillItems");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.CargoDetail", b =>
+                {
+                    b.Property<int>("CargoDetailId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CargoDetailId"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Staff")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrackingCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("VarChar");
+
+                    b.HasKey("CargoDetailId");
+
+                    b.ToTable("CargoDetails");
+                });
+
+            modelBuilder.Entity("WebApp.Models.Classes.CargoTracking", b =>
+                {
+                    b.Property<int>("CargoTrackingId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CargoTrackingId"));
+
+                    b.Property<string>("Date")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TrackingCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("TrackingDescription")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("VarChar");
+
+                    b.HasKey("CargoTrackingId");
+
+                    b.ToTable("CargoTrackings");
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Category", b =>
@@ -155,12 +216,22 @@ namespace WebApp.Migrations
                         new
                         {
                             CategoryId = 1,
-                            CategoryName = "Filtreli"
+                            CategoryName = "Arıtma Cihazları"
                         },
                         new
                         {
                             CategoryId = 2,
-                            CategoryName = "Filtresiz"
+                            CategoryName = "Filtreler"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Kimyasal Ürünler"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Aksesuarlar"
                         });
                 });
 
@@ -221,6 +292,10 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
+                    b.Property<string>("CustomerPassword")
+                        .HasMaxLength(20)
+                        .HasColumnType("VarChar");
+
                     b.Property<string>("CustomerPhone")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -231,6 +306,10 @@ namespace WebApp.Migrations
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
+                    b.Property<string>("CustomerUserName")
+                        .HasMaxLength(20)
+                        .HasColumnType("VarChar");
+
                     b.HasKey("CustomerId");
 
                     b.ToTable("Customers");
@@ -239,57 +318,57 @@ namespace WebApp.Migrations
                         new
                         {
                             CustomerId = 1,
-                            CustomerAdress = "123 Broadway",
-                            CustomerCity = "New York",
-                            CustomerDistrict = "Manhattan",
-                            CustomerEmail = "john.doe@example.com",
-                            CustomerName = "John",
-                            CustomerPhone = "1234567890",
-                            CustomerSurname = "Doe"
+                            CustomerAdress = "Kuştepe Mah. 1. Sok. No:5",
+                            CustomerCity = "İstanbul",
+                            CustomerDistrict = "Beşiktaş",
+                            CustomerEmail = "ahmet.yilmaz@example.com",
+                            CustomerName = "Ahmet",
+                            CustomerPhone = "5551234567",
+                            CustomerSurname = "Yılmaz"
                         },
                         new
                         {
                             CustomerId = 2,
-                            CustomerAdress = "456 Sunset Blvd",
-                            CustomerCity = "Los Angeles",
-                            CustomerDistrict = "Hollywood",
-                            CustomerEmail = "jane.smith@example.com",
-                            CustomerName = "Jane",
-                            CustomerPhone = "0987654321",
-                            CustomerSurname = "Smith"
+                            CustomerAdress = "Kocatepe Mah. 2. Cad. No:10",
+                            CustomerCity = "Ankara",
+                            CustomerDistrict = "Çankaya",
+                            CustomerEmail = "elif.kaya@example.com",
+                            CustomerName = "Elif",
+                            CustomerPhone = "5552345678",
+                            CustomerSurname = "Kaya"
                         },
                         new
                         {
                             CustomerId = 3,
-                            CustomerAdress = "789 Michigan Ave",
-                            CustomerCity = "Chicago",
-                            CustomerDistrict = "Downtown",
-                            CustomerEmail = "alice.johnson@example.com",
-                            CustomerName = "Alice",
-                            CustomerPhone = "2345678901",
-                            CustomerSurname = "Johnson"
+                            CustomerAdress = "Alsancak Mah. 3. Sok. No:20",
+                            CustomerCity = "İzmir",
+                            CustomerDistrict = "Konak",
+                            CustomerEmail = "mehmet.ozturk@example.com",
+                            CustomerName = "Mehmet",
+                            CustomerPhone = "5553456789",
+                            CustomerSurname = "Öztürk"
                         },
                         new
                         {
                             CustomerId = 4,
-                            CustomerAdress = "101 Main St",
-                            CustomerCity = "Houston",
-                            CustomerDistrict = "Downtown",
-                            CustomerEmail = "bob.williams@example.com",
-                            CustomerName = "Bob",
-                            CustomerPhone = "3456789012",
-                            CustomerSurname = "Williams"
+                            CustomerAdress = "Bahripaşa Mah. 4. Cad. No:15",
+                            CustomerCity = "Bursa",
+                            CustomerDistrict = "Osmangazi",
+                            CustomerEmail = "ayse.demir@example.com",
+                            CustomerName = "Ayşe",
+                            CustomerPhone = "5554567890",
+                            CustomerSurname = "Demir"
                         },
                         new
                         {
                             CustomerId = 5,
-                            CustomerAdress = "202 Central Ave",
-                            CustomerCity = "Phoenix",
-                            CustomerDistrict = "Central",
-                            CustomerEmail = "carol.davis@example.com",
-                            CustomerName = "Carol",
-                            CustomerPhone = "4567890123",
-                            CustomerSurname = "Davis"
+                            CustomerAdress = "Yukarı Karaman Mah. 5. Sok. No:25",
+                            CustomerCity = "Antalya",
+                            CustomerDistrict = "Muratpaşa",
+                            CustomerEmail = "ali.kara@example.com",
+                            CustomerName = "Ali",
+                            CustomerPhone = "5555678901",
+                            CustomerSurname = "Kara"
                         });
                 });
 
@@ -437,6 +516,42 @@ namespace WebApp.Migrations
                     b.ToTable("Installments");
                 });
 
+            modelBuilder.Entity("WebApp.Models.Classes.Message", b =>
+                {
+                    b.Property<int>("MessageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MessageId"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("VarChar");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("Date");
+
+                    b.Property<string>("Receiver")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("Sender")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VarChar");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("VarChar");
+
+                    b.HasKey("MessageId");
+
+                    b.ToTable("Messages");
+                });
+
             modelBuilder.Entity("WebApp.Models.Classes.Payment", b =>
                 {
                     b.Property<int>("PaymentId")
@@ -572,142 +687,142 @@ namespace WebApp.Migrations
                         new
                         {
                             ProductId = 1,
-                            Brand = "Fresh",
+                            Brand = "PureWater",
                             CategoryId = 1,
-                            MaintenanceIntervalInMonths = 6,
-                            ProductImage = "apple-juice.png",
-                            ProductModel = "AJ2024",
-                            ProductName = "Apple Juice",
-                            PurchasePrice = 1.50m,
-                            SalePrice = 2.00m,
-                            State = true,
-                            Stock = 100
-                        },
-                        new
-                        {
-                            ProductId = 2,
-                            Brand = "Tropical",
-                            CategoryId = 1,
-                            MaintenanceIntervalInMonths = 6,
-                            ProductImage = "banana-smoothie.png",
-                            ProductModel = "BS2024",
-                            ProductName = "Banana Smoothie",
-                            PurchasePrice = 2.00m,
-                            SalePrice = 2.50m,
-                            State = true,
-                            Stock = 200
-                        },
-                        new
-                        {
-                            ProductId = 3,
-                            Brand = "Veggie",
-                            CategoryId = 1,
-                            MaintenanceIntervalInMonths = 6,
-                            ProductImage = "carrot-drink.png",
-                            ProductModel = "CD2024",
-                            ProductName = "Carrot Drink",
-                            PurchasePrice = 1.75m,
-                            SalePrice = 2.25m,
-                            State = true,
-                            Stock = 150
-                        },
-                        new
-                        {
-                            ProductId = 4,
-                            Brand = "Exotic",
-                            CategoryId = 1,
-                            MaintenanceIntervalInMonths = 6,
-                            ProductImage = "dragon-fruit-juice.png",
-                            ProductModel = "DFJ2024",
-                            ProductName = "Dragon Fruit Juice",
-                            PurchasePrice = 3.00m,
-                            SalePrice = 4.00m,
+                            MaintenanceIntervalInMonths = 12,
+                            ProductImage = "reverse-osmosis.png",
+                            ProductModel = "RO2024",
+                            ProductName = "Reverse Osmosis Arıtma Cihazı",
+                            PurchasePrice = 5000m,
+                            SalePrice = 7500m,
                             State = true,
                             Stock = 50
                         },
                         new
                         {
-                            ProductId = 5,
-                            Brand = "Berry",
-                            CategoryId = 2,
+                            ProductId = 2,
+                            Brand = "CleanTech",
+                            CategoryId = 1,
                             MaintenanceIntervalInMonths = 12,
-                            ProductImage = "elderberry-wine.png",
-                            ProductModel = "EW2024",
-                            ProductName = "Elderberry Wine",
-                            PurchasePrice = 5.00m,
-                            SalePrice = 7.00m,
+                            ProductImage = "uv-purifier.png",
+                            ProductModel = "UV2024",
+                            ProductName = "UV Arıtma Cihazı",
+                            PurchasePrice = 4000m,
+                            SalePrice = 6000m,
                             State = true,
                             Stock = 30
                         },
                         new
                         {
-                            ProductId = 6,
-                            Brand = "Sweet",
+                            ProductId = 3,
+                            Brand = "FilterPro",
                             CategoryId = 2,
                             MaintenanceIntervalInMonths = 6,
-                            ProductImage = "fig-syrup.png",
-                            ProductModel = "FS2024",
-                            ProductName = "Fig Syrup",
-                            PurchasePrice = 2.50m,
-                            SalePrice = 3.00m,
+                            ProductImage = "carbon-filter.png",
+                            ProductModel = "ACF2024",
+                            ProductName = "Aktif Karbon Filtre",
+                            PurchasePrice = 150m,
+                            SalePrice = 250m,
+                            State = true,
+                            Stock = 100
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            Brand = "WaterSafe",
+                            CategoryId = 2,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "sediment-filter.png",
+                            ProductModel = "SF2024",
+                            ProductName = "Sediment Filtre",
+                            PurchasePrice = 100m,
+                            SalePrice = 200m,
                             State = true,
                             Stock = 80
                         },
                         new
                         {
-                            ProductId = 7,
-                            Brand = "Vine",
-                            CategoryId = 2,
+                            ProductId = 5,
+                            Brand = "MineralPlus",
+                            CategoryId = 3,
                             MaintenanceIntervalInMonths = 6,
-                            ProductImage = "grape-juice.png",
-                            ProductModel = "GJ2024",
-                            ProductName = "Grape Juice",
-                            PurchasePrice = 1.80m,
-                            SalePrice = 2.30m,
+                            ProductImage = "mineral-cartridge.png",
+                            ProductModel = "MC2024",
+                            ProductName = "Mineral Ekleme Kartuşu",
+                            PurchasePrice = 200m,
+                            SalePrice = 300m,
                             State = true,
-                            Stock = 120
+                            Stock = 40
                         },
                         new
                         {
-                            ProductId = 8,
-                            Brand = "SweetLife",
+                            ProductId = 6,
+                            Brand = "OzoneMax",
+                            CategoryId = 3,
+                            MaintenanceIntervalInMonths = 12,
+                            ProductImage = "ozone-generator.png",
+                            ProductModel = "OZ2024",
+                            ProductName = "Ozon Jeneratörü",
+                            PurchasePrice = 700m,
+                            SalePrice = 1000m,
+                            State = true,
+                            Stock = 25
+                        },
+                        new
+                        {
+                            ProductId = 7,
+                            Brand = "TripleGuard",
                             CategoryId = 2,
                             MaintenanceIntervalInMonths = 6,
-                            ProductImage = "honey-lemonade.png",
-                            ProductModel = "HL2024",
-                            ProductName = "Honey Lemonade",
-                            PurchasePrice = 2.20m,
-                            SalePrice = 2.70m,
+                            ProductImage = "triple-filter-set.png",
+                            ProductModel = "TS2024",
+                            ProductName = "Üç Aşamalı Filtre Seti",
+                            PurchasePrice = 350m,
+                            SalePrice = 500m,
                             State = true,
                             Stock = 60
                         },
                         new
                         {
-                            ProductId = 9,
-                            Brand = "CoolBrew",
+                            ProductId = 8,
+                            Brand = "SaltClear",
                             CategoryId = 2,
                             MaintenanceIntervalInMonths = 6,
-                            ProductImage = "iced-tea.png",
-                            ProductModel = "IT2024",
-                            ProductName = "Iced Tea",
-                            PurchasePrice = 1.70m,
-                            SalePrice = 2.20m,
+                            ProductImage = "salt-water-cartridge.png",
+                            ProductModel = "SC2024",
+                            ProductName = "Tuzlu Su Arıtma Kartuşu",
+                            PurchasePrice = 250m,
+                            SalePrice = 350m,
                             State = true,
-                            Stock = 90
+                            Stock = 45
+                        },
+                        new
+                        {
+                            ProductId = 9,
+                            Brand = "CleanKit",
+                            CategoryId = 4,
+                            MaintenanceIntervalInMonths = 6,
+                            ProductImage = "filter-cleaning-kit.png",
+                            ProductModel = "FK2024",
+                            ProductName = "Filtre Temizlik Kiti",
+                            PurchasePrice = 80m,
+                            SalePrice = 120m,
+                            State = true,
+                            Stock = 75
                         },
                         new
                         {
                             ProductId = 10,
-                            Brand = "Fusion",
-                            CategoryId = 1,
-                            MaintenanceIntervalInMonths = 6,
-                            ProductImage = "juice-blend.png",
-                            ProductModel = "JB2024",
-                            ProductName = "Juice Blend",
-                            PurchasePrice = 2.00m,
-                            SalePrice = 2.60m,
+                            Brand = "PartsPlus",
+                            CategoryId = 4,
+                            MaintenanceIntervalInMonths = 12,
+                            ProductImage = "spare-parts-set.png",
+                            ProductModel = "PS2024",
+                            ProductName = "Yedek Parça Seti",
+                            PurchasePrice = 150m,
+                            SalePrice = 200m,
                             State = true,
-                            Stock = 70
+                            Stock = 35
                         });
                 });
 
@@ -804,46 +919,46 @@ namespace WebApp.Migrations
                         {
                             StaffId = 1,
                             DepartmentId = 1,
-                            StaffFullName = "Alice Brown",
-                            StaffImage = "alice-brown.png",
+                            StaffFullName = "Seda Çelik",
+                            StaffImage = "seda-celik.png",
                             StaffPassword = "password1",
-                            StaffUsername = "aliceb"
+                            StaffUsername = "sedac"
                         },
                         new
                         {
                             StaffId = 2,
                             DepartmentId = 2,
-                            StaffFullName = "Bob Green",
-                            StaffImage = "bob-green.png",
+                            StaffFullName = "Emre Yurt",
+                            StaffImage = "emre-yurt.png",
                             StaffPassword = "password2",
-                            StaffUsername = "bobg"
+                            StaffUsername = "emrey"
                         },
                         new
                         {
                             StaffId = 3,
                             DepartmentId = 2,
-                            StaffFullName = "Charlie White",
-                            StaffImage = "charlie-white.png",
+                            StaffFullName = "Zeynep Akman",
+                            StaffImage = "zeynep-akman.png",
                             StaffPassword = "password3",
-                            StaffUsername = "charliew"
+                            StaffUsername = "zeynepa"
                         },
                         new
                         {
                             StaffId = 4,
                             DepartmentId = 3,
-                            StaffFullName = "Diana Black",
-                            StaffImage = "diana-black.png",
+                            StaffFullName = "Caner Erol",
+                            StaffImage = "caner-erol.png",
                             StaffPassword = "password4",
-                            StaffUsername = "dianab"
+                            StaffUsername = "canere"
                         },
                         new
                         {
                             StaffId = 5,
                             DepartmentId = 1,
-                            StaffFullName = "Edward Blue",
-                            StaffImage = "edward-blue.png",
+                            StaffFullName = "Merve Arslan",
+                            StaffImage = "merve-arslan.png",
                             StaffPassword = "password5",
-                            StaffUsername = "edwardb"
+                            StaffUsername = "mervea"
                         });
                 });
 
@@ -932,7 +1047,7 @@ namespace WebApp.Migrations
                     b.ToTable("TechnicalSupports");
                 });
 
-            modelBuilder.Entity("WebApp.Models.Classes.ToDo", b =>
+            modelBuilder.Entity("WebApp.Models.Classes.Todo", b =>
                 {
                     b.Property<int>("ToDoID")
                         .ValueGeneratedOnAdd()

@@ -45,7 +45,7 @@ namespace WebApp.Controllers
 		public IActionResult CustomerLogin(Customer customer)
 		{
 			var infos = _context.Customers.FirstOrDefault(x =>
-				x.CustomerUserName == customer.CustomerUserName &&
+				x.CustomerEmail == customer.CustomerEmail &&
 				x.CustomerPassword == customer.CustomerPassword);
 
 			if (infos != null)
@@ -53,7 +53,7 @@ namespace WebApp.Controllers
 				// Claims oluşturuluyor
 				var claims = new List<Claim>
 				{
-					new Claim(ClaimTypes.Name, infos.CustomerName)
+					new Claim(ClaimTypes.Name, infos.CustomerEmail)
 				};
 
 				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -62,7 +62,7 @@ namespace WebApp.Controllers
 				HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
 				// Session'da kullanıcı adını saklamak
-				HttpContext.Session.SetString("CustomerUserName", infos.CustomerUserName);
+				HttpContext.Session.SetString("CustomerEmail", infos.CustomerEmail);
 
 
 				return RedirectToAction("Index", "CustomerPanel");
