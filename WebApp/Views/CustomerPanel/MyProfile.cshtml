@@ -1,0 +1,263 @@
+﻿@using WebApp.Models.Classes
+@model List<SaleTransaction>
+@{
+    ViewData["Title"] = "MyProfile";
+    Layout = "~/Views/Shared/_CustomerLayout.cshtml";
+
+    var customer = ViewData["Customer"] as Customer;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewData["Title"]</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+</head>
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <!-- /.navbar -->
+        <!-- Content Wrapper. Contains page content -->
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Profil</h1>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+                        <!-- Profile Image -->
+                        <div class="card card-primary card-outline">
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <img class="profile-user-img img-fluid img-circle" src="https://resmim.net/cdn/2024/09/08/mEORjG.png">
+                                </div>
+                                <h3 class="profile-username text-center">@customer.CustomerName @customer.CustomerSurname</h3>
+                                <p class="text-muted text-center">@customer.CustomerPhone</p>
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item">
+                                        <b>İl</b> <a class="float-right">@customer.CustomerCity</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>İlçe</b> <a class="float-right">@customer.CustomerDistrict</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Adres</b> <a class="float-right">@customer.CustomerAdress</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-9">
+                        <div class="card">
+                            <div class="card-header p-2">
+                                <ul class="nav nav-pills">
+                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Satışlar</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Güncelleme</a></li>
+                                </ul>
+                            </div><!-- /.card-header -->
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="active tab-pane" id="activity">
+                                        <table class="table table-striped">
+                                            @if (Model == null || !Model.Any())
+                                            {
+                                                <thead>
+                                                    <tr>
+                                                        <th colspan="7" class="text-center">Mevcut Satış Bulunmuyor.</th>
+                                                    </tr>
+                                                </thead>
+                                            }
+                                            else
+                                            {
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tarih</th>
+                                                        <th>Ürün Adı</th>
+                                                        <th>Model</th>
+                                                        <th>Adet</th>
+                                                        <th>Toplam Fiyat</th>
+                                                        <th>Satışı Yapan</th>
+                                                        <th>Ödenen</th>
+                                                        <th>İşlem</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var sale in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>@sale.Date.ToString("dd/MM/yyyy")</td>
+                                                            <td>@sale.Product.ProductName</td>
+                                                            <td>@sale.Product.ProductModel</td>
+                                                            <td>@sale.StockAmount</td>
+                                                            <td>@sale.TotalPrice.ToString("C")</td>
+                                                            <td>@sale.Staff.StaffFullName</td>
+                                                            <td>@sale.Payment.PaidPrice</td>
+                                                            <td><a href="#" class="btn btn-danger">Arıza Kaydı Oluştur</a></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            }
+                                        </table>
+                                    </div>
+                                    <!-- /.tab-pane -->
+                                   
+                                    <!-- /.tab-pane -->
+                                    <div class="tab-pane" id="settings">
+                                        <form class="form-horizontal" id="settingsForm" method="post" action="/CustomerPanel/UpdateCustomer">
+
+                                            <!-- Other form fields here -->
+
+                                            <div class="form-group row">
+                                                <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputName" placeholder="Name"
+                                                           name="CustomerName" value="@customer.CustomerName">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label for="inputName" class="col-sm-2 col-form-label">CustomerSurname</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputName" placeholder="CustomerSurname"
+                                                           name="CustomerSurname" value="@customer.CustomerSurname">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputEmail" placeholder="Email"
+                                                           name="CustomerEmail" value="@customer.CustomerEmail">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="inputPhone" class="col-sm-2 col-form-label">Phone</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputPhone" placeholder="Phone"
+                                                           name="CustomerPhone" value="@customer.CustomerPhone">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="inputCity" class="col-sm-2 col-form-label">City</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputCity" placeholder="City"
+                                                           name="CustomerCity" value="@customer.CustomerCity">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="inputDistrict" class="col-sm-2 col-form-label">District</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputDistrict" placeholder="District"
+                                                           name="CustomerDistrict" value="@customer.CustomerDistrict">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="inputAddress" class="col-sm-2 col-form-label">Address</label>
+                                                <div class="col-sm-10">
+                                                    <textarea class="form-control" id="inputAddress" placeholder="Address"
+                                                              name="CustomerAdress">@customer.CustomerAdress</textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="inputUserName" class="col-sm-2 col-form-label">Username</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control" id="inputUserName" placeholder="Username"
+                                                           name="CustomerUserName" value="@customer.CustomerUserName">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                                <div class="col-sm-10">
+                                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password"
+                                                           name="CustomerPassword" value="@customer.CustomerPassword">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="offset-sm-2 col-sm-10">
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input" id="agreeToTerms"
+                                                               name="AgreeToTerms">
+                                                        <label class="form-check-label" for="agreeToTerms">
+                                                            Bilgiler Doğrudur.
+                                                        </label>
+                                                    </div>
+                                                    <div id="termsError" class="text-danger" style="display: none;">
+                                                        Bilgilerin Doğruluğunu Onaylamalısınız!
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="offset-sm-2 col-sm-10">
+                                                    <button type="submit" class="btn btn-danger" id="submitBtn">Submit</button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                        <script>
+                                            document.getElementById('settingsForm').addEventListener('submit', function (event) {
+                                                var agreeToTerms = document.getElementById('agreeToTerms');
+                                                var termsError = document.getElementById('termsError');
+
+                                                if (!agreeToTerms.checked) {
+                                                    termsError.style.display = 'block';
+                                                    event.preventDefault(); // Prevent form submission
+                                                } else {
+                                                    termsError.style.display = 'none';
+                                                }
+                                            });
+                                        </script>
+                                    </div>
+
+
+
+                                    <!-- /.tab-pane -->
+                                </div><!-- /.tab-content -->
+                            </div><!-- /.card-body -->
+                        </div><!-- /.card -->
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section><!-- /.content -->
+    </div><!-- /.wrapper -->
+    <footer class="main-footer">
+        <div class="float-right d-none d-sm-block">
+            <b>Version</b> 3.0.4
+        </div>
+        <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+    </footer>
+    <aside class="control-sidebar control-sidebar-dark">
+        <!-- Control sidebar content goes here -->
+    </aside>
+    <!-- /.control-sidebar -->
+    <!-- ./wrapper -->
+    <script src="~/AdminLTE-3.0.4/plugins/jquery/jquery.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/dist/js/adminlte.min.js"></script>
+    <script src="~/AdminLTE-3.0.4/dist/js/demo.js"></script>
+</body>
+</html>

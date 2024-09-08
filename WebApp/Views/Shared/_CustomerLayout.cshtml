@@ -33,11 +33,14 @@
             <div class="sidebar-heading">HuxxTech</div>
             <div class="list-group list-group-flush">
                 <a href="/CustomerPanel/MyOrders" class="list-group-item list-group-item-action bg-light">Siparişlerim</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Profilim</a>
+                <a href="/CustomerPanel/MyProfile" class="list-group-item list-group-item-action bg-light">Profilim</a>
                 
                 <a href="/CustomerPanel/CargoTracking" class="list-group-item list-group-item-action bg-light">Kargo Takip</a>
                 <a href="/CustomerPanel/IncomingMessages" class="list-group-item list-group-item-action bg-light">Mesajlar</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">Çıkış Yap</a>
+                <a href="javascript:void(0)" class="list-group-item list-group-item-action bg-light" onclick="logoutFormSubmitSidebar()">Çıkış Yap</a>
+                <form id="logout-form-sidebar" action="/CustomerPanel/Logout" method="POST" style="display: none;">
+                    @Html.AntiForgeryToken()
+                </form>
             </div>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -64,9 +67,8 @@
                                 Kargo
                             </a>
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Çıkış Yap</a>
-
-                                <form id="logout-form" action="/Login/Logout" method="POST" style="display: none;">
+                                <a href="javascript:void(0)" class="dropdown-item" onclick="logoutFormSubmitDropdown()">Çıkış Yap</a>
+                                <form id="logout-form-dropdown" action="/CustomerPanel/Logout" method="POST" style="display: none;">
                                     @Html.AntiForgeryToken()
                                 </form>
                                 <a class="dropdown-item" href="#">Siparişler</a>
@@ -97,6 +99,13 @@
             e.preventDefault();
             $("#wrapper").toggleClass("toggled");
         });
+        function logoutFormSubmitSidebar() {
+            document.getElementById('logout-form-sidebar').submit(); // Sidebar logout formunu gönder
+        }
+
+        function logoutFormSubmitDropdown() {
+            document.getElementById('logout-form-dropdown').submit(); // Dropdown logout formunu gönder
+        }
     </script>
 
 </body>
