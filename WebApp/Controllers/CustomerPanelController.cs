@@ -56,6 +56,19 @@ namespace WebApp.Controllers
         {
             var mail = HttpContext.Session.GetString("CustomerEmail");
 
+            var totalPaidAmount = _context.Payments
+    .Where(p => p.SaleTransaction.Customer.CustomerEmail == mail && p.IsPaid == true)
+    .Sum(p => p.PaidPrice ?? 0);  // null değerler varsa 0 ile değiştiriyoruz
+
+            ViewBag.TotalPaidAmount = totalPaidAmount;
+
+            var totalInstallmentAmount = _context.Installments
+        .Where(i => i.Payment.SaleTransaction.Customer.CustomerEmail == mail && i.InstallmentIsPaid == false)  // Ödenmemiş taksitler
+        .Sum(i => i.InstallmentAmount);
+
+            ViewBag.TotalInstallmentAmount = totalInstallmentAmount;
+
+
             var customerId = _context.Customers
                 .Where(c => c.CustomerEmail == mail)
                 .Select(c => c.CustomerId)
@@ -264,6 +277,8 @@ namespace WebApp.Controllers
             // Giriş sayfasına yönlendir
             return RedirectToAction("Index", "Login");
         }
+
+        public IActionResult Deneme() { return View(); }
     }
 }
 

@@ -9,6 +9,7 @@
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,6 +20,7 @@
     <link rel="stylesheet" href="~/AdminLTE-3.0.4/dist/css/adminlte.min.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
+
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <!-- Navbar -->
@@ -43,9 +45,11 @@
                         <div class="card card-primary card-outline">
                             <div class="card-body box-profile">
                                 <div class="text-center">
-                                    <img class="profile-user-img img-fluid img-circle" src="https://resmim.net/cdn/2024/09/08/mEORjG.png">
+                                    <img class="profile-user-img img-fluid img-circle"
+                                        src="https://resmim.net/cdn/2024/09/08/mEORjG.png">
                                 </div>
-                                <h3 class="profile-username text-center">@customer.CustomerName @customer.CustomerSurname</h3>
+                                <h3 class="profile-username text-center">@customer!.CustomerName
+                                    @customer.CustomerSurname</h3>
                                 <p class="text-muted text-center">@customer.CustomerPhone</p>
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
@@ -56,6 +60,14 @@
                                     </li>
                                     <li class="list-group-item">
                                         <b>Adres</b> <a class="float-right">@customer.CustomerAdress</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Bugüne Kadar Ödenen Tutar:</b> <a
+                                            class="float-right">@ViewBag.TotalPaidAmount</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Taksitte Bekleyen Tutar:</b> <a
+                                            class="float-right">@ViewBag.TotalInstallmentAmount</a>
                                     </li>
                                 </ul>
                             </div>
@@ -68,8 +80,10 @@
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
-                                    <li class="nav-item"><a class="nav-link active" href="#activity" data-toggle="tab">Satışlar</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#settings" data-toggle="tab">Güncelleme</a></li>
+                                    <li class="nav-item"><a class="nav-link active" href="#activity"
+                                            data-toggle="tab">Satışlar</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#settings"
+                                            data-toggle="tab">Güncelleme</a></li>
                                 </ul>
                             </div><!-- /.card-header -->
                             <div class="card-body">
@@ -117,89 +131,104 @@
                                         </table>
                                     </div>
                                     <!-- /.tab-pane -->
-                                   
+
                                     <!-- /.tab-pane -->
                                     <div class="tab-pane" id="settings">
-                                        <form class="form-horizontal" id="settingsForm" method="post" action="/CustomerPanel/UpdateCustomer">
+                                        <form class="form-horizontal" id="settingsForm" method="post"
+                                            action="/CustomerPanel/UpdateCustomer">
 
                                             <!-- Other form fields here -->
 
                                             <div class="form-group row">
                                                 <label for="inputName" class="col-sm-2 col-form-label">Name</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputName" placeholder="Name"
-                                                           name="CustomerName" value="@customer.CustomerName">
+                                                    <input type="text" class="form-control" id="inputName"
+                                                        placeholder="Name" name="CustomerName"
+                                                        value="@customer.CustomerName">
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label for="inputName" class="col-sm-2 col-form-label">CustomerSurname</label>
+                                                <label for="inputName"
+                                                    class="col-sm-2 col-form-label">CustomerSurname</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputName" placeholder="CustomerSurname"
-                                                           name="CustomerSurname" value="@customer.CustomerSurname">
+                                                    <input type="text" class="form-control" id="inputName"
+                                                        placeholder="CustomerSurname" name="CustomerSurname"
+                                                        value="@customer.CustomerSurname">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputEmail" placeholder="Email"
-                                                           name="CustomerEmail" value="@customer.CustomerEmail">
+                                                    <input type="text" class="form-control" id="inputEmail"
+                                                        placeholder="Email" name="CustomerEmail"
+                                                        value="@customer.CustomerEmail">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label for="inputPhone" class="col-sm-2 col-form-label">Phone</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputPhone" placeholder="Phone"
-                                                           name="CustomerPhone" value="@customer.CustomerPhone">
+                                                    <input type="text" class="form-control" id="inputPhone"
+                                                        placeholder="Phone" name="CustomerPhone"
+                                                        value="@customer.CustomerPhone">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label for="inputCity" class="col-sm-2 col-form-label">City</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputCity" placeholder="City"
-                                                           name="CustomerCity" value="@customer.CustomerCity">
+                                                    <input type="text" class="form-control" id="inputCity"
+                                                        placeholder="City" name="CustomerCity"
+                                                        value="@customer.CustomerCity">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="inputDistrict" class="col-sm-2 col-form-label">District</label>
+                                                <label for="inputDistrict"
+                                                    class="col-sm-2 col-form-label">District</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputDistrict" placeholder="District"
-                                                           name="CustomerDistrict" value="@customer.CustomerDistrict">
+                                                    <input type="text" class="form-control" id="inputDistrict"
+                                                        placeholder="District" name="CustomerDistrict"
+                                                        value="@customer.CustomerDistrict">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="inputAddress" class="col-sm-2 col-form-label">Address</label>
+                                                <label for="inputAddress"
+                                                    class="col-sm-2 col-form-label">Address</label>
                                                 <div class="col-sm-10">
-                                                    <textarea class="form-control" id="inputAddress" placeholder="Address"
-                                                              name="CustomerAdress">@customer.CustomerAdress</textarea>
+                                                    <textarea class="form-control" id="inputAddress"
+                                                        placeholder="Address"
+                                                        name="CustomerAdress">@customer.CustomerAdress</textarea>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="inputUserName" class="col-sm-2 col-form-label">Username</label>
+                                                <label for="inputUserName"
+                                                    class="col-sm-2 col-form-label">Username</label>
                                                 <div class="col-sm-10">
-                                                    <input type="text" class="form-control" id="inputUserName" placeholder="Username"
-                                                           name="CustomerUserName" value="@customer.CustomerUserName">
+                                                    <input type="text" class="form-control" id="inputUserName"
+                                                        placeholder="Username" name="CustomerUserName"
+                                                        value="@customer.CustomerUserName">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
-                                                <label for="inputPassword" class="col-sm-2 col-form-label">Password</label>
+                                                <label for="inputPassword"
+                                                    class="col-sm-2 col-form-label">Password</label>
                                                 <div class="col-sm-10">
-                                                    <input type="password" class="form-control" id="inputPassword" placeholder="Password"
-                                                           name="CustomerPassword" value="@customer.CustomerPassword">
+                                                    <input type="password" class="form-control" id="inputPassword"
+                                                        placeholder="Password" name="CustomerPassword"
+                                                        value="@customer.CustomerPassword">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <div class="offset-sm-2 col-sm-10">
                                                     <div class="form-check">
-                                                        <input type="checkbox" class="form-check-input" id="agreeToTerms"
-                                                               name="AgreeToTerms">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="agreeToTerms" name="AgreeToTerms">
                                                         <label class="form-check-label" for="agreeToTerms">
                                                             Bilgiler Doğrudur.
                                                         </label>
@@ -212,7 +241,8 @@
 
                                             <div class="form-group row">
                                                 <div class="offset-sm-2 col-sm-10">
-                                                    <button type="submit" class="btn btn-danger" id="submitBtn">Submit</button>
+                                                    <button type="submit" class="btn btn-danger"
+                                                        id="submitBtn">Submit</button>
                                                 </div>
                                             </div>
 
@@ -260,4 +290,5 @@
     <script src="~/AdminLTE-3.0.4/dist/js/adminlte.min.js"></script>
     <script src="~/AdminLTE-3.0.4/dist/js/demo.js"></script>
 </body>
+
 </html>

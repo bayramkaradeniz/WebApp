@@ -158,6 +158,23 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    MessageId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Receiver = table.Column<string>(type: "VarChar(50)", maxLength: 50, nullable: false),
+                    Sender = table.Column<string>(type: "VarChar(50)", maxLength: 50, nullable: false),
+                    Subject = table.Column<string>(type: "VarChar(50)", maxLength: 50, nullable: false),
+                    Content = table.Column<string>(type: "VarChar(500)", maxLength: 500, nullable: false),
+                    Date = table.Column<DateTime>(type: "Date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.MessageId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "PaymentCategories",
                 columns: table => new
                 {
@@ -255,7 +272,7 @@ namespace WebApp.Migrations
                     StaffId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     StaffFullName = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
-                    StaffUsername = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
+                    StaffMail = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
                     StaffPassword = table.Column<string>(type: "VarChar(30)", maxLength: 30, nullable: false),
                     StaffImage = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: false)
@@ -449,6 +466,11 @@ namespace WebApp.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "Admins",
+                columns: new[] { "AdminId", "Auth", "Password", "UserName" },
+                values: new object[] { 1, "A", "123123", "huxx" });
+
+            migrationBuilder.InsertData(
                 table: "Categories",
                 columns: new[] { "CategoryId", "CategoryName" },
                 values: new object[,]
@@ -521,14 +543,14 @@ namespace WebApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Staffs",
-                columns: new[] { "StaffId", "DepartmentId", "StaffFullName", "StaffImage", "StaffPassword", "StaffUsername" },
+                columns: new[] { "StaffId", "DepartmentId", "StaffFullName", "StaffImage", "StaffMail", "StaffPassword" },
                 values: new object[,]
                 {
-                    { 1, 1, "Seda Çelik", "seda-celik.png", "password1", "sedac" },
-                    { 2, 2, "Emre Yurt", "emre-yurt.png", "password2", "emrey" },
-                    { 3, 2, "Zeynep Akman", "zeynep-akman.png", "password3", "zeynepa" },
-                    { 4, 3, "Caner Erol", "caner-erol.png", "password4", "canere" },
-                    { 5, 1, "Merve Arslan", "merve-arslan.png", "password5", "mervea" }
+                    { 1, 1, "Seda Çelik", "seda-celik.png", "sedac", "password1" },
+                    { 2, 2, "Emre Yurt", "emre-yurt.png", "emrey", "password2" },
+                    { 3, 2, "Zeynep Akman", "zeynep-akman.png", "zeynepa", "password3" },
+                    { 4, 3, "Caner Erol", "caner-erol.png", "canere", "password4" },
+                    { 5, 1, "Merve Arslan", "merve-arslan.png", "mervea", "password5" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -639,6 +661,9 @@ namespace WebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Installments");
+
+            migrationBuilder.DropTable(
+                name: "Messages");
 
             migrationBuilder.DropTable(
                 name: "SaleTransactions");

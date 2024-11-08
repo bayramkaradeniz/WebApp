@@ -12,8 +12,8 @@ using WebApp.Models.Classes;
 namespace WebApp.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240907083646_ForMessage")]
-    partial class ForMessage
+    [Migration("20241004213253_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,6 +51,15 @@ namespace WebApp.Migrations
                     b.HasKey("AdminId");
 
                     b.ToTable("Admins");
+
+                    b.HasData(
+                        new
+                        {
+                            AdminId = 1,
+                            Auth = "A",
+                            Password = "123123",
+                            UserName = "huxx"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Bill", b =>
@@ -526,8 +535,8 @@ namespace WebApp.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("Varchar");
+                        .HasMaxLength(500)
+                        .HasColumnType("VarChar");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("Date");
@@ -535,17 +544,17 @@ namespace WebApp.Migrations
                     b.Property<string>("Receiver")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("Varchar");
+                        .HasColumnType("VarChar");
 
                     b.Property<string>("Sender")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("Varchar");
+                        .HasColumnType("VarChar");
 
                     b.Property<string>("Subject")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("Varchar");
+                        .HasColumnType("VarChar");
 
                     b.HasKey("MessageId");
 
@@ -898,12 +907,12 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StaffPassword")
+                    b.Property<string>("StaffMail")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.Property<string>("StaffUsername")
+                    b.Property<string>("StaffPassword")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
@@ -921,8 +930,8 @@ namespace WebApp.Migrations
                             DepartmentId = 1,
                             StaffFullName = "Seda Çelik",
                             StaffImage = "seda-celik.png",
-                            StaffPassword = "password1",
-                            StaffUsername = "sedac"
+                            StaffMail = "sedac",
+                            StaffPassword = "password1"
                         },
                         new
                         {
@@ -930,8 +939,8 @@ namespace WebApp.Migrations
                             DepartmentId = 2,
                             StaffFullName = "Emre Yurt",
                             StaffImage = "emre-yurt.png",
-                            StaffPassword = "password2",
-                            StaffUsername = "emrey"
+                            StaffMail = "emrey",
+                            StaffPassword = "password2"
                         },
                         new
                         {
@@ -939,8 +948,8 @@ namespace WebApp.Migrations
                             DepartmentId = 2,
                             StaffFullName = "Zeynep Akman",
                             StaffImage = "zeynep-akman.png",
-                            StaffPassword = "password3",
-                            StaffUsername = "zeynepa"
+                            StaffMail = "zeynepa",
+                            StaffPassword = "password3"
                         },
                         new
                         {
@@ -948,8 +957,8 @@ namespace WebApp.Migrations
                             DepartmentId = 3,
                             StaffFullName = "Caner Erol",
                             StaffImage = "caner-erol.png",
-                            StaffPassword = "password4",
-                            StaffUsername = "canere"
+                            StaffMail = "canere",
+                            StaffPassword = "password4"
                         },
                         new
                         {
@@ -957,8 +966,8 @@ namespace WebApp.Migrations
                             DepartmentId = 1,
                             StaffFullName = "Merve Arslan",
                             StaffImage = "merve-arslan.png",
-                            StaffPassword = "password5",
-                            StaffUsername = "mervea"
+                            StaffMail = "mervea",
+                            StaffPassword = "password5"
                         });
                 });
 

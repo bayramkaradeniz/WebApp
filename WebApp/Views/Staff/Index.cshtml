@@ -1,75 +1,74 @@
-﻿@using WebApp.Models.Classes
-@model List<Staff>
-@{
-    ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
-}
-<style>
-    #stf td {
-        word-wrap: break-word;
-        white-space: normal;
-        vertical-align: middle;
+﻿    @using WebApp.Models.Classes
+    @model List<Staff>
+    @{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_AdminLayout.cshtml";
     }
+    <style>
+        #stf td {
+            word-wrap: break-word;
+            white-space: normal;
+            vertical-align: middle;
+        }
 
-    #stf th {
-        vertical-align: middle;
+        #stf th {
+            vertical-align: middle;
+        }
+    </style>
+
+    <h4>Çalışan Listesi</h4>
+
+    @if (Model == null)
+    {
+        <p>No staffs available.</p>
     }
-</style>
-
-<h4>Çalışan Listesi</h4>
-
-@if (Model == null)
-{
-    <p>No staffs available.</p>
-}
-else
-{
-    <table id="stf" class="table table-bordered" style="margin-top:20px">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th> İsim</th>
-                <th>Kullanıcı Adı</th>
-                <th>Şifre</th>
-                <th>Görsel</th>
-                <th>Departman</th>
-                <th>Sil</th>
-                <th>Güncelle</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var i in Model)
-            {
+    else
+    {
+        <table id="stf" class="table table-bordered" style="margin-top:20px">
+            <thead>
                 <tr>
-                    <td>@i.StaffId</td>
-                    <td>@i.StaffFullName</td>
-                    <td>@i.StaffMail</td>
-                    <td>@i.StaffPassword</td>
-                    <td>
-                        <img src="@i.StaffImage" style="width:100px; height=100px;" />
-                    </td>
-                    <td>@i.Department.DepartmentName</td>
-
-                    <td><a href="/Staff/Remove/@i.StaffId" class="btn btn-danger">Sil</a></td>
-                    <td><a href="/Staff/GetStaff/@i.StaffId" class="btn btn-success">Güncelle</a></td>
+                    <th>Id</th>
+                    <th> İsim</th>
+                    <th>Kullanıcı Adı</th>
+                    <th>Şifre</th>
+                    <th>Görsel</th>
+                    <th>Departman</th>
+                    <th>Sil</th>
+                    <th>Güncelle</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-    <a href="/Staff/NewStaff" class="btn btn-dark">Yeni Ürün</a>
-}
+            </thead>
+            <tbody>
+                @foreach (var i in Model)
+                {
+                    <tr>
+                        <td>@i.StaffId</td>
+                        <td>@i.StaffFullName</td>
+                        <td>@i.StaffMail</td>
+                        <td>@i.StaffPassword</td>
+                        <td>
+                            <img src="@i.StaffImage" style="width:100px; height=100px;" />
+                        </td>
+                        <td>@i.Department.DepartmentName</td>
+
+                        <td><a href="/Staff/Remove/@i.StaffId" class="btn btn-danger">Sil</a></td>
+                        <td><a href="/Staff/GetStaff/@i.StaffId" class="btn btn-success">Güncelle</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
 
-<script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
-<script>
+    <script>
 
 
-    $('#stf').dataTable({});
+        $('#stf').dataTable({});
 
-</script>
+    </script>
 

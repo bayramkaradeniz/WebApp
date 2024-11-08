@@ -104,6 +104,11 @@ namespace WebApp.Models.Classes
                 new Staff { StaffId = 4, StaffFullName = "Caner Erol", StaffMail = "canere", StaffPassword = "password4", StaffImage = "caner-erol.png", DepartmentId = 3 },
                 new Staff { StaffId = 5, StaffFullName = "Merve Arslan", StaffMail = "mervea", StaffPassword = "password5", StaffImage = "merve-arslan.png", DepartmentId = 1 }
             );
+            // Add Staff
+            modelBuilder.Entity<Admin>().HasData(
+                new Admin { AdminId = 1, UserName="huxx", Password="123123",Auth="A" }
+            );
+
 
         }
 

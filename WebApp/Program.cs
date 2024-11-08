@@ -18,9 +18,9 @@ builder.Services.AddDbContext<Context>(options =>
 // Add Session service
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturum süresini 30 dakika olarak ayarladýk.
-    options.Cookie.HttpOnly = true; // Güvenlik için çerezleri sadece HTTP üzerinden eriþilebilir yapar.
-    options.Cookie.IsEssential = true; // Kullanýcýnýn gizlilik tercihine bakýlmaksýzýn çerezlerin gerekli olduðunu belirtir.
+    options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturum sï¿½resini 30 dakika olarak ayarladï¿½k.
+    options.Cookie.HttpOnly = true; // Gï¿½venlik iï¿½in ï¿½erezleri sadece HTTP ï¿½zerinden eriï¿½ilebilir yapar.
+    options.Cookie.IsEssential = true; // Kullanï¿½cï¿½nï¿½n gizlilik tercihine bakï¿½lmaksï¿½zï¿½n ï¿½erezlerin gerekli olduï¿½unu belirtir.
 });
 
 // Add authentication services.
@@ -54,6 +54,6 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "title",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Customer}/{action=Index}/{id?}");
 
 app.Run();

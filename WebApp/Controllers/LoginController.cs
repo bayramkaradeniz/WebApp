@@ -6,75 +6,117 @@ using WebApp.Models.Classes;
 
 namespace WebApp.Controllers
 {
-	public class LoginController : Controller
-	{
-		private readonly Context _context;
+    public class LoginController : Controller
+    {
+        private readonly Context _context;
 
-		public LoginController(Context context)
-		{
-			_context = context;
-		}
+        public LoginController(Context context)
+        {
+            _context = context;
+        }
 
-		public IActionResult Index()
-		{
-			return View();
-		}
+        public IActionResult Index()
+        {
+            return View();
+        }
 
-		[HttpGet]
-		public PartialViewResult PartialKep()
-		{
-			return PartialView();
-		}
+        [HttpGet]
+        public PartialViewResult PartialKep()
+        {
+            return PartialView();
+        }
 
-		[HttpPost]
-		public PartialViewResult PartialKep(Customer customer)
-		{
-			_context.Customers.Add(customer);
-			_context.SaveChanges();
+        [HttpPost]
+        public PartialViewResult PartialKep(Customer customer)
+        {
+            _context.Customers.Add(customer);
+            _context.SaveChanges();
 
-			return PartialView();
-		}
+            return PartialView();
+        }
 
-		[HttpGet]
-		public IActionResult CustomerLogin()
-		{
-			return View();
-		}
+        [HttpGet]
+        public IActionResult CustomerLogin()
+        {
+            return View();
+        }
 
-		[HttpPost]
-		public IActionResult CustomerLogin(Customer customer)
-		{
-			var infos = _context.Customers.FirstOrDefault(x =>
-				x.CustomerEmail == customer.CustomerEmail &&
-				x.CustomerPassword == customer.CustomerPassword);
+        [HttpPost]
+        public IActionResult CustomerLogin(Customer customer)
+        {
+            //           var staffInfo = _context.Staffs.FirstOrDefault(x =>
+            //   x.StaffMail == customer.CustomerEmail &&
+            //   x.StaffPassword == customer.CustomerPassword);
 
-			if (infos != null)
-			{
-				// Claims oluşturuluyor
-				var claims = new List<Claim>
-				{
-					new Claim(ClaimTypes.Name, infos.CustomerEmail)
-				};
+            //           if (staffInfo != null)
+            //           {
+            //               // Claims oluşturuluyor
+            //               var claims = new List<Claim>
+            //   {
+            //       new Claim(ClaimTypes.Name, staffInfo.StaffMail),
+            //       new Claim("DepartmentId", staffInfo.DepartmentId.ToString()) // Kullanıcının departman bilgisini de claim olarak ekliyoruz
+            //};
 
-				var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            //               var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
-				// Kimlik doğrulama çerezi ayarlanıyor
-				HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+            //               // Kimlik doğrulama çerezi ayarlanıyor
+            //               HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
 
-				// Session'da kullanıcı adını saklamak
-				HttpContext.Session.SetString("CustomerEmail", infos.CustomerEmail);
+            //               // Session'da kullanıcı adını saklamak
+            //               HttpContext.Session.SetString("StaffMail", staffInfo.StaffMail);
+
+            //               // Kullanıcının departmanına göre yönlendirme
+            //               switch (staffInfo.DepartmentId)
+            //               {
+            //                   case 3:
+            //                       return RedirectToAction("Index", "SecretaryPanel");
+            //                   case 2:
+            //                       return RedirectToAction("Index", "TechnicalDepartment");
+            //                   // Diğer departmanlar için ek yönlendirmeler yapılabilir
+            //                   default:
+            //                       return RedirectToAction("Index", "Home");
+            //               }
+            //           }
+            //           else
+            //           {
+            //               // Hatalı giriş durumunda hata mesajı gösterme
+            //               ViewBag.ErrorMessage = "Kullanıcı adı veya şifre hatalı!";
+            //               return RedirectToAction("Index", "Login");
+            //           }
 
 
-				return RedirectToAction("Index", "CustomerPanel");
-			}
-			else
-			{
-				// Hatalı giriş durumunda hata mesajı gösterme
-				ViewBag.ErrorMessage = "Kullanıcı adı veya şifre hatalı!";
-				return RedirectToAction("Index","Login");
-			}
 
-		}
+            var infos = _context.Customers.FirstOrDefault(x =>
+                x.CustomerEmail == customer.CustomerEmail &&
+                x.CustomerPassword == customer.CustomerPassword);
+
+            if (infos != null)
+            {
+                // Claims oluşturuluyor
+                var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, infos.CustomerEmail)
+                };
+
+                var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                // Kimlik doğrulama çerezi ayarlanıyor
+                HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity));
+
+                // Session'da kullanıcı adını saklamak
+                HttpContext.Session.SetString("CustomerEmail", infos.CustomerEmail);
+
+
+                return RedirectToAction("Index", "CustomerPanel");
+            }
+            else
+            {
+                // Hatalı giriş durumunda hata mesajı gösterme
+                ViewBag.ErrorMessage = "Kullanıcı adı veya şifre hatalı!";
+                return RedirectToAction("Index", "Login");
+            }
+
+        }
         [HttpGet]
         public IActionResult AdminLogin()
         {
@@ -127,5 +169,5 @@ namespace WebApp.Controllers
             // Giriş sayfasına yönlendir
             return RedirectToAction("Index", "Login");
         }
-	}
+    }
 }

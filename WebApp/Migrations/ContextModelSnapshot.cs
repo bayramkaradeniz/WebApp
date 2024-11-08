@@ -48,6 +48,15 @@ namespace WebApp.Migrations
                     b.HasKey("AdminId");
 
                     b.ToTable("Admins");
+
+                    b.HasData(
+                        new
+                        {
+                            AdminId = 1,
+                            Auth = "A",
+                            Password = "123123",
+                            UserName = "huxx"
+                        });
                 });
 
             modelBuilder.Entity("WebApp.Models.Classes.Bill", b =>
@@ -447,21 +456,26 @@ namespace WebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FaultId"));
 
-                    b.Property<int>("CustomerId")
+                    b.Property<int?>("CustomerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsComplete")
                         .HasColumnType("bit");
 
-                    b.Property<int>("ProductId")
+                    b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StaffId")
+                    b.Property<int?>("StaffId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -895,12 +909,12 @@ namespace WebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("StaffPassword")
+                    b.Property<string>("StaffMail")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
 
-                    b.Property<string>("StaffUsername")
+                    b.Property<string>("StaffPassword")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("VarChar");
@@ -918,8 +932,8 @@ namespace WebApp.Migrations
                             DepartmentId = 1,
                             StaffFullName = "Seda Çelik",
                             StaffImage = "seda-celik.png",
-                            StaffPassword = "password1",
-                            StaffUsername = "sedac"
+                            StaffMail = "sedac",
+                            StaffPassword = "password1"
                         },
                         new
                         {
@@ -927,8 +941,8 @@ namespace WebApp.Migrations
                             DepartmentId = 2,
                             StaffFullName = "Emre Yurt",
                             StaffImage = "emre-yurt.png",
-                            StaffPassword = "password2",
-                            StaffUsername = "emrey"
+                            StaffMail = "emrey",
+                            StaffPassword = "password2"
                         },
                         new
                         {
@@ -936,8 +950,8 @@ namespace WebApp.Migrations
                             DepartmentId = 2,
                             StaffFullName = "Zeynep Akman",
                             StaffImage = "zeynep-akman.png",
-                            StaffPassword = "password3",
-                            StaffUsername = "zeynepa"
+                            StaffMail = "zeynepa",
+                            StaffPassword = "password3"
                         },
                         new
                         {
@@ -945,8 +959,8 @@ namespace WebApp.Migrations
                             DepartmentId = 3,
                             StaffFullName = "Caner Erol",
                             StaffImage = "caner-erol.png",
-                            StaffPassword = "password4",
-                            StaffUsername = "canere"
+                            StaffMail = "canere",
+                            StaffPassword = "password4"
                         },
                         new
                         {
@@ -954,8 +968,8 @@ namespace WebApp.Migrations
                             DepartmentId = 1,
                             StaffFullName = "Merve Arslan",
                             StaffImage = "merve-arslan.png",
-                            StaffPassword = "password5",
-                            StaffUsername = "mervea"
+                            StaffMail = "mervea",
+                            StaffPassword = "password5"
                         });
                 });
 
@@ -1080,21 +1094,15 @@ namespace WebApp.Migrations
                 {
                     b.HasOne("WebApp.Models.Classes.Customer", "Customer")
                         .WithMany("Faults")
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CustomerId");
 
                     b.HasOne("WebApp.Models.Classes.Product", "Product")
                         .WithMany("Faults")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("WebApp.Models.Classes.Staff", "Staff")
                         .WithMany("Faults")
-                        .HasForeignKey("StaffId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StaffId");
 
                     b.Navigation("Customer");
 
