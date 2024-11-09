@@ -54,10 +54,10 @@ namespace WebApp.Models.Classes
         {
             return status switch
             {
-                FaultStatuEnum.Kurulum => 120, // 2 saat
-                FaultStatuEnum.Bakim => 60,    // 1 saat
-                FaultStatuEnum.Onarim => 180,  // 3 saat
-                FaultStatuEnum.Ariza => 240,   // 4 saat
+                FaultStatuEnum.Kurulum => 120,
+                FaultStatuEnum.Bakim => 60,
+                FaultStatuEnum.Onarim => 120,
+                FaultStatuEnum.Ariza => 75,
                 _ => 0
             };
         }

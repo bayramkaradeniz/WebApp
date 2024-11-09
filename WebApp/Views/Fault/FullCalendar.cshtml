@@ -10,24 +10,12 @@
     <script src='/FullCalendar/dist/index.global.js'></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <!-- Moment kütüphanesi eklendi -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // FaultDetails verisini alıyoruz
             const faultDetails = JSON.parse('@Html.Raw(ViewData["FaultDetails"])');
-
-            // FaultViewModel verisini alıyoruz
             const faultViewModel = JSON.parse('@Html.Raw(ViewData["FaultViewModel"])');
 
-            // Durumlara göre varsayılan süreler
-            const defaultDurations = {
-                "Kurulum": 75,
-                "Bakim": 60,
-                "Onarim": 90,
-                "Ariza": 60
-            };
-
-            // Ürün listesini doldur
+            // Dropdown menüleri dolduruyoruz
             const productSelect = document.getElementById('product-select');
             faultViewModel.ProductList.forEach(product => {
                 const option = document.createElement('option');
@@ -36,7 +24,6 @@
                 productSelect.appendChild(option);
             });
 
-            // Status listesini doldur
             const statusSelect = document.getElementById('event-type');
             faultViewModel.StatusListStrings.forEach(status => {
                 const option = document.createElement('option');
@@ -45,18 +32,6 @@
                 statusSelect.appendChild(option);
             });
 
-            // Varsayılan süreyi event türüne göre ayarla
-            document.getElementById('event-type').addEventListener('change', function () {
-                const selectedStatus = this.value;
-                const durationField = document.getElementById('duration');
-
-                // Eğer süre alanı boşsa seçilen duruma göre varsayılan süreyi ata
-                if (!durationField.value) {
-                    durationField.value = defaultDurations[selectedStatus] || 30; // Varsayılan süre 30 dakika
-                }
-            });
-
-            // Takvimi başlat
             const calendarEl = document.getElementById('calendar');
             const calendar = new FullCalendar.Calendar(calendarEl, {
                 headerToolbar: {
@@ -65,28 +40,10 @@
                     right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
                 },
                 initialView: 'timeGridWeek',
+                timeZone: 'local',
                 editable: true,
-                droppable: true,
-                slotMinTime: "09:00:00",
-                slotMaxTime: "18:00:00",
-                slotDuration: "00:30:00",
-                slotLabelInterval: "00:30:00",
-                slotLabelFormat: {
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: false
-                },
-                events: faultDetails.map(fault => ({
-                    title: fault.Status,
-                    start: fault.StartDate,
-                    end: fault.EndDate,
-                    description: fault.Description,
-                    extendedProps: {
-                        customerName: fault.CustomerName,
-                        productName: fault.ProductName,
-                        faultId: fault.FaultId
-                    }
-                })),
+                locale: 'tr',
+                events: "/Fault/FullCalendarEvents",
                 eventClick: function (info) {
                     alert('Event ID: ' + info.event.extendedProps.faultId + '\n' +
                         'Customer: ' + info.event.extendedProps.customerName + '\n' +
@@ -96,42 +53,57 @@
             });
             calendar.render();
 
-            // Dış etkinlikleri sürüklenebilir yap
-            $('#external-events .fc-event').each(function () {
-                const eventObj = {
-                    title: $.trim($(this).text()),
-                    description: $.trim($(this).text())
-                };
-
-                $(this).data('event', eventObj);
-                $(this).draggable({
-                    zIndex: 999,
-                    helper: 'clone'
-                });
-            });
-
-            // Etkinlik ekle butonu
+            // "Add Event" butonuna tıklanınca yeni etkinliği ekleme işlemi
             document.getElementById('add-event-button').addEventListener('click', function () {
                 const eventType = document.getElementById('event-type').value;
-                const duration = document.getElementById('duration').value || defaultDurations[eventType] || 30;
-                const eventDuration = moment.duration(duration, 'minutes');
+                const productId = document.getElementById('product-select').value;
+                const duration = document.getElementById('duration').value || 30;  // Varsayılan 30 dakika
+                const startDate = document.getElementById('start-datetime').value;
+                const customerId = document.getElementById('customer-id').value;
 
-                const newEvent = {
-                    title: eventType,
-                    start: moment().toISOString(),
-                    end: moment().add(eventDuration).toISOString(),
-                    description: 'New event',
-                    extendedProps: {
-                        customerName: 'Unknown',
-                        productName: 'Unknown Product',
-                        faultId: 'N/A'
-                    }
+                // JSON formatında veri hazırlama
+                const eventData = {
+                    Status: eventType,
+                    ProductId: productId,
+                    Duration: duration,
+                    StartDate: startDate,
+                    CustomerId: customerId
                 };
 
-                calendar.addEvent(newEvent);
+                // `AddFC` metoduna AJAX ile veri gönderme
+                $.ajax({
+                    url: '/Fault/AddFC', // Gerekli route'u burada belirtin
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(eventData),
+                    success: function (response) {
+                        if (response.success) {
+                            // Başarılı işlem sonrası alanları sıfırlama ve takvimi yenileme
+                            document.getElementById('event-type').value = '';
+                            document.getElementById('product-select').value = '';
+                            document.getElementById('duration').value = '';
+                            document.getElementById('start-datetime').value = '';
+                            calendar.refetchEvents();
+                        } else {
+                            alert('Etkinlik eklenemedi. Hata: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        // Sunucudan dönen hata mesajını (eğer varsa) alır ve gösterir
+                        let errorMessage = 'Bir hata oluştu. Lütfen tekrar deneyin.';
+                        if (xhr.responseJSON && xhr.responseJSON.message) {
+                            errorMessage = 'Hata: ' + xhr.responseJSON.message;
+                        } else if (xhr.responseText) {
+                            errorMessage = 'Hata: ' + xhr.responseText;
+                        }
+                        alert(errorMessage);
+                        console.error('Hata detayları:', xhr, status, error);
+                    }
+                });
             });
         });
     </script>
+
 
     <style>
         body {
@@ -219,27 +191,34 @@
 <body>
     <div id='wrap'>
         <div id="external-events">
-            <h4>Event Details</h4>
+            <h4>Teknik Destek Detayları</h4>
 
             <div class="form-group">
-                <label for="event-type">Event Type</label>
+                <label for="event-type">Teknik Destek Tipi @ViewBag.Customer</label>
                 <select id="event-type">
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="product-select">Product</label>
+                <label for="product-select">Ürün Seçin</label>
                 <select id="product-select">
                     <!-- Ürün seçenekleri buraya eklenecek -->
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="duration">Duration (mins)</label>
+                <label for="duration">Süre</label>
                 <input type="number" id="duration" placeholder="Enter duration" />
             </div>
 
-            <button id="add-event-button">Add Event</button>
+            <div class="form-group">
+                <label for="start-datetime">Tarih</label>
+                <input type="datetime-local" id="start-datetime" />
+            </div>
+
+            <input type="hidden" id="customer-id" value="@ViewBag.Customer" />
+
+            <button id="add-event-button">Ekle</button>
         </div>
 
         <div id='calendar-wrap'>

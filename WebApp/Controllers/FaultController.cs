@@ -138,12 +138,22 @@ namespace WebApp.Controllers
 
             return View(relatedFaults);
         }
+        public IActionResult FullCalendarEvents()
+        {
+
+            var Faults = _context.Faults.ToList();
+
+            return new JsonResult(Faults);
+
+        }
         public IActionResult FullCalendar(int id)
         {
             // SaleTransactionId'ye göre ürünleri almak
             var saleTransaction = _context.SaleTransactions
                 .Include(st => st.Product) // SaleTransaction ile ilişkili ürünler
                 .FirstOrDefault(st => st.SaleTransactionId == id);
+
+            ViewBag.Customer = saleTransaction?.CustomerId;
 
             if (saleTransaction == null)
             {
@@ -197,5 +207,65 @@ namespace WebApp.Controllers
 
             return View();
         }
+        public async Task<IActionResult> AddFC([FromBody] FaultEventDTO eventData)
+        {
+            if (eventData == null)
+            {
+                return Json(new { success = false, message = "Veri boş geldi." });
+            }
+
+            try
+            {
+                // StartDate'ı DateTime'a dönüştürme
+                if (!DateTime.TryParse(eventData.StartDate, out DateTime startDate))
+                {
+                    return Json(new { success = false, message = "Geçersiz başlangıç tarihi." });
+                }
+
+                // Event duration'ı dakika olarak ekliyoruz
+                DateTime endDate = startDate.AddMinutes(eventData.Duration);
+
+                // Status enum string değerini int'e dönüştürme
+                if (!Enum.TryParse(eventData.Status, true, out FaultStatuEnum statusEnum))
+                {
+                    return Json(new { success = false, message = "Geçersiz FaultStatuEnum değeri." });
+                }
+
+                // Enum değerini integer olarak alıyoruz
+                int statusIntValue = (int)statusEnum;
+
+                // Yeni FaultEvent oluşturuluyor
+                var faultEvent = new Fault
+                {
+                    Status = statusEnum,  // Enum değeri veritabanına kaydedilecek
+                    ProductId = eventData.ProductId,
+                    IsComplete = false,
+                    Timestamp = DateTime.Now,
+                    StartDate = startDate,
+                    EndDate = endDate,
+                    CustomerId = eventData.CustomerId,
+                    StaffId = null,
+                    SaleTransactionId = null,
+                    Description = "Amk", // Burada açıklama değeri veritabanına kaydediliyor
+                };
+
+                // Veritabanına kaydetme işlemi
+                _context.Faults.Add(faultEvent);
+                await _context.SaveChangesAsync();
+
+                return Json(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    message = $"Hata oluştu: {ex.Message}"
+                });
+            }
+        }
+
+
+
     }
 }
